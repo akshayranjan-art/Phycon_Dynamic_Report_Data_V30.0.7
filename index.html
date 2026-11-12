@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Alpha NextGen Eclipse · Phycon_Dynamic_Report v30.0.1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Orbitron:wght@600;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+.ecl-logo{--g1:linear-gradient(180deg,#fff0a0,#ff8a1f 45%,#e02a00);--g2:linear-gradient(90deg,#fff0a0,#ff8a1f 50%,#e02a00);--g3:linear-gradient(180deg,#fff0a0,#ff8a1f 45%,#c81e00);--ex:#3a0d00;display:inline-block;font-size:20px;line-height:1;white-space:nowrap}
+.ecl-logo *{box-sizing:border-box}
+.ecl-logo .el-b{display:inline-flex;flex-direction:column;align-items:stretch;gap:.4em;animation:el-lv 5.5s ease-in-out infinite alternate}
+.ecl-logo .el-l1{display:flex;align-items:center}
+.ecl-logo .el-l1 .el-t{margin-left:-.42em}
+.ecl-logo .el-l2{display:flex;justify-content:space-between;align-items:baseline;gap:.5em;font-size:.9em}
+.ecl-logo .el-wd{display:inline-flex;align-items:baseline}
+.ecl-logo .el-A{height:1.12em;width:1.2em;margin-right:.02em;margin-bottom:-.06em;flex:none;overflow:visible;filter:drop-shadow(0 0 .1em rgba(255,170,60,.75));animation:el-ag 3.2s ease-in-out infinite alternate}
+@keyframes el-ag{from{filter:drop-shadow(0 0 .06em rgba(255,150,40,.5)) brightness(1)}to{filter:drop-shadow(0 0 .22em rgba(255,200,90,.95)) brightness(1.18)}}
+.ecl-logo svg.el-O{flex:none;filter:drop-shadow(0 .12em .14em rgba(0,0,0,.55))}
+.ecl-logo .el-sw{animation:el-swp 7s ease-in-out infinite}
+.ecl-logo .el-rr{transform-origin:100px 100px;animation:el-sp 70s linear infinite}
+.ecl-logo .el-ff{transform-box:fill-box;transform-origin:center;animation:el-pl 5s ease-in-out infinite}
+.ecl-logo .el-t{position:relative;display:inline-block;isolation:isolate;line-height:1.05}
+.ecl-logo .el-t::before{content:attr(data-t);position:absolute;left:0;top:0;z-index:-1;color:var(--ex);white-space:pre;text-shadow:.02em .02em var(--ex),.04em .04em var(--ex),.06em .06em var(--ex),.08em .08em var(--ex),.1em .1em var(--ex),.2em .26em .3em rgba(0,0,0,.55)}
+.ecl-logo .el-t b{font-weight:inherit;background-image:linear-gradient(105deg,transparent 33%,rgba(255,255,255,.98) 50%,transparent 67%),var(--g);background-size:260% 100%,100% 100%;background-repeat:no-repeat;-webkit-background-clip:text;background-clip:text;color:transparent;animation:el-shn 6.5s linear infinite;animation-delay:var(--d,0s)}
+.ecl-logo .el-pt{font-family:Cinzel,Georgia,serif;font-weight:800;font-size:3.2em;letter-spacing:.05em}
+.ecl-logo .el-pt b{--g:var(--g1)}.ecl-logo .el-nx b,.ecl-logo .el-lp b{--g:var(--g2)}.ecl-logo .el-ec b{--g:var(--g3)}
+.ecl-logo .el-nx,.ecl-logo .el-lp{font-family:Orbitron,system-ui,sans-serif;font-weight:800;letter-spacing:.05em}
+.ecl-logo .el-ec{font-family:Cinzel,Georgia,serif;font-weight:800;letter-spacing:.14em}
+
+.ecl-logo.el-float{animation:el-fl 12s ease-in-out infinite}
+@keyframes el-lv{from{filter:drop-shadow(0 0 .12em rgba(255,110,20,.4)) brightness(.97)}to{filter:drop-shadow(0 0 .3em rgba(255,140,30,.8)) brightness(1.1)}}
+@keyframes el-swp{from{transform:translateX(-70px) skewX(-20deg)}to{transform:translateX(210px) skewX(-20deg)}}
+@keyframes el-sp{to{transform:rotate(360deg)}}
+@keyframes el-pl{50%{transform:scale(1.25);opacity:.75}}
+@keyframes el-shn{from{background-position:140% 0,0 0}to{background-position:-60% 0,0 0}}
+@keyframes el-fl{0%,100%{transform:perspective(700px) rotateY(-5deg) rotateX(1.5deg)}50%{transform:perspective(700px) rotateY(5deg) rotateX(-1.5deg) translateY(-2px)}}
+@media (prefers-reduced-motion: reduce){.ecl-logo,.ecl-logo *{animation:none!important}}
+
+/* ---------- themes (admin picks, everyone sees) ---------- */
+body{--bg:linear-gradient(135deg,#e8eefc,#f7eaf5 50%,#e6f6f3);--top:rgba(255,255,255,.55);--toptx:#1f2340;--tx:#1f2340;--dim:#69708a;--pn:rgba(255,255,255,.62);--ln:rgba(255,255,255,.95);--ln2:#e3e3f3;--ac:#7c4dff;--acs:#efe9ff;--acg:rgba(124,77,255,.45);--btn:linear-gradient(180deg,rgba(255,255,255,.96),rgba(240,242,255,.78));--th:rgba(246,246,255,.92);--ex:#6b1d00;--hov:rgba(124,77,255,.06)}
+body[data-th="blue"]{--bg:#eef3fa;--top:linear-gradient(90deg,#0d2747,#16406f);--toptx:#fff;--tx:#14243b;--dim:#5f6f86;--pn:#fff;--ln:#dbe4f0;--ln2:#dbe4f0;--ac:#2f7cf6;--acs:#e8f0fe;--acg:rgba(47,124,246,.45);--btn:linear-gradient(180deg,#fff,#eef3fb);--th:#f2f6fc;--ex:#3a0d00;--hov:rgba(47,124,246,.06)}
+body[data-th="teal"]{--bg:#eef6f5;--top:#fff;--toptx:#123b3a;--tx:#123b3a;--dim:#5d7775;--pn:#fff;--ln:#d6e8e6;--ln2:#d6e8e6;--ac:#0f9488;--acs:#e3f4f2;--acg:rgba(15,148,136,.42);--btn:linear-gradient(180deg,#fff,#eef7f6);--th:#f1f8f7;--ex:#6b1d00;--hov:rgba(15,148,136,.06)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font:12px/1.35 Inter,"Segoe UI",system-ui,sans-serif;color:var(--tx);background:var(--bg);background-attachment:fixed;overflow:hidden}
+button,input,select,textarea{font:inherit;color:inherit}
+.pn{background:var(--pn);border:1px solid var(--ln);border-radius:12px;box-shadow:0 2px 10px rgba(30,40,90,.06);backdrop-filter:blur(12px)}
+.b{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:6px;height:28px;padding:0 14px;border-radius:999px;cursor:pointer;white-space:nowrap;background:var(--btn);color:var(--tx);border:1px solid var(--ln2);border-bottom:2px solid var(--ac);font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;box-shadow:0 8px 14px -8px var(--acg),inset 0 1px 0 #fff;transition:.15s}
+.b:hover{transform:translateY(-1px);box-shadow:0 11px 18px -8px var(--acg),inset 0 1px 0 #fff}
+.b.on{background:var(--ac);color:#fff;border-color:transparent;box-shadow:0 9px 16px -6px var(--acg)}
+.b.sm{height:24px;padding:0 10px;font-size:9.5px}
+.b.red{color:#d42f42;border-bottom-color:#e5384b;box-shadow:0 8px 14px -8px rgba(229,56,75,.45)}
+.b[disabled]{opacity:.45;pointer-events:none}
+.ic{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--btn);border:1px solid var(--ln2);color:var(--tx);box-shadow:0 7px 12px -7px var(--acg);cursor:pointer;position:relative}
+.ic.adm{outline:2px solid var(--ac);outline-offset:1px}
+.ic .bdg[hidden]{display:none}.ic .bdg{position:absolute;top:-4px;right:-4px;min-width:16px;height:16px;border-radius:9px;background:#e5384b;color:#fff;font-size:9px;font-weight:800;display:grid;place-items:center;padding:0 4px}
+.in{height:28px;padding:0 10px;border-radius:9px;background:rgba(255,255,255,.85);border:1px solid var(--ln2);outline:none;color:#1f2340}
+.in:focus{border-color:var(--ac);box-shadow:0 0 0 3px var(--acg)}
+.lbl{font-size:9.5px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--dim)}
+.dim{color:var(--dim)}
+/* layout */
+#app{display:flex;flex-direction:column;height:100vh;padding:10px 12px;gap:8px}
+#app[hidden]{display:none}
+.top{position:relative;z-index:30;display:flex;align-items:center;gap:12px;padding:7px 14px;border-radius:12px;background:var(--top);color:var(--toptx);border:1px solid var(--ln);box-shadow:0 2px 10px rgba(20,30,60,.08);backdrop-filter:blur(12px);flex:none}
+.ecl-logo{--ex:var(--ex)}.ecl-logo .el-t::before{text-shadow:.03em .04em var(--ex),.06em .08em var(--ex),.12em .16em .16em rgba(0,0,0,.25)!important}
+.top .ecl-logo{font-size:9px}.top .ecl-logo.el-float{animation:none}
+.tt h1{font-size:12px;letter-spacing:.2em;color:var(--ac)}
+body[data-th="blue"] .tt h1{color:#8fb8ff}
+.tt .sub{font-size:10.5px;opacity:.85;margin-top:3px}
+.vp{background:var(--ac);color:#fff;border-radius:999px;padding:1px 8px;font-weight:800;font-size:9.5px;margin-right:4px}
+.date{display:flex;flex-direction:column;gap:2px;position:relative}
+.date .lbl{color:inherit;opacity:.75;font-size:8.5px}
+.dbtn{background:var(--pn);color:var(--tx);border:1px solid var(--ln2);border-radius:9px;padding:5px 12px;font-weight:700;cursor:pointer;min-width:150px;text-align:left}
+body[data-th="blue"] .dbtn{background:#fff}
+.who{font-size:10.5px;text-align:right;line-height:1.25;opacity:.9}
+.who b{display:block;font-size:11px}
+.msg{flex:none;padding:6px 0;border-radius:10px;background:var(--acs);border:1px solid var(--acg);font-size:12px;font-weight:600;overflow:hidden;white-space:nowrap;position:relative}
+.msg span{display:inline-block;padding-left:100%;animation:mq 28s linear infinite}
+.msg:hover span{animation-play-state:paused}
+@keyframes mq{from{transform:translateX(-100%)}to{transform:translateX(0)}}
+.msg[hidden]{display:none}
+.tabs{display:flex;gap:6px;align-items:center;flex:none;padding:0 2px}
+.pill{font-size:10.5px;color:var(--dim);background:var(--pn);border:1px solid var(--ln2);border-radius:999px;padding:3px 10px;white-space:nowrap}
+.main{flex:1;min-height:0;display:flex;flex-direction:column}
+.view{display:none;flex:1;min-height:0;gap:8px;flex-direction:column}
+.view.on{display:flex}
+.kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;flex:none}
+.kpi{padding:4px 12px;border-bottom:2px solid var(--ac);display:flex;align-items:baseline;gap:10px}
+.kpi b{font-size:17px;font-weight:800}
+.kpi i{font-style:normal;font-size:10px;color:var(--dim)}
+.kpi.bad{border-bottom-color:#e5384b}.kpi.bad b{color:#e5384b}
+.row2{display:grid;grid-template-columns:1.2fr 1fr;gap:8px;min-height:0;flex:1}
+.card{display:flex;flex-direction:column;min-height:0;overflow:hidden}
+.card .hd{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 12px;border-bottom:1px solid var(--ln2);flex:none}
+.card .bd{overflow:auto;min-height:0;flex:1}
+table{width:100%;border-collapse:collapse;font-size:11.5px}
+th{position:sticky;top:0;z-index:1;background:var(--th);text-align:left;font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);padding:6px 9px;white-space:nowrap;cursor:pointer;user-select:none;backdrop-filter:blur(8px)}
+td{padding:4px 9px;border-top:1px solid var(--ln2);white-space:nowrap;max-width:300px;overflow:hidden;text-overflow:ellipsis}
+tr:hover td{background:var(--hov)}
+.n{text-align:right;font-variant-numeric:tabular-nums}
+tr.dupe td:first-child{box-shadow:inset 3px 0 0 #e5384b}
+tr.x{cursor:pointer}
+tr.det td{background:rgba(255,255,255,.55);white-space:normal;padding:6px 12px 8px 24px}
+td a{color:var(--tx);font-weight:600;cursor:pointer;text-decoration:none}
+td a:hover{color:var(--ac)}
+.tg{display:inline-block;padding:1px 7px;border-radius:999px;font-size:9.5px;font-weight:800}
+.tg.r{background:rgba(229,56,75,.1);color:#d42f42;border:1px solid rgba(229,56,75,.3)}
+.tg.a{background:rgba(245,140,30,.12);color:#b8600a;border:1px solid rgba(245,140,30,.3)}
+.tg.g{background:rgba(22,163,74,.1);color:#15803d;border:1px solid rgba(22,163,74,.3)}
+.tg.d{background:rgba(100,110,140,.08);color:var(--dim);border:1px solid var(--ln2)}
+.tg.p{background:var(--acs);color:var(--ac);border:1px solid var(--acg)}
+.gd{font-family:Consolas,"Cascadia Mono",monospace;font-weight:700;color:var(--ac)}
+.tl{display:flex;flex-direction:column;gap:3px}
+.tl div{display:flex;gap:10px;align-items:center;font-size:11px}
+.empty{padding:26px;text-align:center;color:var(--dim)}
+/* calendar */
+.cal{position:absolute;top:100%;right:0;margin-top:6px;z-index:40;width:250px;padding:10px;color:#1f2340;background:#fff;border:1px solid var(--ln2);border-radius:12px;box-shadow:0 14px 34px rgba(20,30,70,.2)}
+.cal[hidden]{display:none}
+.cal .ch{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;font-weight:800}
+.cal .ch span{cursor:pointer;padding:2px 8px;border-radius:6px}.cal .ch span:hover{background:#f0f0f8}
+.cal .cg{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center}
+.cal .cg i{font-style:normal;font-size:9px;color:#8a90a6;font-weight:700}
+.cal .cg b{font-weight:500;padding:5px 0;border-radius:7px;color:#b8bccb}
+.cal .cg b.has{color:#1f2340;font-weight:800;cursor:pointer;background:var(--acs)}
+.cal .cg b.has:hover{background:var(--acg);color:#fff}
+.cal .cg b.sel{background:var(--ac)!important;color:#fff!important}
+.cal .cf{margin-top:6px;font-size:10px;color:#8a90a6;text-align:center}
+.pop{position:absolute;top:100%;right:0;margin-top:6px;z-index:40;padding:8px;background:#fff;color:#1f2340;border:1px solid var(--ln2);border-radius:12px;box-shadow:0 14px 34px rgba(20,30,70,.2);display:flex;flex-direction:column;gap:4px;width:170px}
+.pop[hidden]{display:none}
+.pop div{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:8px;cursor:pointer;font-weight:600}
+.pop div:hover{background:#f3f3fa}
+.pop s{width:16px;height:16px;border-radius:50%;text-decoration:none}
+/* overlays */
+.ov{position:fixed;inset:0;z-index:50;display:grid;place-items:center;background:rgba(30,30,60,.28);backdrop-filter:blur(4px)}
+.ov[hidden]{display:none}
+.box{width:min(560px,94vw);max-height:90vh;display:flex;flex-direction:column;background:rgba(255,255,255,.94);color:#1f2340}
+.box .bd{padding:12px 14px;overflow:auto;display:flex;flex-direction:column;gap:8px}
+.box .ft{display:flex;justify-content:flex-end;gap:8px;padding:10px 14px;border-top:1px solid var(--ln2)}
+.box.wide{width:min(1180px,96vw);height:88vh}
+textarea.in{height:150px;padding:8px 10px;resize:vertical;font-family:Consolas,monospace;font-size:11px}
+.drop{border:1.5px dashed var(--ac);border-radius:12px;padding:20px;text-align:center;color:var(--dim);cursor:pointer;background:var(--acs)}
+.drop.hv{background:var(--acg);color:#fff}
+.sumg{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:11.5px}
+.sumg span:nth-child(odd){color:var(--dim)}
+.warn{padding:8px 12px;border-radius:10px;background:#fff4e5;border:1px solid #f5c27a;color:#8a4b00}
+#dropAll{position:fixed;inset:0;z-index:60;display:grid;place-items:center;background:rgba(124,77,255,.18);border:3px dashed var(--ac);font-size:18px;font-weight:800;color:var(--ac);pointer-events:none}
+#dropAll[hidden]{display:none}
+/* admin */
+.atabs{display:flex;gap:6px;padding:8px 14px;border-bottom:1px solid var(--ln2);align-items:center}
+.ap{display:none;flex:1;min-height:0;flex-direction:column}
+.ap.on{display:flex}
+.ap .tb{display:flex;gap:6px;align-items:center;padding:8px 14px;flex-wrap:wrap}
+.sw{width:34px;height:18px;border-radius:999px;background:#d7d9e3;position:relative;cursor:pointer;display:inline-block;vertical-align:middle;transition:.2s}
+.sw::after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:.2s}
+.sw.on{background:var(--ac)}.sw.on::after{left:18px}
+.sw.lock{opacity:.4;pointer-events:none}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:12px 14px}
+.grid3 .pn{padding:10px 12px;display:flex;flex-direction:column;gap:8px;background:#fff}
+.ctl{display:flex;align-items:center;justify-content:space-between;gap:8px}
+select.mini{height:22px;border-radius:6px;border:1px solid var(--ln2);background:#fff;font-size:11px}
+/* login */
+#login{position:fixed;inset:0;display:grid;place-items:center}
+#login[hidden]{display:none}
+.lcard{width:350px;padding:20px 22px 16px;display:flex;flex-direction:column;gap:9px;background:rgba(255,255,255,.7)}
+.lcard .lg{display:flex;justify-content:center}
+.lcard .ecl-logo{font-size:13px}
+.lcard h2{text-align:center;font-size:12px;letter-spacing:.22em;color:var(--ac);text-transform:uppercase}
+.lcard .pnm{text-align:center;font-size:10.5px;color:var(--dim);margin-top:-5px}
+.lcard .in{height:32px;width:100%}
+.lcard .b{height:32px}
+.lerr{min-height:14px;color:#d42f42;font-size:11px;text-align:center}
+.lrow{display:flex;justify-content:space-between;align-items:center;font-size:10.5px;color:var(--dim)}
+.lrow a{color:var(--ac);cursor:pointer;font-weight:700}
+.fold{display:flex;align-items:center;justify-content:center;gap:6px;font-size:10.5px;color:var(--dim)}
+.dot{width:7px;height:7px;border-radius:50%;background:#aab}.dot.g{background:#16a34a}.dot.r{background:#e5384b}.dot.a{background:#f59e0b}
+#lock .box{text-align:center}
+#toasts{position:fixed;right:14px;bottom:14px;z-index:90;display:flex;flex-direction:column;gap:6px}
+.toast{padding:8px 14px;border-radius:10px;background:#fff;color:#1f2340;border:1px solid var(--ln2);border-left:3px solid var(--ac);font-size:11.5px;box-shadow:0 8px 20px rgba(20,30,70,.18)}
+.toast.bad{border-left-color:#e5384b}.toast.ok{border-left-color:#16a34a}
+::-webkit-scrollbar{width:9px;height:9px}::-webkit-scrollbar-thumb{background:rgba(120,120,160,.35);border-radius:9px;border:2px solid transparent;background-clip:padding-box}
+.only-adm,.only-dump{display:none!important}
+body.isadm .only-adm{display:inline-flex!important}
+body.candump .only-dump{display:inline-flex!important}
+@media (max-width:1100px){.kpis{grid-template-columns:repeat(3,1fr)}.row2,.grid3{grid-template-columns:1fr}body{overflow:auto}#app{height:auto}}
+</style>
+</head>
+<body data-th="crystal">
+
+<!-- ============ LOGIN ============ -->
+<div id="login">
+ <div class="pn lcard">
+  <div class="lg"><div class="ecl-logo el-float" role="img" aria-label="OPTUM Alpha NEXTgeN Eclipse"><div class="el-b"><div class="el-l1"><svg class="el-O" style="width:4.2em;height:4.2em" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="O"><defs><linearGradient id="ecloaA" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#d63a00"/><stop offset="1" stop-color="#ffc94a"/></linearGradient><linearGradient id="eclolA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".75"/><stop offset=".55" stop-color="#fff" stop-opacity="0"/></linearGradient><linearGradient id="eclosA" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".95"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient><mask id="eclokA"><rect width="120" height="120" fill="#000"/><circle cx="60" cy="60" r="50" fill="#fff"/><circle cx="74" cy="52" r="44" fill="#000"/></mask><mask id="eclojA"><rect width="120" height="120" fill="#000"/><circle cx="68" cy="54" r="36" fill="#fff"/><circle cx="58" cy="64" r="33" fill="#000"/></mask></defs><rect class="el-dp" width="120" height="120" fill="#3a0d00" mask="url(#eclokA)" transform="translate(3 4.5)"/><rect class="el-dp" width="120" height="120" fill="#3a0d00" mask="url(#eclokA)" transform="translate(1.5 2.2)"/><rect width="120" height="120" fill="url(#ecloaA)" mask="url(#eclokA)"/><rect width="120" height="120" fill="url(#eclolA)" mask="url(#eclokA)"/><g mask="url(#eclokA)"><rect class="el-sw" x="-40" y="-10" width="26" height="140" fill="url(#eclosA)"/></g><rect width="120" height="120" fill="#3a2218" mask="url(#eclojA)"/><rect width="120" height="120" fill="url(#eclolA)" opacity=".45" mask="url(#eclojA)"/><g transform="translate(66 58) scale(.4) translate(-100 -100)"><defs><linearGradient id="ecloz1A" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff0a0"/><stop offset=".55" stop-color="#ff8a1f"/><stop offset="1" stop-color="#e02a00"/></linearGradient><radialGradient id="eclozmA" cx=".5" cy=".4" r=".7"><stop offset="0" stop-color="#16256a"/><stop offset="1" stop-color="#04071a"/></radialGradient><radialGradient id="eclozoA"><stop offset=".55" stop-color="#ff8a1f" stop-opacity=".6"/><stop offset="1" stop-color="#ff8a1f" stop-opacity="0"/></radialGradient><radialGradient id="eclozxA"><stop offset="0" stop-color="#fff"/><stop offset=".4" stop-color="#fff0a0"/><stop offset="1" stop-color="#fff0a0" stop-opacity="0"/></radialGradient></defs><circle cx="100" cy="100" r="92" fill="url(#eclozoA)"/><g class="el-rr" stroke="url(#ecloz1A)" stroke-width="3" stroke-linecap="round" opacity=".8"><line x1="100" y1="10" x2="100" y2="-4" transform="rotate(0 100 100)"/><line x1="100" y1="10" x2="100" y2="-4" transform="rotate(30 100 100)"/><line x1="100" y1="10" x2="100" y2="-4" transform="rotate(60 100 100)"/><line x1="100" y1="10" x2="100" y2="-4" transform="rotate(90 100 100)"/><line x1="100" y1="10" x2="100" y2="-4" transform="rotate(120 100 100)"/><line x1="100" y1="10" x2="100" y2="-4" transform="rotate(150 100 100)"/><line x1="100" y1="10" x2="100" y2="-4" transform="rotate(180 100 100)"/><line x1="100" y1="10" x2="100" y2="-4" transform="rotate(210 100 100)"/><line x1="100" y1="10" x2="100" y2="-4" transform="rotate(240 100 100)"/><line x1="100" y1="10" x2="100" y2="-4" transform="rotate(270 100 100)"/><line x1="100" y1="10" x2="100" y2="-4" transform="rotate(300 100 100)"/><line x1="100" y1="10" x2="100" y2="-4" transform="rotate(330 100 100)"/></g><circle cx="100" cy="100" r="64" fill="url(#eclozmA)" stroke="url(#ecloz1A)" stroke-width="6"/><ellipse cx="100" cy="66" rx="46" ry="24" fill="#fff" opacity=".13"/><g class="el-ff"><path d="M138 34L143 58L167 64L143 70L138 94L133 70L109 64L133 58Z" fill="url(#eclozxA)"/><circle cx="138" cy="64" r="4" fill="#fff"/></g><circle r="3.5" fill="#fff"><animateMotion dur="16s" repeatCount="indefinite" path="M100 30A70 70 0 1 1 99.9 30"/></circle></g></svg><span class="el-t el-pt" data-t="PTUM" style="--d:0s"><b>PTUM</b></span></div><div class="el-l2"><span class="el-wd"><svg class="el-A" viewBox="0 0 100 100" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="eclaaA" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff0a0"/><stop offset=".55" stop-color="#ff8a1f"/><stop offset="1" stop-color="#e02a00"/></linearGradient><linearGradient id="eclashA" x1="0" y1="0" x2="1" y2="0" gradientUnits="objectBoundingBox"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".95"/><stop offset=".55" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff" stop-opacity="0"/><animateTransform attributeName="gradientTransform" type="translate" values="-1 0;1 0;1 0" keyTimes="0;.55;1" dur="3.5s" repeatCount="indefinite"/></linearGradient><radialGradient id="eclaxA"><stop offset="0" stop-color="#fff"/><stop offset=".45" stop-color="#fff0a0"/><stop offset="1" stop-color="#fff0a0" stop-opacity="0"/></radialGradient></defs><path d="M10 98L50 8L90 98" fill="none" stroke="#3a0d00" stroke-width="15" stroke-miterlimit="8" transform="translate(3 4)"/><path d="M10 98L50 8L90 98" fill="none" stroke="url(#eclaaA)" stroke-width="15" stroke-miterlimit="8"/><path d="M10 98L50 8L90 98" fill="none" stroke="url(#eclashA)" stroke-width="15" stroke-miterlimit="8"/><polygon points="0,72 104,36 52,68" fill="#fff" opacity=".95"/><g class="el-ff"><path d="M84 8L87 24L103 28L87 32L84 48L81 32L65 28L81 24Z" fill="url(#eclaxA)"/></g></svg><span class="el-t el-lp" data-t="LPHA" style="--d:0s"><b>LPHA</b></span></span><span class="el-t el-nx" data-t="NEXTgeN" style="--d:0s"><b>NEXTgeN</b></span><span class="el-t el-ec" data-t="ECLIPSE" style="--d:0.4s"><b>ECLIPSE</b></span></div></div></div></div>
+  <h2>Phycon Dynamic Report</h2>
+  <div class="pnm">Dynamic Process PCRL Report · <span class="vp">v30.0.1</span></div>
+  <div id="lMain" style="display:flex;flex-direction:column;gap:9px">
+   <input class="in" id="lEmp" placeholder="Employee ID" autocomplete="username" spellcheck="false">
+   <input class="in" id="lPw" type="password" placeholder="Password" autocomplete="current-password">
+   <div class="lrow"><label><input type="checkbox" id="lRem" checked> Remember me</label><a id="lForgot">Forgot password?</a></div>
+   <button class="b on" id="lGo">Login</button>
+  </div>
+  <div id="lReset" hidden style="display:flex;flex-direction:column;gap:9px">
+   <input class="in" id="rEmp" placeholder="Employee ID">
+   <input class="in" id="rMsid" placeholder="MS ID">
+   <input class="in" id="rPw" type="password" placeholder="New password (4+ characters)">
+   <div class="lrow"><a id="rBack">← Back to login</a><span></span></div>
+   <button class="b on" id="rGo">Reset password</button>
+  </div>
+  <div class="lerr" id="lErr"></div>
+  <button class="b sm" id="lFolder">Connect shared folder</button>
+  <div class="fold"><span class="dot" id="lDot"></span><span id="lFold">Shared folder not connected</span></div>
+  <div class="lrow"><span id="lExp">Valid till 31-Dec-2027</span><span>Alpha NextGen Eclipse</span></div>
+ </div>
+</div>
+
+<!-- ============ APP ============ -->
+<div id="app" hidden>
+ <div class="top">
+  <div class="ecl-logo el-float" role="img" aria-label="OPTUM Alpha NEXTgeN Eclipse"><div class="el-b"><div class="el-l1"><svg class="el-O" style="width:4.2em;height:4.2em" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="O"><defs><linearGradient id="ecloaB" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#d63a00"/><stop offset="1" stop-color="#ffc94a"/></linearGradient><linearGradient id="eclolB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".75"/><stop offset=".55" stop-color="#fff" stop-opacity="0"/></linearGradient><linearGradient id="eclosB" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".95"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient><mask id="eclokB"><rect width="120" height="120" fill="#000"/><circle cx="60" cy="60" r="50" fill="#fff"/><circle cx="74" cy="52" r="44" fill="#000"/></mask><mask id="eclojB"><rect width="120" height="120" fill="#000"/><circle cx="68" cy="54" r="36" fill="#fff"/><circle cx="58" cy="64" r="33" fill="#000"/></mask></defs><rect class="el-dp" width="120" height="120" fill="#3a0d00" mask="url(#eclokB)" transform="translate(3 4.5)"/><rect class="el-dp" width="120" height="120" fill="#3a0d00" mask="url(#eclokB)" transform="translate(1.5 2.2)"/><rect width="120" height="120" fill="url(#ecloaB)" mask="url(#eclokB)"/><rect width="120" height="120" fill="url(#eclolB)" mask="url(#eclokB)"/><g mask="url(#eclokB)"><rect class="el-sw" x="-40" y="-10" width="26" height="140" fill="url(#eclosB)"/></g><rect width="120" height="120" fill="#3a2218" mask="url(#eclojB)"/><rect width="120" height="120" fill="url(#eclolB)" opacity=".45" mask="url(#eclojB)"/><g transform="translate(66 58) scale(.4) translate(-100 -100)"><defs><linearGradient id="ecloz1B" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff0a0"/><stop offset=".55" stop-color="#ff8a1f"/><stop offset="1" stop-color="#e02a00"/></linearGradient><radialGradient id="eclozmB" cx=".5" cy=".4" r=".7"><stop offset="0" stop-color="#16256a"/><stop offset="1" stop-color="#04071a"/></radialGradient><radialGradient id="eclozoB"><stop offset=".55" stop-color="#ff8a1f" stop-opacity=".6"/><stop offset="1" stop-color="#ff8a1f" stop-opacity="0"/></radialGradient><radialGradient id="eclozxB"><stop offset="0" stop-color="#fff"/><stop offset=".4" stop-color="#fff0a0"/><stop offset="1" stop-color="#fff0a0" stop-opacity="0"/></radialGradient></defs><circle cx="100" cy="100" r="92" fill="url(#eclozoB)"/><g class="el-rr" stroke="url(#ecloz1B)" stroke-width="3" stroke-linecap="round" opacity=".8"><line x1="100" y1="10" x2="100" y2="-4" transform="rotate(0 100 100)"/><line x1="100" y1="10" x2="100" y2="-4" transform="rotate(30 100 100)"/><line x1="100" y1="10" x2="100" y2="-4" transform="rotate(60 100 100)"/><line x1="100" y1="10" x2="100" y2="-4" transform="rotate(90 100 100)"/><line x1="100" y1="10" x2="100" y2="-4" transform="rotate(120 100 100)"/><line x1="100" y1="10" x2="100" y2="-4" transform="rotate(150 100 100)"/><line x1="100" y1="10" x2="100" y2="-4" transform="rotate(180 100 100)"/><line x1="100" y1="10" x2="100" y2="-4" transform="rotate(210 100 100)"/><line x1="100" y1="10" x2="100" y2="-4" transform="rotate(240 100 100)"/><line x1="100" y1="10" x2="100" y2="-4" transform="rotate(270 100 100)"/><line x1="100" y1="10" x2="100" y2="-4" transform="rotate(300 100 100)"/><line x1="100" y1="10" x2="100" y2="-4" transform="rotate(330 100 100)"/></g><circle cx="100" cy="100" r="64" fill="url(#eclozmB)" stroke="url(#ecloz1B)" stroke-width="6"/><ellipse cx="100" cy="66" rx="46" ry="24" fill="#fff" opacity=".13"/><g class="el-ff"><path d="M138 34L143 58L167 64L143 70L138 94L133 70L109 64L133 58Z" fill="url(#eclozxB)"/><circle cx="138" cy="64" r="4" fill="#fff"/></g><circle r="3.5" fill="#fff"><animateMotion dur="16s" repeatCount="indefinite" path="M100 30A70 70 0 1 1 99.9 30"/></circle></g></svg><span class="el-t el-pt" data-t="PTUM" style="--d:0s"><b>PTUM</b></span></div><div class="el-l2"><span class="el-wd"><svg class="el-A" viewBox="0 0 100 100" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="eclaaB" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff0a0"/><stop offset=".55" stop-color="#ff8a1f"/><stop offset="1" stop-color="#e02a00"/></linearGradient><linearGradient id="eclashB" x1="0" y1="0" x2="1" y2="0" gradientUnits="objectBoundingBox"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".95"/><stop offset=".55" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff" stop-opacity="0"/><animateTransform attributeName="gradientTransform" type="translate" values="-1 0;1 0;1 0" keyTimes="0;.55;1" dur="3.5s" repeatCount="indefinite"/></linearGradient><radialGradient id="eclaxB"><stop offset="0" stop-color="#fff"/><stop offset=".45" stop-color="#fff0a0"/><stop offset="1" stop-color="#fff0a0" stop-opacity="0"/></radialGradient></defs><path d="M10 98L50 8L90 98" fill="none" stroke="#3a0d00" stroke-width="15" stroke-miterlimit="8" transform="translate(3 4)"/><path d="M10 98L50 8L90 98" fill="none" stroke="url(#eclaaB)" stroke-width="15" stroke-miterlimit="8"/><path d="M10 98L50 8L90 98" fill="none" stroke="url(#eclashB)" stroke-width="15" stroke-miterlimit="8"/><polygon points="0,72 104,36 52,68" fill="#fff" opacity=".95"/><g class="el-ff"><path d="M84 8L87 24L103 28L87 32L84 48L81 32L65 28L81 24Z" fill="url(#eclaxB)"/></g></svg><span class="el-t el-lp" data-t="LPHA" style="--d:0s"><b>LPHA</b></span></span><span class="el-t el-nx" data-t="NEXTgeN" style="--d:0s"><b>NEXTgeN</b></span><span class="el-t el-ec" data-t="ECLIPSE" style="--d:0.4s"><b>ECLIPSE</b></span></div></div></div>
+  <div class="tt"><h1>PHYCON_DYNAMIC_REPORT</h1><div class="sub"><span class="vp">v30.0.1</span>Dynamic Process PCRL Report</div></div>
+  <span style="flex:1"></span>
+  <div class="who"><b id="wName">-</b><span id="wRole">-</span></div>
+  <div class="date"><span class="lbl">Range</span><select class="dbtn" id="fRng" style="min-width:120px"><option value="day">Single day</option><option value="7">Last 7 days</option><option value="15">Last 15 days</option><option value="31">Last 31 days</option><option value="month">Full month</option><option value="all">All dates</option></select></div>
+  <div class="date"><span class="lbl">Report date</span><button class="dbtn" id="dBtn">Pick a date ▾</button>
+   <div class="cal" id="cal" hidden></div></div>
+  <button class="b on only-dump" id="bDump">⬇ Dump Data</button>
+  <div style="position:relative" class="only-adm"><button class="b" id="bTheme" title="Change colour for everyone"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 3a9 9 0 1 0 0 18c1.2 0 1.8-.9 1.4-1.9-.5-1.2.3-2.6 1.6-2.6H17a4 4 0 0 0 4-4c0-5-4-9.5-9-9.5z"/><circle cx="7.5" cy="11" r="1.2" fill="currentColor"/><circle cx="10.5" cy="7" r="1.2" fill="currentColor"/><circle cx="15" cy="7.5" r="1.2" fill="currentColor"/></svg>Theme</button>
+   <div class="pop" id="thPop" hidden><div data-th="crystal"><s style="background:#7c4dff"></s>Crystal Glass</div><div data-th="blue"><s style="background:#2f7cf6"></s>Corporate Blue</div><div data-th="teal"><s style="background:#0f9488"></s>Teal Care</div></div></div>
+  <span class="ic adm only-adm" id="bAdmin" title="Admin"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg><span class="bdg" id="aBdg" hidden></span></span>
+  <span class="ic" id="bOut" title="Logout"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 4h4v16h-4"/><path d="M10 8l-4 4 4 4"/><path d="M6 12h10"/></svg></span>
+ </div>
+ <div class="msg" id="aMsg" hidden></div>
+ <div class="tabs" id="tabs">
+  <button class="b on" data-v="ov">Overview</button>
+  <button class="b" data-v="dup">Duplicates <span id="tDup"></span></button>
+  <button class="b" data-v="dt">Credited Data</button>
+  <button class="b" data-v="rp">Reports</button>
+  <span style="flex:1"></span>
+  <select class="in" id="fWq" style="max-width:240px"><option value="">All processes</option></select><select class="in" id="fPr" style="max-width:220px"><option value="">All employees</option></select>
+  <span class="pill" id="pInfo">-</span>
+ </div>
+ <div class="main">
+  <div class="view on" id="v-ov">
+   <div class="kpis">
+    <div class="pn kpi"><span class="lbl">Credited items</span><b id="k1">0</b><i id="k1s">-</i></div>
+    <div class="pn kpi bad"><span class="lbl">Duplicate GD</span><b id="k3">0</b><i id="k3s">-</i></div>
+    <div class="pn kpi bad"><span class="lbl">Extra credits</span><b id="k4">0</b><i>credited more than once</i></div>
+   </div>
+   <div class="row2">
+    <div class="pn card"><div class="hd"><span class="lbl">Processor summary</span><span class="dim">click a name to filter</span></div><div class="bd" id="oProc"></div></div>
+    <div class="pn card"><div class="hd"><span class="lbl">Duplicates in this range</span><button class="b sm" data-go="dup">See all</button></div><div class="bd" id="oDup"></div></div>
+   </div>
+  </div>
+  <div class="view" id="v-dup"><div class="pn card" style="flex:1"><div class="hd"><span class="lbl">Duplicate GD — credited in this range, and credited before (same day or up to 31 days earlier)</span><button class="b sm" id="xDup">⬇ Export</button></div><div class="bd" id="dupT"></div></div></div>
+  <div class="view" id="v-dt"><div class="pn card" style="flex:1"><div class="hd"><span class="lbl">Credited rows in this range · fully N/A columns hidden</span><button class="b sm" id="xDt">⬇ Export</button></div><div class="bd" id="dtT"></div></div></div>
+  <div class="view" id="v-rp"><div class="pn card" style="flex:1"><div class="hd"><span class="lbl">Reports saved</span><span class="dim" id="rpInfo"></span></div><div class="bd" id="rpT"></div></div></div>
+ </div>
+</div>
+
+<!-- ============ DUMP DATA ============ -->
+<div class="ov" id="imp" hidden><div class="pn box">
+ <div class="card"><div class="hd"><span class="lbl" id="impT">Dump data</span><button class="b sm" data-close="imp">✕</button></div></div>
+ <div class="bd">
+  <div id="impIn" style="display:flex;flex-direction:column;gap:8px">
+   <div class="drop" id="drop"><b>Drag &amp; drop</b> the Dynamic Processed Work Item Report here<br><span>or click to pick it · .xlsx · .csv</span></div>
+   <span class="lbl">or paste the whole sheet (Ctrl+A, Ctrl+C in Excel)</span>
+   <textarea class="in" id="pasteBox" placeholder="Paste here…"></textarea>
+  </div>
+  <div id="impSum" hidden></div>
+ </div>
+ <div class="ft"><button class="b" data-close="imp">Cancel</button><button class="b" id="impRead">Read</button><button class="b on" id="impSave" hidden>Save</button></div>
+</div></div>
+<input type="file" id="fileIn" accept=".xlsx,.xls,.csv,.txt,.htm,.html" hidden>
+<div id="dropAll" hidden>Drop the report to dump data</div>
+
+<!-- ============ ADMIN ============ -->
+<div class="ov" id="adm" hidden><div class="pn box wide">
+ <div class="atabs" id="atabs">
+  <span class="lbl" style="margin-right:6px">🛡 Admin</span>
+  <button class="b sm on" data-a="users">Users &amp; access</button>
+  <button class="b sm" data-a="log">Activity log</button>
+  <button class="b sm" data-a="ctl">Control</button>
+  <button class="b sm" data-a="bk">Backup</button>
+  <span style="flex:1"></span><button class="b sm" data-close="adm">✕ Close</button>
+ </div>
+ <div class="ap on" id="ap-users">
+  <div class="tb">
+   <input class="in" id="uEmp" placeholder="Emp ID" style="width:110px"><input class="in" id="uName" placeholder="Name" style="width:150px"><input class="in" id="uMsid" placeholder="MS ID" style="width:90px"><input class="in" id="uMach" placeholder="Machine name" style="width:150px"><input class="in" id="uMail" placeholder="Outlook mail" style="width:200px">
+   <select class="in" id="uRole"><option value="employee">Employee</option><option value="sme">SME</option><option value="manager">Manager</option><option value="admin">Admin</option></select>
+   <button class="b sm on" id="uAdd">+ Add / Update</button>
+   <span style="flex:1"></span><input class="in" id="uQ" placeholder="Search user" style="width:140px">
+  </div>
+  <div class="card" style="flex:1;border-top:1px solid var(--ln2)"><div class="bd" id="uT"></div></div>
+ </div>
+ <div class="ap" id="ap-log">
+  <div class="tb"><input class="in" id="lgQ" placeholder="Search name / action" style="width:220px"><button class="b sm" id="lgRef">⟳ Refresh</button><button class="b sm" id="lgCsv">⬇ Export</button><span class="dim" id="lgInfo"></span></div>
+  <div class="card" style="flex:1;border-top:1px solid var(--ln2)"><div class="bd" id="lgT"></div></div>
+ </div>
+ <div class="ap" id="ap-ctl"><div class="grid3">
+  <div class="pn"><span class="lbl">Access</span>
+   <div class="ctl"><span><b>Lock tool for everyone</b><br><span class="dim">only admin can log in</span></span><span class="sw" id="cLock"></span></div>
+   <div class="ctl"><span>Lock message</span><input class="in" id="cLockMsg" style="width:60%" placeholder="e.g. Maintenance till 2 PM"></div>
+   <div class="ctl"><span><b>New employees get view access</b><br><span class="dim">for IDs added later</span></span><span class="sw" id="cNewView"></span></div>
+  </div>
+  <div class="pn"><span class="lbl">Expiry · <span id="cExpTxt"></span></span>
+   <div class="ctl"><input class="in" type="date" id="cExp" style="flex:1"><button class="b sm" id="cExpSet">Set</button></div>
+   <div class="ctl" style="justify-content:flex-start;gap:6px"><button class="b sm" data-add="30">+30 d</button><button class="b sm" data-add="90">+90 d</button><button class="b sm" id="cExpDef">31-Dec-2027</button></div>
+  </div>
+  <div class="pn"><span class="lbl">Message to everyone</span>
+   <div class="ctl"><input class="in" id="cMsg" style="flex:1" placeholder="Banner text (empty = hide)"><button class="b sm" id="cMsgSet">Send</button></div>
+   <span class="lbl">Admin password</span>
+   <div class="ctl"><input class="in" type="password" id="cPw" style="flex:1" placeholder="New admin password"><button class="b sm" id="cPwSet">Change</button></div>
+  </div>
+ </div>
+ <div style="padding:0 14px 12px" class="dim" id="cInfo"></div></div>
+ <div class="ap" id="ap-bk"><div class="grid3">
+  <div class="pn"><span class="lbl">Download backup</span><span class="dim">All reports, users, settings and log in one locked file. It opens only with the backup password.</span><button class="b on" id="bkDown">⬇ Download backup</button></div>
+  <div class="pn"><span class="lbl">Restore backup</span><span class="dim">Puts a backup file back into the shared folder. Reports with the same date are replaced.</span><button class="b" id="bkUp">⬆ Restore from file</button><input type="file" id="bkFile" accept=".pdrbak" hidden></div>
+  <div class="pn"><span class="lbl">Auto backup</span><span class="dim">One locked backup per month in the shared folder (Backup), refreshed once a day when you log in. Never deleted.</span><div id="bkList" class="dim"></div></div>
+ </div></div>
+</div></div>
+
+<!-- password prompt -->
+<div class="ov" id="pwq" hidden><div class="pn box" style="width:340px"><div class="bd"><span class="lbl" id="pwqT">Backup password</span><input class="in" type="password" id="pwqIn" placeholder="Password"></div><div class="ft"><button class="b" data-close="pwq">Cancel</button><button class="b on" id="pwqOk">OK</button></div></div></div>
+<!-- confirm -->
+<div class="ov" id="cfm" hidden><div class="pn box" style="width:400px"><div class="bd"><span class="lbl" id="cfmT">Please confirm</span><div id="cfmM"></div></div><div class="ft"><button class="b" id="cfmNo">No</button><button class="b on" id="cfmYes">Yes, replace</button></div></div></div>
+<!-- lock -->
+<div class="ov" id="lock" hidden><div class="pn box" style="width:420px"><div class="bd" style="padding:22px;text-align:center"><b id="lockT" style="color:#d42f42;letter-spacing:.2em;text-transform:uppercase">Access locked</b><p class="dim" id="lockM" style="margin-top:6px"></p><div style="margin-top:12px"><button class="b" id="lockOut">Logout</button></div></div></div></div>
+<div id="toasts"></div>
+
+<script>
+"use strict";
+const VERSION="v30.0.1",APW_H="be7ef2ccfe6dfe817893805de8561349ae7efff91f8e340885126f059ff8e49d",MACH_H="e5d634320200b8589062de1777bd5d4ee1c80136f4cb16c805f81a6a9b89cab1",FK=String.fromCharCode(...[93, 93, 69, 37, 37, 38, 37, 80, 84, 34, 39, 66, 67, 95, 91, 107, 118, 101, 118, 52, 35, 38, 127, 100, 114, 115, 118, 124, 101, 118, 96, 83].reverse().map(c=>c^23)),PROCESS="Dynamic Process PCRL Report",HARD_EXPIRY="2027-12-31",DATA_DIR="Phycon_Dynamic_Report_Data",BK_PASS="763388",ADMIN_EMP="1328467";
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const pad=n=>String(n).padStart(2,"0");
+const ymd=d=>d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
+const MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const nice=k=>{if(!k)return"-";const[y,m,d]=k.split("-");return d+"-"+MON[+m-1]+"-"+y;};
+const fmtT=s=>{s=Math.round(+s||0);if(!s)return"0m";const h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60;return h?h+"h "+pad(m)+"m":m+"m "+pad(x)+"s";};
+const fmtDT=t=>{if(!t)return"-";const d=new Date(t);return pad(d.getDate())+"-"+MON[d.getMonth()]+" "+pad(d.getHours())+":"+pad(d.getMinutes());};
+const isNA=v=>{v=String(v==null?"":v).trim().toLowerCase();return v===""||v==="n/a"||v==="na"||v==="#n/a"||v==="null";};
+const nid=e=>String(e||"").replace(/\D/g,"").replace(/^0+/,"");
+function toast(m,k){const t=document.createElement("div");t.className="toast "+(k||"");t.textContent=m;$("toasts").appendChild(t);setTimeout(()=>t.remove(),k==="bad"?6000:3500);}
+const lsGet=(k,d)=>{try{const v=localStorage.getItem(k);return v==null?d:v;}catch(e){return d;}};
+const lsSet=(k,v)=>{try{localStorage.setItem(k,v);}catch(e){}};
+async function sha(t){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode("phycon|"+t));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("");}
+
+/* ============ LOCK (AES) — folder files and backups are unreadable without the key ============ */
+const keys={};
+async function kdf(pass){if(keys[pass])return keys[pass];const km=await crypto.subtle.importKey("raw",new TextEncoder().encode(pass),"PBKDF2",false,["deriveKey"]);
+ return keys[pass]=await crypto.subtle.deriveKey({name:"PBKDF2",salt:new TextEncoder().encode("phycon-dr-v30"),iterations:120000,hash:"SHA-256"},km,{name:"AES-GCM",length:256},false,["encrypt","decrypt"]);}
+const b64e=u=>{let s="";for(let i=0;i<u.length;i+=32768)s+=String.fromCharCode.apply(null,u.subarray(i,i+32768));return btoa(s);};
+const b64d=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+async function lockText(t,pass){const iv=crypto.getRandomValues(new Uint8Array(12));const c=new Uint8Array(await crypto.subtle.encrypt({name:"AES-GCM",iv},await kdf(pass||FK),new TextEncoder().encode(t)));const o=new Uint8Array(12+c.length);o.set(iv);o.set(c,12);return "PDRENC1:"+b64e(o);}
+async function openText(t,pass){if(!t.startsWith("PDRENC1:"))return t;const o=b64d(t.slice(8).trim());const tryK=async k=>new TextDecoder().decode(await crypto.subtle.decrypt({name:"AES-GCM",iv:o.subarray(0,12)},await kdf(k),o.subarray(12)));
+ if(pass)return tryK(pass);try{return await tryK(FK);}catch(e){return tryK(BK_PASS);}}
+
+/* ============ STORAGE ============ */
+const idb=(mode,fn)=>new Promise((res,rej)=>{let q;try{q=indexedDB.open("phycon_dr_v30",1);}catch(e){rej(e);return;}
+ q.onupgradeneeded=()=>q.result.createObjectStore("kv");q.onerror=()=>rej(q.error);
+ q.onsuccess=()=>{try{const tx=q.result.transaction("kv",mode),st=tx.objectStore("kv"),rq=fn(st);tx.oncomplete=()=>res(rq&&rq.result);tx.onerror=()=>rej(tx.error);}catch(e){rej(e);}};});
+const ST={mode:"none",root:null,name:"",pending:null,
+ async dir(path,create){let d=this.root;for(const p of path.split("/").filter(Boolean))d=await d.getDirectoryHandle(p,{create:!!create});return d;},
+ split(p){const i=p.lastIndexOf("/");return i<0?["",p]:[p.slice(0,i),p.slice(i+1)];},
+ async raw(p){if(this.mode==="folder"){try{const[a,b]=this.split(p);const d=await this.dir(a,false);return await(await(await d.getFileHandle(b)).getFile()).text();}catch(e){return null;}}
+  if(this.mode==="local"){try{return(await idb("readonly",s=>s.get("f:"+p)))||null;}catch(e){return null;}}return null;},
+ async read(p){const t=await this.raw(p);if(t==null)return null;try{return JSON.parse(await openText(t));}catch(e){return null;}},
+ async write(p,o){const t=await lockText(JSON.stringify(o));
+  if(this.mode==="folder"){const[a,b]=this.split(p);const d=await this.dir(a,true);const w=await(await d.getFileHandle(b,{create:true})).createWritable();await w.write(t);await w.close();return;}
+  if(this.mode==="local"){await idb("readwrite",s=>s.put(t,"f:"+p));return;}
+  throw new Error("Shared folder not connected");},
+ async list(dirp,deep){const out=[];
+  if(this.mode==="folder"){const walk=async(d,pre)=>{for await(const[n,h]of d.entries()){if(h.kind==="file"&&n.endsWith(".json"))out.push(pre+n);else if(h.kind==="directory"&&deep)await walk(h,pre+n+"/");}};try{await walk(await this.dir(dirp,true),"");}catch(e){}}
+  if(this.mode==="local"){try{const ks=await idb("readonly",s=>s.getAllKeys());for(const k of ks){const s=String(k);if(s.startsWith("f:"+dirp+"/")){const r=s.slice(dirp.length+3);if(deep||!r.includes("/"))out.push(r);}}}catch(e){}}
+  return out.sort();},
+ async remove(p){if(this.mode==="folder"){const[a,b]=this.split(p);const d=await this.dir(a,false);await d.removeEntry(b);return;}
+  if(this.mode==="local")await idb("readwrite",s=>s.delete("f:"+p));}
+};
+async function useFolder(h){ST.root=await h.getDirectoryHandle(DATA_DIR,{create:true});ST.mode="folder";ST.name=h.name;ST.pending=null;try{await idb("readwrite",s=>s.put(h,"dir"));}catch(e){}paintFolder();}
+async function pickFolder(){
+ if(ST.pending){try{if((await ST.pending.requestPermission({mode:"readwrite"}))==="granted"){await useFolder(ST.pending);await loadCfg();return true;}}catch(e){}}
+ if(!window.showDirectoryPicker){toast("Use Chrome or Edge to open the shared folder.","bad");return false;}
+ try{const h=await window.showDirectoryPicker({id:"phycon-dr",mode:"readwrite"});await useFolder(h);await loadCfg();toast("Shared folder connected: "+h.name,"ok");return true;}
+ catch(e){if(e&&e.name!=="AbortError")toast("Could not open folder: "+e.message,"bad");return false;}
+}
+async function restoreFolder(){try{const h=await idb("readonly",s=>s.get("dir"));if(h){if((await h.queryPermission({mode:"readwrite"}))==="granted")await useFolder(h);else{ST.pending=h;ST.name=h.name;}}}catch(e){}paintFolder();}
+function paintFolder(){const on=ST.mode==="folder";$("lDot").className="dot "+(on?"g":ST.pending?"a":"r");
+ $("lFold").textContent=on?"Shared folder: "+ST.name:ST.pending?"Folder needs 1 click: "+ST.name:"Shared folder not connected";
+ $("lFolder").textContent=on?"Change shared folder":ST.pending?"Allow folder (1 click)":"Connect shared folder";}
+
+/* ============ CONFIG / USERS / LOG ============ */
+const SEED=[
+["0000967087","Shruthi Renukaradhya","srenukar","SH4","LHTU05CG2122TDC","shruthi.renukaradhya@optum.com","CSP Sheet maintenance"],
+["0001511002","Krishna Kumar Desai","dkuma332","D K","LHTU05CG2303236","d.k.kumar@optum.com","CSP Sheet maintenance"],
+["0001954632","Bhavya Shree N","bshreen","K4W","LHTU05CG2303230","bhavya.s@optum.com","CSP Sheet maintenance"],
+["0001954595","Prakash Butte","PBUTTE","PBU","LHTU05CG5321MS9","prakash.butte@optum.com","CSP Sheet maintenance"],
+["0001954752","Anushree R","AR43","ARN","LHTU05CG230323J","anushree.r@optum.com","CSP Sheet maintenance"],
+["0001267099","Kiran Kumar S","kkuma243","KK9","LHTU05CG5331DJW","kiran.kumar.s@optum.com","CSP Sheet maintenance"],
+["0002134151","Kavya K R","kkr2","KKR","LHTU05CG2122RMW","kavya_kr@optum.com","BSAR/UHN Bulk Load"],
+["0001462933","Shwetha A T","sat1","UNA","LHTU05CG5331DLL","shwetha.at@optum.com","BSAR/UHN Bulk Load"],
+["0900056580","Girish D","dgirish","DGI","LHTU05CG51935LL","d_girish@optum.com","BSAR/UHN Bulk Load"],
+["0001593154","Manjusha Pratap","mpratap2","FL#","LHTU05CG62577YM","manjusha_pratap@optum.com","BSAR/UHN Bulk Load"],
+["0001267446","Chethan Honnal GR","CRAVI2","CR8","LHTU05CG5321M44","chethan.ravi@optum.com","BSAR/UHN Bulk Load"],
+["0001462897","Geeta R Koti","gkoti","WAO","LHTU05CG5331DS9","geeta_koti@optum.com","BSAR/UHN Bulk Load"],
+["0002187966","Likhitha S","LS23","6ZU","LHTU05CG2122TXT","likhitha.shankaranarayana@optum.com","BSAR/UHN Bulk Load"],
+["0000791158","Abdul Vaseem","amujeeb","TZ7","LHTU05CG5331D94","abdul.vaseem@optum.com","BSAR/UHN Bulk Load"],
+["0001472943","Syed Mustak","smustak","SMU","LHTU05CG5331DR0","syed.mustak@optum.com","BSAR/UHN Bulk Load"],
+["0000812117","Jeethesh Jayaramaiah","JJAYAR5","JJ9","LHTU05CG5321MJS","jeethesh.jayaramaiah@optum.com","BSAR/UHN Bulk Load"],
+["0002103260","Shalini K J","skj2","SKJ","LHTU05CG2122SFQ","shalini.kj@optum.com","BSAR/UHN Bulk Load"],
+["0001954631","Balaji S","SBALAJ10","SBA","LHTU05CG5321MKC","balaji.s@optum.com","BSAR/UHN Bulk Load"],
+["0002257298","Likith Sullykodi Janardhana","LJANARDH","KYM","LHTU05CG5331DKC","likith.janardhana@optum.com","BSAR/UHN Bulk Load"],
+["0002134172","Anjali K","AK94","1X8","LHTU0CG5321MKG","anjali.-.k@optum.com","BSAR/UHN Bulk Load"],
+["0002261654","Tiwari Teja Prasad","tprasa34","OV0","LHTU05CG4200SM2","tiwari.prasad@optum.com","BSAR/UHN Bulk Load"],
+["0001182991","Sri Ranga Arun H K","shk1","SHK","LHTU05CG2303237","sriranga.arunhk@optum.com","BSAR/UHN Bulk Load"],
+["0001038395","Suresh T","st1013","033","LHTU05CG5331DHY","t.suresh@optum.com","BSAR/UHN Bulk Load","sme"],
+["0001345231","Divya V","Automation","DV3","LHTU05CG230322N","divya.v1@optum.com","BSAR/UHN Bulk Load","sme"],
+["0001484336","Eliza Sushmitha","esushmit","7GF","LHTU05CG5321MH1","eliza.sushmitha@optum.com","BSAR/UHN Bulk Load"],
+["0001328467","Akshay Ranjan","aranja14","ARA","LHTU05CG2122RJJ","akshay.ranjan@optum.com","BSAR/UHN Bulk Load","admin"],
+["0001252723","Sandeep Ramakrishnareddy","Automation","","LHTU05CG2122TDH","sandeep.ramakrishnareddy@optum.com","BSAR/UHN Bulk Load"]];
+const ROLE_NAME={admin:"Admin",manager:"Manager",sme:"SME",employee:"Employee"};
+const mkUser=(r,role)=>{role=role||"employee";return{emp:r[0],name:r[1],msid:r[2],opid:r[3]||"",mach:r[4]||"",mail:r[5]||"",proc:r[6]||"",loc:"BLR",role,view:true,dump:role!=="employee",del:role==="admin",pw:role==="admin"&&nid(r[0])===ADMIN_EMP?APW_H:"",pc:""};};
+const CFG_DEF=()=>({theme:"crystal",expiry:HARD_EXPIRY,lock:false,lockMsg:"",msg:"",newView:true,users:SEED.map(r=>mkUser(r,r[7])),adminPw:"",apwFixed:true});
+let CFG=CFG_DEF();
+async function loadCfg(){const c=await ST.read("config.json");if(c){CFG={...CFG_DEF(),...c};let ch=false;if(!Array.isArray(c.users)||!c.users.some(u=>u&&u.emp)){CFG.users=CFG_DEF().users;ch=true;}
+  if(!CFG.apwFixed){const a=CFG.users.find(u=>nid(u.emp)===ADMIN_EMP);if(a)a.pw=APW_H;CFG.apwFixed=true;ch=true;}if(ch)await ST.write("config.json",CFG);}else{CFG=CFG_DEF();if(ST.mode!=="none")await ST.write("config.json",CFG);}applyTheme();paintExpiry();return CFG;}
+async function saveCfg(){await ST.write("config.json",CFG);applyTheme();paintExpiry();}
+async function mutCfg(fn){await loadCfg();fn(CFG);await saveCfg();}
+const findU=id=>{const n=nid(id),l=String(id||"").trim().toLowerCase();return CFG.users.find(u=>(n&&nid(u.emp)===n)||(l&&u.msid.toLowerCase()===l&&u.msid.toLowerCase()!=="automation"));};
+const daysLeft=()=>Math.ceil((new Date(CFG.expiry+"T23:59:59")-new Date())/864e5);
+function paintExpiry(){const d=daysLeft();$("lExp").textContent="Valid till "+nice(CFG.expiry)+(d>=0?" · "+d+" days":" · EXPIRED");if($("cExpTxt"))$("cExpTxt").textContent=nice(CFG.expiry)+(d>=0?" · "+d+" days left":" · EXPIRED");}
+function applyTheme(){document.body.dataset.th=CFG.theme||"crystal";}
+async function logEv(act,res){if(ST.mode==="none")return;try{const t=Date.now();await ST.write("Log/"+t+"_"+Math.random().toString(36).slice(2,6)+".json",{t,emp:S.emp||"-",name:S.name||"-",act,res:res||""});}catch(e){}}
+
+/* ============ STATE ============ */
+const PCID=(()=>{let v=lsGet("pdr_pcid","");if(!v){v=Array.from(crypto.getRandomValues(new Uint8Array(9)),b=>b.toString(36).padStart(2,"0")).join("").toUpperCase();lsSet("pdr_pcid",v);}return v;})();
+const S={emp:"",name:"",role:"",u:null,reps:[],date:"",range:lsGet("pdr_rng","day"),wq:"",pr:"",view:"ov",open:new Set(),sort:{},A:null,pending:null,seen:new Set()};
+const isAdm=()=>S.role==="admin";
+const can=k=>isAdm()||!!(S.u&&S.u[k]);
+
+/* ================= FILE READERS ================= */
+async function inflate(bytes,method){
+ if(method===0)return bytes;
+ const ds=new DecompressionStream("deflate-raw");
+ return new Uint8Array(await new Response(new Blob([bytes]).stream().pipeThrough(ds)).arrayBuffer());
+}
+async function unzip(buf){
+ const dv=new DataView(buf),u8=new Uint8Array(buf),files={};let e=-1;
+ for(let i=u8.length-22;i>=Math.max(0,u8.length-70000);i--)if(dv.getUint32(i,true)===0x06054b50){e=i;break;}
+ if(e<0)throw new Error("Not an .xlsx file");
+ let p=dv.getUint32(e+16,true);const n=dv.getUint16(e+10,true),td=new TextDecoder();
+ for(let k=0;k<n;k++){
+  if(dv.getUint32(p,true)!==0x02014b50)break;
+  const meth=dv.getUint16(p+10,true),cs=dv.getUint32(p+20,true),nl=dv.getUint16(p+28,true),el=dv.getUint16(p+30,true),cl=dv.getUint16(p+32,true),lo=dv.getUint32(p+42,true);
+  const name=td.decode(u8.subarray(p+46,p+46+nl));
+  files[name]={meth,cs,lo};p+=46+nl+el+cl;
+ }
+ return{names:Object.keys(files),async get(nm){const f=files[nm];if(!f)return null;const ln=dv.getUint16(f.lo+26,true),le=dv.getUint16(f.lo+28,true),st=f.lo+30+ln+le;return td.decode(await inflate(u8.subarray(st,st+f.cs),f.meth));}};
+}
+const colIdx=r=>{const m=/^([A-Z]+)/.exec(r);let n=0;for(const c of m[1])n=n*26+c.charCodeAt(0)-64;return n-1;};
+async function readXlsx(buf){
+ const z=await unzip(buf),P=new DOMParser();
+ const ssx=await z.get("xl/sharedStrings.xml"),ss=[];
+ if(ssx){const d=P.parseFromString(ssx,"application/xml");for(const si of d.getElementsByTagName("si")){let t="";for(const x of si.getElementsByTagName("t"))t+=x.textContent;ss.push(t);}}
+ let sheet="xl/worksheets/sheet1.xml";
+ if(!z.names.includes(sheet))sheet=z.names.filter(n=>/^xl\/worksheets\/[^/]+\.xml$/.test(n)).sort()[0];
+ const d=P.parseFromString(await z.get(sheet),"application/xml"),grid=[];
+ for(const r of d.getElementsByTagName("row")){
+  const ri=(+r.getAttribute("r")||grid.length+1)-1,row=[];
+  for(const c of r.getElementsByTagName("c")){
+   const t=c.getAttribute("t"),ref=c.getAttribute("r"),v=c.getElementsByTagName("v")[0];let val="";
+   if(t==="s")val=v?ss[+v.textContent]||"":"";
+   else if(t==="inlineStr"){for(const x of c.getElementsByTagName("t"))val+=x.textContent;}
+   else val=v?v.textContent:"";
+   row[ref?colIdx(ref):row.length]=val;
+  }
+  grid[ri]=Array.from(row,x=>x==null?"":x);
+ }
+ return Array.from(grid,x=>x||[]);
+}
+function readCsv(t,delim){
+ const out=[];let row=[],cur="",q=false;
+ for(let i=0;i<t.length;i++){const c=t[i];
+  if(q){if(c==='"'){if(t[i+1]==='"'){cur+='"';i++;}else q=false;}else cur+=c;continue;}
+  if(c==='"'&&cur===""){q=true;continue;}
+  if(c===delim){row.push(cur);cur="";continue;}
+  if(c==="\n"||c==="\r"){if(c==="\r"&&t[i+1]==="\n")i++;row.push(cur);out.push(row);row=[];cur="";continue;}
+  cur+=c;}
+ if(cur!==""||row.length){row.push(cur);out.push(row);}
+ return out;
+}
+function readHtmlTable(t){const d=new DOMParser().parseFromString(t,"text/html"),g=[];for(const tr of d.querySelectorAll("tr"))g.push([...tr.children].map(c=>c.textContent.trim()));return g;}
+async function readAny(file){
+ const buf=await file.arrayBuffer(),h=new Uint8Array(buf.slice(0,8));
+ if(h[0]===0x50&&h[1]===0x4b)return readXlsx(buf);
+ if(h[0]===0xd0&&h[1]===0xcf)throw new Error("Old .xls (97-2003) format. Open it in Excel, then Paste it here, or Save As .xlsx.");
+ const t=new TextDecoder().decode(buf);
+ if(/^\s*</.test(t))return readHtmlTable(t);
+ return readCsv(t,t.split("\n")[0].includes("\t")?"\t":",");
+}
+
+/* ================= REPORT PARSER ================= */
+function parseDate(v){
+ if(v==null)return 0;v=String(v).trim();if(!v||isNA(v))return 0;
+ if(/^\d+(\.\d+)?$/.test(v)){const n=+v;if(n>20000&&n<90000){const d=new Date(Math.round((n-25569)*864e5));return d.getTime()+d.getTimezoneOffset()*6e4;}return 0;}
+ let m=/^([A-Za-z]{3})[a-z]*\s+(\d{1,2}),?\s+(\d{4})\s+(\d{1,2}):(\d{2})(?::(\d{2}))?\s*([AP]M)?/i.exec(v);
+ if(m){let h=+m[4];const ap=(m[7]||"").toUpperCase();if(ap==="PM"&&h<12)h+=12;if(ap==="AM"&&h===12)h=0;return new Date(+m[3],MON.findIndex(x=>x.toLowerCase()===m[1].toLowerCase()),+m[2],h,+m[5],+(m[6]||0)).getTime();}
+ m=/^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:\s+(\d{1,2}):(\d{2})(?::(\d{2}))?\s*([AP]M)?)?/i.exec(v);
+ if(m){let h=+(m[4]||0);const ap=(m[7]||"").toUpperCase();if(ap==="PM"&&h<12)h+=12;if(ap==="AM"&&h===12)h=0;return new Date(+m[3],+m[1]-1,+m[2],h,+(m[5]||0),+(m[6]||0)).getTime();}
+ m=/^(\d{4})-(\d{2})-(\d{2})(?:[ T](\d{2}):(\d{2}))?/.exec(v);
+ if(m)return new Date(+m[1],+m[2]-1,+m[3],+(m[4]||0),+(m[5]||0)).getTime();
+ const t=Date.parse(v);return isNaN(t)?0:t;
+}
+const H=s=>String(s||"").toLowerCase().replace(/\s+/g," ").trim();
+function parseGrid(grid){
+ grid=grid.map(r=>(r||[]).map(c=>String(c==null?"":c).replace(/ /g," ").trim()));
+ const hi=grid.findIndex(r=>r.some(c=>H(c)==="processor name"));
+ if(hi<0)throw new Error("Header row with 'Processor Name' not found. Is this the Dynamic Processed Work Item Report?");
+ const meta={};
+ for(let i=0;i<hi;i++){const c=grid[i].filter(x=>x!=="");if(c.length>=2)meta[H(c[0])]=c[1];}
+ let hdr=grid[hi];const first=hdr.findIndex(c=>c!=="");let last=hdr.length-1;while(last>0&&hdr[last]==="")last--;
+ hdr=hdr.slice(first,last+1);
+ const rows=[];
+ for(let i=hi+1;i<grid.length;i++){const r=(grid[i]||[]).slice(first,last+1);if(!r.some(c=>c!==""))break;while(r.length<hdr.length)r.push("");rows.push(r);}
+ // drop columns that are fully N/A (always keep key columns)
+ const keep=hdr.map((h,j)=>isKey(h)||rows.some(r=>!isNA(r[j])));
+ const headers=hdr.filter((_,j)=>keep[j]),data=rows.map(r=>r.filter((_,j)=>keep[j]));
+ const hidden=hdr.length-headers.length;
+ const from=parseDate(meta["date time from"]),to=parseDate(meta["date time to"]);
+ const rep={v:1,meta:{name:meta["report name"]||"",from:meta["date time from"]||"",to:meta["date time to"]||"",area:meta["business area"]||"",sup:meta["supervisor"]||"",tz:meta["time zone"]||""},headers,rows:data,hidden};
+ const D=derive(rep);
+ let day=from?ymd(new Date(from)):"";
+ if(!day){const ts=D.map(x=>x.st||x.sp).filter(Boolean).sort();day=ts.length?ymd(new Date(ts[0])):ymd(new Date());}
+ rep.day=day;
+ rep.id=day+"__"+safe(rep.meta.sup||"all")+"__"+safe(rep.meta.area||"area");
+ return rep;
+}
+const safe=s=>String(s).toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,40)||"x";
+const KEYS=["processor name","employee id","supervisor name","work queue","credited/not credited","claim start time","claim stop time","status"];
+const isKey=h=>{h=H(h);return KEYS.includes(h)||h.startsWith("aht");};
+const GDRX=/\bGD[\s\-_#:]*([0-9]{5,})/i;
+function derive(rep){
+ const h=rep.headers.map(H),f=k=>h.indexOf(k);
+ const iP=f("processor name"),iE=f("employee id"),iS=f("supervisor name"),iW=f("work queue"),iC=f("credited/not credited"),iSt=f("claim start time"),iSp=f("claim stop time"),iA=h.findIndex(x=>x.startsWith("aht")),iR=f("status");
+ let g0=h.findIndex(x=>x.startsWith("bpm")),g1=h.findIndex(x=>x==="reference or gd number");
+ let gcols=[];
+ if(g0>=0&&g1>=g0){for(let j=g0;j<=g1;j++)gcols.push(j);}else gcols=h.map((x,j)=>/gd|core|reference|bpm/.test(x)?j:-1).filter(j=>j>=0);
+ const out=[];
+ rep.rows.forEach((r,ix)=>{
+  let gd="";
+  for(const j of gcols){const v=r[j];if(isNA(v))continue;const m=GDRX.exec(v);if(m){gd="GD-"+m[1];break;}if(/gd/.test(h[j])&&/^\d{6,}$/.test(v)){gd="GD-"+v;break;}}
+  if(!gd){for(const v of r){const m=GDRX.exec(v||"");if(m){gd="GD-"+m[1];break;}}}
+  const cv=H(iC>=0?r[iC]:""),sv=H(iR>=0?r[iR]:"");
+  const cr=iC>=0?(cv.startsWith("credit")):(sv==="completed");
+  out.push({ix,gd,cr,proc:iP>=0?r[iP]:"",emp:iE>=0?r[iE]:"",sup:iS>=0?r[iS]:"",wq:iW>=0?r[iW]:"",st:parseDate(iSt>=0?r[iSt]:""),sp:parseDate(iSp>=0?r[iSp]:""),aht:+(iA>=0?r[iA]:0)||0,status:iR>=0?r[iR]:"",day:rep.day,rid:rep.id});
+ });
+ return out;
+}
+
+
+
+/* ============ REPORTS ============ */
+const rpath=r=>"Reports/"+r.day.slice(0,7)+"/"+r.id+".json";
+async function loadReports(){
+ const names=await ST.list("Reports",true),reps=[],seen=new Set();
+ for(const n of names.slice().sort((a,b)=>b.includes("/")-a.includes("/"))){const r=await ST.read("Reports/"+n);if(!r||!r.rows||seen.has(r.id))continue;seen.add(r.id);r._p="Reports/"+n;
+  if(!n.includes("/")&&can("dump")){try{await ST.write(rpath(r),(({D,_p,...x})=>x)(r));await ST.remove("Reports/"+n);r._p=rpath(r);}catch(e){}}
+  r.D=derive(r);reps.push(r);}
+ reps.sort((a,b)=>a.day<b.day?1:a.day>b.day?-1:0);S.reps=reps;
+ const days=reps.map(r=>r.day);if(!S.date||!days.includes(S.date))S.date=days[0]||"";
+ render();
+}
+async function saveReport(rep){const c={...rep};delete c.D;delete c._p;c.by=S.name;c.at=Date.now();await ST.write(rpath(rep),c);}
+
+/* ============ ANALYSIS (selected date, checked against the 31 days before it) ============ */
+function rangeOf(){
+ const days=S.reps.map(r=>r.day).sort(),D=S.date;if(!D)return{from:"",to:""};
+ const r=S.range;let from=D,to=D;
+ if(r==="all"){from=days[0];to=days[days.length-1];}
+ else if(r==="month"){from=D.slice(0,8)+"01";const e=new Date(+D.slice(0,4),+D.slice(5,7),0);to=ymd(e);}
+ else if(r!=="day"){const x=new Date(D+"T00:00:00");x.setDate(x.getDate()-(+r-1));from=ymd(x);}
+ return{from,to};
+}
+function analyse(){
+ const{from,to}=rangeOf(),inR=x=>x.day>=from&&x.day<=to;
+ const lb=new Date(from+"T00:00:00");lb.setDate(lb.getDate()-31);const look=ymd(lb);
+ const win=S.reps.filter(r=>r.day>=look&&r.day<=to),inRep=S.reps.filter(r=>r.day>=from&&r.day<=to);
+ const fx=x=>(!S.wq||x.wq===S.wq)&&(!S.pr||x.proc===S.pr);
+ let all=[];for(const r of win)all=all.concat(r.D);
+ const G=new Map();
+ for(const x of all){if(!x.gd)continue;let g=G.get(x.gd);if(!g){g={gd:x.gd,all:[],cr:[]};G.set(x.gd,g);}g.all.push(x);if(x.cr)g.cr.push(x);}
+ const groups=[];
+ for(const g of G.values()){
+  if(!g.all.some(x=>inR(x)&&fx(x)))continue;
+  g.all.sort((a,b)=>(a.st||a.sp)-(b.st||b.sp));g.cr.sort((a,b)=>(a.sp||a.st)-(b.sp||b.st));
+  g.time=g.all.reduce((s,x)=>s+x.aht,0);g.crTime=g.cr.reduce((s,x)=>s+x.aht,0);
+  g.procs=[...new Set(g.all.map(x=>x.proc))];g.crProcs=[...new Set(g.cr.map(x=>x.proc))];
+  g.crR=g.cr.filter(inR);
+  g.dup=g.cr.length>1&&g.crR.length>0;
+  if(g.dup){const days=new Set(g.cr.map(x=>x.day));
+   g.gap=Math.round(((g.cr[g.cr.length-1].sp||0)-(g.cr[0].sp||0))/36e5);
+   if(g.crProcs.length===1)g.why=days.size===1?"Same processor credited it again, same day":"Same processor credited it again — first credit on "+nice(g.cr[0].day);
+   else g.why="Credited by "+g.crProcs.length+" different processors"+(days.size>1?" — first credit on "+nice(g.cr[0].day):", same day");
+   g.kind=days.size>1?"Cross-day":"Same day";
+   g.extra=g.crR.length-(inR(g.cr[0])?1:0);}
+  groups.push(g);
+ }
+ let rowsR=[];for(const r of inRep)rowsR=rowsR.concat(r.D);
+ const rowsF=rowsR.filter(fx),cred=rowsF.filter(x=>x.cr);
+ const P=new Map();
+ for(const x of rowsF){if(!x.proc)continue;let p=P.get(x.proc);if(!p){p={proc:x.proc,emp:x.emp,cr:0,gds:new Set(),dup:0,time:0};P.set(x.proc,p);}p.time+=x.aht;if(x.cr){p.cr++;if(x.gd)p.gds.add(x.gd);}}
+ for(const g of groups)if(g.dup)g.cr.slice(1).filter(inR).forEach(x=>{const p=P.get(x.proc);if(p)p.dup++;});
+ const label=from===to?nice(from):nice(from)+" → "+nice(to);
+ return{from,to,label,reps:inRep,rowsR,cred,fx,dups:groups.filter(g=>g.dup),P:[...P.values()],noGd:cred.filter(x=>!x.gd).length};
+}
+
+/* ============ RENDER ============ */
+function tbl(cols,rows,id,opt){
+ opt=opt||{};const so=S.sort[id]||{};
+ if(so.k!=null){const c=cols.find(c=>c.k===so.k);if(c)rows=rows.slice().sort((a,b)=>{const x=c.v(a),y=c.v(b);return(x>y?1:x<y?-1:0)*(so.d||1);});}
+ if(!rows.length)return'<div class="empty">'+(opt.empty||"Nothing to show")+'</div>';
+ let h='<table><thead><tr>'+cols.map(c=>'<th class="'+(c.n?"n":"")+'" data-st="'+id+'" data-k="'+c.k+'">'+c.t+(so.k===c.k?(so.d>0?" ▲":" ▼"):"")+'</th>').join("")+'</tr></thead><tbody>';
+ for(const r of rows){h+='<tr class="'+(opt.cls?opt.cls(r):"")+'" '+(opt.attr?opt.attr(r):"")+'>'+cols.map(c=>'<td class="'+(c.n?"n":"")+'">'+(c.h?c.h(r):esc(c.v(r)))+'</td>').join("")+'</tr>';if(opt.after)h+=opt.after(r)||"";}
+ return h+'</tbody></table>';
+}
+function render(){
+ $("dBtn").textContent=(S.date?nice(S.date):"No data yet")+" ▾";$("fRng").value=S.range;
+ fillFilters();
+ if(!S.date){["oProc","oDup","dupT","dtT"].forEach(i=>$(i).innerHTML='<div class="empty">No report yet.'+(can("dump")?" Click <b>Dump Data</b> or drag the Excel file onto this window.":" Ask your SME to dump the data.")+'</div>');["k1","k3","k4"].forEach(i=>$(i).textContent="0");$("pInfo").textContent="-";renderRp();return;}
+ const A=S.A=analyse();
+ const extra=A.dups.reduce((s,g)=>s+g.extra,0);
+ $("k1").textContent=A.cred.length;$("k1s").textContent=new Set(A.cred.filter(x=>x.gd).map(x=>x.gd)).size+" unique GD"+(A.noGd?" · "+A.noGd+" without GD":"");
+ $("k3").textContent=A.dups.length;$("k3s").textContent=A.dups.filter(g=>g.kind==="Cross-day").length+" cross-day · "+A.dups.filter(g=>g.kind==="Same day").length+" same day";
+ $("k4").textContent=extra;
+ $("tDup").textContent=A.dups.length?"· "+A.dups.length:"";$("aBdg").hidden=!A.dups.length;$("aBdg").textContent=A.dups.length;$("bAdmin").title="Admin · "+A.dups.length+" duplicate GD · "+A.label;
+ $("pInfo").textContent=A.label+" · "+A.reps.length+" report(s)";
+ if(!S.sort.p)S.sort.p={k:"c",d:-1};
+ $("oProc").innerHTML=tbl([{t:"Processor",k:"p",v:r=>r.proc,h:r=>'<a data-pick="'+esc(r.proc)+'">'+esc(r.proc)+'</a>'},{t:"Emp ID",k:"e",v:r=>r.emp},{t:"Credited",k:"c",n:1,v:r=>r.cr},{t:"Unique GD",k:"u",n:1,v:r=>r.gds.size},{t:"Repeat",k:"d",n:1,v:r=>r.dup,h:r=>r.dup?'<span class="tg r">'+r.dup+'</span>':'<span class="dim">0</span>'},{t:"Time",k:"t",n:1,v:r=>r.time,h:r=>fmtT(r.time)},{t:"Avg / credit",k:"a",n:1,v:r=>r.cr?r.time/r.cr:0,h:r=>r.cr?fmtT(r.time/r.cr):"-"}],A.P,"p",{empty:"No rows"});
+ $("oDup").innerHTML=tbl([{t:"GD",k:"g",v:r=>r.gd,h:r=>'<span class="gd">'+r.gd+'</span>'},{t:"×",k:"n",n:1,v:r=>r.cr.length,h:r=>'<span class="tg r">'+r.cr.length+'×</span>'},{t:"Type",k:"k",v:r=>r.kind,h:r=>'<span class="tg '+(r.kind==="Cross-day"?"r":"a")+'">'+r.kind+'</span>'},{t:"Why",k:"w",v:r=>r.why}],A.dups,"o",{empty:"No duplicate credited GD in this range 👍"});
+ renderDup();renderDt();renderRp();
+}
+function fillFilters(){
+ const rows=S.reps.flatMap(r=>r.D),wq=[...new Set(rows.map(x=>x.wq).filter(Boolean))].sort(),pr=[...new Set(rows.map(x=>x.proc).filter(Boolean))].sort();
+ $("fWq").innerHTML='<option value="">All processes</option>'+wq.map(x=>'<option'+(x===S.wq?" selected":"")+'>'+esc(x)+'</option>').join("");
+ $("fPr").innerHTML='<option value="">All employees</option>'+pr.map(x=>'<option'+(x===S.pr?" selected":"")+'>'+esc(x)+'</option>').join("");
+}
+function attemptsHtml(g){return'<div class="tl">'+g.all.map(x=>{const k=x.cr?g.cr.indexOf(x):-1;
+ const lab=x.cr?(k===0?'<span class="tg p">1st credit</span>':'<span class="tg r">Repeat credit #'+(k+1)+'</span>'):'<span class="tg d">'+esc(x.status||"Not credited")+'</span>';
+ return'<div>'+lab+'<b>'+esc(x.proc)+'</b><span class="dim">'+esc(x.emp)+'</span><span>'+nice(x.day)+'</span><span class="dim">'+fmtDT(x.st)+' → '+fmtDT(x.sp)+'</span><span>'+fmtT(x.aht)+'</span><span class="dim">'+esc(x.wq)+'</span></div>';}).join("")+'</div>';}
+const dupCols=[{t:"GD",k:"g",v:r=>r.gd,h:r=>'<span class="gd">'+r.gd+'</span>'},{t:"Credited",k:"n",n:1,v:r=>r.cr.length,h:r=>'<span class="tg r">'+r.cr.length+'×</span>'},{t:"Type",k:"k",v:r=>r.kind,h:r=>'<span class="tg '+(r.kind==="Cross-day"?"r":"a")+'">'+r.kind+'</span>'},{t:"Why duplicate",k:"w",v:r=>r.why},{t:"Credited by",k:"p",v:r=>r.cr.map(x=>x.proc).join(" → ")},{t:"Credit times",k:"d",v:r=>r.cr.map(x=>fmtDT(x.sp)).join(", ")},{t:"Gap",k:"gp",n:1,v:r=>r.gap,h:r=>r.gap>=24?Math.round(r.gap/24)+" d":r.gap+" h"},{t:"Attempts",k:"a",n:1,v:r=>r.all.length},{t:"Total time",k:"t",n:1,v:r=>r.time,h:r=>fmtT(r.time)}];
+function renderDup(){if(!S.sort.d)S.sort.d={k:"n",d:-1};$("dupT").innerHTML=tbl(dupCols,S.A.dups,"d",{cls:()=>"dupe x",attr:r=>'data-gd="'+r.gd+'"',after:r=>S.open.has(r.gd)?'<tr class="det"><td colspan="9">'+attemptsHtml(r)+'</td></tr>':"",empty:"No duplicate credited GD in this range 👍"});}
+function dtData(){const A=S.A,dupSet=new Set(A.dups.map(g=>g.gd)),out=[];
+ for(const rep of A.reps.slice().sort((a,b)=>a.day<b.day?-1:1)){const rows=rep.D.filter(x=>x.cr&&A.fx(x));if(!rows.length)continue;
+  const idx=rep.headers.map((h,j)=>isKey(h)||rows.some(x=>!isNA(rep.rows[x.ix][j]))?j:-1).filter(j=>j>=0);out.push({rep,rows,idx,dupSet});}
+ return out;}
+function renderDt(){
+ const parts=dtData();if(!parts.length){$("dtT").innerHTML='<div class="empty">No credited rows in this range</div>';return;}
+ let h="";for(const p of parts){const cols=[{t:"GD (found)",k:"gd",v:x=>x.gd,h:x=>x.gd?'<span class="gd">'+x.gd+'</span>'+(p.dupSet.has(x.gd)?' <span class="tg r">DUP</span>':""):'<span class="dim">-</span>'}].concat(p.idx.map(j=>({t:esc(p.rep.headers[j]),k:"c"+j,v:x=>p.rep.rows[x.ix][j]})));
+  h+=(parts.length>1?'<div class="lbl" style="padding:7px 10px;background:var(--th)">'+nice(p.rep.day)+' · '+esc(p.rep.meta.sup)+' · '+p.rows.length+' credited</div>':"")+tbl(cols,p.rows,"t",{cls:x=>p.dupSet.has(x.gd)?"dupe":"",empty:"No credited rows"});}
+ $("dtT").innerHTML=h;
+}
+function renderRp(){
+ const cols=[{t:"Date",k:"d",v:r=>r.day,h:r=>'<a data-date="'+r.day+'">'+nice(r.day)+'</a>'},{t:"Supervisor",k:"s",v:r=>r.meta.sup},{t:"Business area",k:"b",v:r=>r.meta.area},{t:"Shift",k:"f",v:r=>r.meta.from+" → "+r.meta.to},{t:"Rows",k:"r",n:1,v:r=>r.rows.length},{t:"Credited",k:"c",n:1,v:r=>r.D.filter(x=>x.cr).length},{t:"Dumped by",k:"by",v:r=>(r.by||"-")+" · "+(r.at?fmtDT(r.at):"")}];
+ const canDel=r=>isAdm()||(can("del")&&Date.now()-(r.at||0)<864e5);
+ cols.push({t:"Status",k:"lk",v:r=>Date.now()-(r.at||0)>864e5?1:0,h:r=>Date.now()-(r.at||0)>864e5?'<span class="tg d">🔒 Locked</span>':'<span class="tg a">Open · 1 day</span>'});
+ if(isAdm()||can("del"))cols.push({t:"",k:"x",v:()=>"",h:r=>canDel(r)?'<button class="b sm red" data-del="'+r.id+'">Delete</button>':""});
+ $("rpT").innerHTML=tbl(cols,S.reps,"r",{empty:"No reports saved yet"});
+ $("rpInfo").textContent=S.reps.length+" report(s)";
+}
+function csv(name,cols,rows){
+ const q=v=>'"'+String(v==null?"":v).replace(/"/g,'""')+'"';
+ const t=[cols.map(c=>q(c.t)).join(",")].concat(rows.map(r=>cols.map(c=>q(c.x?c.x(r):c.v(r))).join(","))).join("\r\n");
+ const a=document.createElement("a");a.href=URL.createObjectURL(new Blob(["﻿"+t],{type:"text/csv"}));a.download=name+"_"+S.date+".csv";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+ logEv("EXPORT",name+" · "+nice(S.date));
+}
+
+/* ============ CALENDAR ============ */
+let calM="";
+function drawCal(){
+ const days=new Set(S.reps.map(r=>r.day));if(!calM)calM=(S.date||ymd(new Date())).slice(0,7);
+ const[y,m]=calM.split("-").map(Number),first=new Date(y,m-1,1),n=new Date(y,m,0).getDate(),off=(first.getDay()+6)%7;
+ let h='<div class="ch"><span data-cm="-1">‹</span>'+MON[m-1]+" "+y+'<span data-cm="1">›</span></div><div class="cg">'+["Mo","Tu","We","Th","Fr","Sa","Su"].map(d=>"<i>"+d+"</i>").join("");
+ for(let i=0;i<off;i++)h+="<b></b>";
+ for(let d=1;d<=n;d++){const k=y+"-"+pad(m)+"-"+pad(d);h+='<b class="'+(days.has(k)?"has":"")+(k===S.date?" sel":"")+'" '+(days.has(k)?'data-day="'+k+'"':"")+'>'+d+'</b>';}
+ h+='</div><div class="cf">'+(days.size?"Highlighted dates have data":"No data yet")+'</div>';
+ $("cal").innerHTML=h;
+}
+
+/* ============ LOGIN ============ */
+const lerr=t=>{$("lErr").textContent=t||"";};
+async function ensureStore(adminTry){
+ if(ST.mode==="folder")return true;
+ if(ST.pending&&await pickFolder())return true;
+ if(adminTry){ST.mode="local";return true;}
+ return false;
+}
+async function failLog(u,why){S.emp=u.emp;S.name=u.name;await logEv("LOGIN FAILED",why);S.emp=S.name="";}
+async function doLogin(){
+ lerr();const id=$("lEmp").value.trim(),pw=$("lPw").value;
+ if(!id)return lerr("Enter your Employee ID.");if(!pw)return lerr("Enter your password.");
+ const adminTry=nid(id)===ADMIN_EMP||id.toLowerCase()==="aranja14";
+ if(!(await ensureStore(adminTry)))return lerr("Connect the shared folder first (button below).");
+ await loadCfg();
+ const u=findU(id);
+ if(!u)return lerr("This Employee ID is not in the list. Contact the admin.");
+ const role=nid(u.emp)===ADMIN_EMP?"admin":u.role;
+ if(role!=="admin"){
+  if(daysLeft()<0)return lerr("Tool expired on "+nice(CFG.expiry)+". Contact the admin.");
+  if(CFG.lock)return lerr(CFG.lockMsg||"The admin has locked this tool.");
+  if(!u.view)return lerr("Your access is off. Contact the admin.");
+ }
+ const h=await sha(nid(u.emp)+"|"+pw);
+ if(role==="admin"&&!u.pw&&h!==APW_H){await failLog(u,"wrong admin password");return lerr("Wrong password.");}
+ if(role==="admin"&&!u.pw){await mutCfg(c=>{const x=c.users.find(z=>z.emp===u.emp);if(x)x.pw=h;});}
+ else if(!u.pw){if(pw.length<4)return lerr("First login: choose a password of 4+ characters.");await mutCfg(c=>{const x=c.users.find(z=>z.emp===u.emp);if(x)x.pw=h;});toast("Password set. Use it next time.","ok");}
+ else if(u.pw!==h){await failLog(u,"wrong password");return lerr("Wrong password. Use 'Forgot password?' to reset.");}
+ // one ID = one PC
+ const cur=CFG.users.find(z=>z.emp===u.emp);
+ if(cur.pc&&cur.pc!==PCID){
+  if(role!=="admin"){await failLog(u,"blocked · ID is locked to another PC");return lerr("This ID is locked to another PC. Ask the admin to reset your PC.");}
+  const m=await askPw("New PC — enter your machine number");if(await sha("MACH|"+String(m||"").trim().toUpperCase())!==MACH_H){await failLog(u,"admin ID tried from another PC");return lerr("This admin ID works only on the admin PC.");}
+ }
+ if(cur.pc!==PCID){await mutCfg(c=>{const x=c.users.find(z=>z.emp===u.emp);if(x){x.pc=PCID;x.pcAt=Date.now();}});}
+ S.emp=u.emp;S.name=u.name;S.role=role;S.u=CFG.users.find(z=>z.emp===u.emp);S.seen=new Set();
+ if($("lRem").checked){lsSet("pdr_emp",id);lsSet("pdr_pw",btoa(unescape(encodeURIComponent(pw))));}else{lsSet("pdr_emp","");lsSet("pdr_pw","");}
+ await logEv("LOGIN",ROLE_NAME[role]+(ST.mode==="local"?" · this PC only":""));
+ enterApp();
+}
+async function doReset(){
+ lerr();const id=$("rEmp").value.trim(),ms=$("rMsid").value.trim().toLowerCase(),pw=$("rPw").value;
+ if(!id||!ms||!pw)return lerr("Fill Employee ID, MS ID and the new password.");
+ if(pw.length<4)return lerr("Password needs 4+ characters.");
+ if(!(await ensureStore(nid(id)===ADMIN_EMP)))return lerr("Connect the shared folder first.");
+ await loadCfg();const u=findU(id);
+ if(u&&nid(u.emp)===ADMIN_EMP)return lerr("Admin password cannot be reset from here.");
+ if(!u||u.msid.toLowerCase()!==ms)return lerr("Employee ID and MS ID do not match.");
+ const h=await sha(nid(u.emp)+"|"+pw);await mutCfg(c=>{const x=c.users.find(z=>z.emp===u.emp);if(x)x.pw=h;});
+ S.emp=u.emp;S.name=u.name;await logEv("PASSWORD RESET","by user");S.emp=S.name="";
+ toast("Password changed. Please log in.","ok");$("lEmp").value=id;$("lPw").value="";showReset(false);
+}
+function showReset(on){$("lMain").style.display=on?"none":"flex";$("lReset").hidden=!on;$("lReset").style.display=on?"flex":"none";lerr();}
+async function enterApp(){
+ $("login").hidden=true;$("app").hidden=false;
+ document.body.classList.toggle("isadm",isAdm());document.body.classList.toggle("candump",can("dump"));
+ $("wName").textContent=S.name;$("wRole").textContent=ROLE_NAME[S.role]+" · "+S.emp;
+ applyCfg();await loadReports();logView("ov");
+ if(isAdm())autoBackup();
+}
+function applyCfg(){
+ applyTheme();$("aMsg").hidden=!CFG.msg;$("aMsg").innerHTML="<span>📢 "+esc(CFG.msg||"")+"</span>";
+ if(S.emp&&!isAdm()){const u=CFG.users.find(z=>z.emp===S.emp);
+  const why=CFG.lock?(CFG.lockMsg||"The admin switched this tool off."):daysLeft()<0?"This tool expired on "+nice(CFG.expiry)+".":(!u||!u.view)?"Your access was turned off by the admin.":"";
+  if(why){$("lockM").textContent=why;$("lock").hidden=false;}else $("lock").hidden=true;
+  if(u){S.u=u;S.role=u.role;document.body.classList.toggle("candump",can("dump"));$("wRole").textContent=ROLE_NAME[S.role]+" · "+S.emp;}
+ }
+}
+function logout(){logEv("LOGOUT","");S.emp=S.name=S.role="";S.u=null;$("app").hidden=true;$("login").hidden=false;$("lock").hidden=true;$("adm").hidden=true;$("lPw").value=lsGet("pdr_pw","")?decodeURIComponent(escape(atob(lsGet("pdr_pw","")))):"";}
+function logView(v){const k=v+"|"+S.date+"|"+S.range;if(S.seen.has(k))return;S.seen.add(k);logEv("VIEW",({ov:"Overview",dup:"Duplicates",dt:"Credited Data",rp:"Reports"})[v]+" · "+(S.A?S.A.label:nice(S.date)));}
+setInterval(async()=>{if(!S.emp||ST.mode==="none")return;const b=JSON.stringify(CFG);await loadCfg();if(JSON.stringify(CFG)!==b)applyCfg();},30000);
+
+/* ============ DUMP DATA ============ */
+function openImp(){if(!can("dump"))return;S.pending=null;$("impIn").style.display="flex";$("impSum").hidden=true;$("impSave").hidden=true;$("impRead").hidden=false;$("pasteBox").value="";$("impT").textContent="Dump data";$("imp").hidden=false;}
+function showSummary(rep){
+ S.pending=rep;const D=derive(rep),cr=D.filter(x=>x.cr),gds=new Map();for(const x of cr)if(x.gd)gds.set(x.gd,(gds.get(x.gd)||0)+1);
+ const dupIn=[...gds.values()].filter(n=>n>1).length,ex=S.reps.find(r=>r.id===rep.id);
+ $("impSum").innerHTML='<div class="sumg"><span>Date</span><b>'+nice(rep.day)+'</b><span>Shift</span><span>'+esc(rep.meta.from)+' → '+esc(rep.meta.to)+'</span><span>Supervisor</span><span>'+esc(rep.meta.sup||"-")+'</span><span>Business area</span><span>'+esc(rep.meta.area||"-")+'</span><span>Rows read</span><b>'+rep.rows.length+'</b><span>Credited</span><b>'+cr.length+' ('+gds.size+' unique GD)</b><span>Duplicate inside this file</span><b style="color:'+(dupIn?"#d42f42":"inherit")+'">'+dupIn+'</b><span>N/A columns hidden</span><span>'+rep.hidden+'</span></div>'+(ex?'<div class="warn">Data for <b>'+nice(rep.day)+'</b> is already saved (dumped by '+esc(ex.by||"-")+'). Saving will ask to replace it.</div>':"");
+ $("impIn").style.display="none";$("impSum").hidden=false;$("impRead").hidden=true;$("impSave").hidden=false;$("impT").textContent="Check and save";$("imp").hidden=false;
+}
+async function readFile(f){try{showSummary(parseGrid(await readAny(f)));}catch(e){toast(e.message,"bad");}}
+function ask(title,html,yes){return new Promise(res=>{$("cfmT").textContent=title;$("cfmM").innerHTML=html;$("cfmYes").textContent=yes||"Yes";$("cfm").hidden=false;$("cfmYes").onclick=()=>{$("cfm").hidden=true;res(true);};$("cfmNo").onclick=()=>{$("cfm").hidden=true;res(false);};});}
+async function doSave(){
+ const rep=S.pending;if(!rep)return;
+ const old=S.reps.find(r=>r.id===rep.id),ex=old?await ST.read(old._p):await ST.read(rpath(rep));
+ if(ex&&!isAdm()&&Date.now()-(ex.at||0)>864e5)return toast("Data for "+nice(rep.day)+" was dumped more than 1 day ago — it is locked. Only the admin can replace it.","bad");
+ if(ex&&!(await ask("Data already there","Data for <b>"+nice(rep.day)+"</b> ("+esc(rep.meta.sup||"-")+") is already saved — dumped by <b>"+esc(ex.by||"-")+"</b>.<br><br>Do you want to <b>replace</b> it with this file?","Yes, replace")))return;
+ try{await saveReport(rep);await logEv(ex?"REPLACE DATA":"DUMP DATA",nice(rep.day)+" · "+rep.rows.length+" rows");$("imp").hidden=true;toast(ex?"Data replaced.":"Data saved.","ok");S.date=rep.day;calM="";await loadReports();}
+ catch(e){toast("Save failed: "+e.message,"bad");}
+}
+
+/* ============ ADMIN ============ */
+function showAdm(a){[...$("atabs").querySelectorAll("[data-a]")].forEach(b=>b.classList.toggle("on",b.dataset.a===a));document.querySelectorAll(".ap").forEach(x=>x.classList.toggle("on",x.id==="ap-"+a));
+ if(a==="users")renderUsers();if(a==="log")renderLog();if(a==="ctl")paintCtl();if(a==="bk")paintBk();}
+function renderUsers(){
+ const q=$("uQ").value.trim().toLowerCase();
+ const rows=CFG.users.filter(u=>!q||[u.emp,u.name,u.msid,u.mach,u.mail].join(" ").toLowerCase().includes(q));
+ const sw=(u,k)=>{const lk=u.role==="admin";return'<span class="sw '+(u[k]||lk?"on":"")+(lk?" lock":"")+'" data-us="'+esc(u.emp)+'" data-uk="'+k+'"></span>';};
+ const cols=[{t:"Emp ID",k:"e",v:u=>u.emp},
+  {t:"Name",k:"n",v:u=>u.name,h:u=>'<b>'+esc(u.name)+'</b>'},
+  {t:"MS ID",k:"m",v:u=>u.msid},
+  {t:"Role",k:"r",v:u=>u.role,h:u=>'<select class="mini" data-ur="'+esc(u.emp)+'"'+(nid(u.emp)===ADMIN_EMP?" disabled":"")+'>'+Object.keys(ROLE_NAME).map(r=>'<option value="'+r+'"'+(u.role===r?" selected":"")+'>'+ROLE_NAME[r]+'</option>').join("")+'</select>'},
+  {t:"View",k:"v",v:u=>u.view?1:0,h:u=>sw(u,"view")},
+  {t:"Dump",k:"du",v:u=>u.dump?1:0,h:u=>sw(u,"dump")},
+  {t:"Delete",k:"de",v:u=>u.del?1:0,h:u=>sw(u,"del")},
+  {t:"Password",k:"pw",v:u=>u.pw?1:0,h:u=>nid(u.emp)===ADMIN_EMP?'<span class="tg p">admin</span>':u.pw?'<span class="tg g">set</span> <button class="b sm" data-upw="'+esc(u.emp)+'">Reset</button>':'<span class="tg d">first login</span>'},
+  {t:"PC lock",k:"pc",v:u=>u.pc?1:0,h:u=>u.pc?'<span class="tg g" title="Locked '+fmtDT(u.pcAt)+'">🔒 '+esc(u.pc.slice(0,6))+'</span>'+(nid(u.emp)===ADMIN_EMP?"":' <button class="b sm" data-upc="'+esc(u.emp)+'">Free</button>'):'<span class="tg d">not yet</span>'},
+  {t:"Machine",k:"ma",v:u=>u.mach},
+  {t:"Outlook mail",k:"ml",v:u=>u.mail},
+  {t:"OPID",k:"o",v:u=>u.opid},
+  {t:"Process",k:"p",v:u=>u.proc},
+  {t:"",k:"x",v:()=>"",h:u=>nid(u.emp)===ADMIN_EMP?"":'<button class="b sm red" data-urm="'+esc(u.emp)+'">✕</button>'}];
+ $("uT").innerHTML=tbl(cols,rows,"u",{empty:"No users"});
+}
+let LOGS=[];
+async function renderLog(fetch){
+ if(fetch!==false){const names=(await ST.list("Log")).reverse();const keep=names.slice(0,600);LOGS=[];for(const n of keep){const e=await ST.read("Log/"+n);if(e)LOGS.push(e);}
+  if(names.length>800)for(const n of names.slice(700))try{await ST.remove("Log/"+n);}catch(e){}}
+ const q=$("lgQ").value.trim().toLowerCase(),rows=LOGS.filter(e=>!q||[e.name,e.emp,e.act,e.res].join(" ").toLowerCase().includes(q));
+ $("lgInfo").textContent=rows.length+" entries (latest 600)";
+ if(!S.sort.l)S.sort.l={k:"t",d:-1};
+ $("lgT").innerHTML=tbl([{t:"When",k:"t",v:e=>e.t,h:e=>fmtDT(e.t)},{t:"Name",k:"n",v:e=>e.name},{t:"Emp ID",k:"e",v:e=>e.emp},{t:"Action",k:"a",v:e=>e.act,h:e=>'<span class="tg '+(/FAIL|DELETE/.test(e.act)?"r":/DUMP|REPLACE|RESTORE/.test(e.act)?"a":/VIEW|EXPORT/.test(e.act)?"d":"p")+'">'+esc(e.act)+'</span>'},{t:"Detail",k:"d",v:e=>e.res}],rows,"l",{empty:"No activity yet"});
+}
+function paintCtl(){$("cLock").classList.toggle("on",!!CFG.lock);$("cNewView").classList.toggle("on",CFG.newView!==false);$("cLockMsg").value=CFG.lockMsg||"";$("cMsg").value=CFG.msg||"";$("cExp").value=CFG.expiry;
+ $("cInfo").textContent=ST.mode==="folder"?"Data folder: "+ST.name+" / "+DATA_DIR+" · all files are locked (not readable outside the tool)":"No shared folder — data is on this PC only";paintExpiry();}
+async function paintBk(){const n=await ST.list("Backup");$("bkList").innerHTML=n.length?n.slice().reverse().map(x=>"• "+esc(x.replace(".json",""))).join("<br>"):"No auto backup yet";}
+async function buildBackup(month){const reps=[];for(const n of await ST.list("Reports",true)){if(month&&!n.startsWith(month+"/"))continue;const r=await ST.read("Reports/"+n);if(r)reps.push(r);}
+ const logs=[];for(const n of (await ST.list("Log")).slice(-600)){const e=await ST.read("Log/"+n);if(e)logs.push(e);}
+ return{tool:"Phycon_Dynamic_Report",ver:VERSION,at:Date.now(),cfg:CFG,reps,logs};}
+async function autoBackup(){if(ST.mode!=="folder")return;try{const today=ymd(new Date());if(lsGet("pdr_bk","")===today)return;
+ const months=[...new Set(S.reps.map(r=>r.day.slice(0,7)))];for(const m of months)await ST.write("Backup/backup_"+m+".json",await buildBackup(m));lsSet("pdr_bk",today);}catch(e){}}
+function askPw(title){return new Promise(res=>{$("pwqT").textContent=title;$("pwqIn").value="";$("pwq").hidden=false;setTimeout(()=>$("pwqIn").focus(),50);$("pwqOk").onclick=()=>{$("pwq").hidden=true;res($("pwqIn").value);};$("pwqIn").onkeydown=e=>{if(e.key==="Enter")$("pwqOk").click();};});}
+
+/* ============ EVENTS ============ */
+document.addEventListener("click",async ev=>{
+ if(!ev.target.closest("#cal,#dBtn"))$("cal").hidden=true;
+ if(!ev.target.closest("#thPop,#bTheme"))$("thPop").hidden=true;
+ const t=ev.target.closest("[data-close],[data-st],[data-gd],[data-pick],[data-go],[data-del],[data-day],[data-cm],[data-date],[data-us],[data-upw],[data-upc],[data-urm],[data-a],[data-add],#thPop [data-th],#tabs [data-v]");if(!t)return;
+ const d=t.dataset;
+ if(d.close){$(d.close).hidden=true;return;}
+ if(d.st){const so=S.sort[d.st]||{};S.sort[d.st]={k:d.k,d:so.k===d.k?-(so.d||1):-1};if(d.st==="u")renderUsers();else if(d.st==="l")renderLog(false);else render();return;}
+ if(d.pick!=null){S.pr=d.pick;render();toast("Employee: "+d.pick);return;}
+ if(d.gd&&t.tagName==="TR"){S.open.has(d.gd)?S.open.delete(d.gd):S.open.add(d.gd);renderDup();return;}
+ if(d.go){showView(d.go);return;}
+ if(d.cm){const[y,m]=calM.split("-").map(Number),x=new Date(y,m-1+ +d.cm,1);calM=x.getFullYear()+"-"+pad(x.getMonth()+1);drawCal();return;}
+ if(d.day||d.date){S.date=d.day||d.date;$("cal").hidden=true;S.open.clear();render();logView(S.view);return;}
+ if(d.del){const r=S.reps.find(x=>x.id===d.del);if(!(isAdm()||(can("del")&&Date.now()-(r.at||0)<864e5)))return toast("Locked. Only the admin can delete data older than 1 day.","bad");if(!(await ask("Delete data","Delete data for <b>"+nice(r.day)+"</b> ("+esc(r.meta.sup)+")? This cannot be undone (backup still has it).","Yes, delete")))return;await ST.remove(r._p);await logEv("DELETE DATA",nice(r.day)+" · "+r.meta.sup);toast("Deleted.","ok");await loadReports();return;}
+ if(d.th&&t.closest("#thPop")){await mutCfg(c=>{c.theme=d.th;});$("thPop").hidden=true;logEv("THEME",d.th);return;}
+ if(d.v&&t.closest("#tabs")){showView(d.v);return;}
+ if(d.a){showAdm(d.a);return;}
+ if(d.us){await mutCfg(c=>{const u=c.users.find(z=>z.emp===d.us);if(u)u[d.uk]=!u[d.uk];});const u=CFG.users.find(z=>z.emp===d.us);logEv("ACCESS",u.name+" · "+d.uk+" "+(u[d.uk]?"ON":"OFF"));renderUsers();return;}
+ if(d.upw){await mutCfg(c=>{const u=c.users.find(z=>z.emp===d.upw);if(u)u.pw="";});logEv("PASSWORD RESET","by admin · "+d.upw);toast("Password cleared. The user sets a new one at next login.","ok");renderUsers();return;}
+ if(d.upc){await mutCfg(c=>{const u=c.users.find(z=>z.emp===d.upc);if(u){u.pc="";u.pcAt=0;}});logEv("PC RESET",d.upc);toast("PC lock removed. The next PC this user logs in from gets locked.","ok");renderUsers();return;}
+ if(d.urm){const u=CFG.users.find(z=>z.emp===d.urm);if(!(await ask("Remove user","Remove <b>"+esc(u.name)+"</b> ("+esc(u.emp)+") from the tool?","Yes, remove")))return;await mutCfg(c=>{c.users=c.users.filter(z=>z.emp!==d.urm);});logEv("USER REMOVED",u.name);renderUsers();return;}
+ if(d.add){await mutCfg(c=>{const b=new Date(Math.max(new Date(c.expiry+"T00:00:00"),new Date()));b.setDate(b.getDate()+ +d.add);c.expiry=ymd(b);});logEv("EXPIRY",CFG.expiry);paintCtl();return;}
+});
+document.addEventListener("change",async ev=>{const t=ev.target;if(t.dataset.ur){const r=t.value;await mutCfg(c=>{const u=c.users.find(z=>z.emp===t.dataset.ur);if(u){u.role=r;u.dump=r!=="employee";if(r==="admin")u.del=true;}});logEv("ROLE",t.dataset.ur+" → "+ROLE_NAME[r]);renderUsers();}});
+function showView(v){S.view=v;[...$("tabs").querySelectorAll("[data-v]")].forEach(b=>b.classList.toggle("on",b.dataset.v===v));document.querySelectorAll(".view").forEach(x=>x.classList.toggle("on",x.id==="v-"+v));logView(v);}
+$("lGo").onclick=doLogin;$("rGo").onclick=doReset;
+$("lEmp").onkeydown=$("lPw").onkeydown=e=>{if(e.key==="Enter")doLogin();};
+$("lForgot").onclick=()=>{$("rEmp").value=$("lEmp").value;showReset(true);};$("rBack").onclick=()=>showReset(false);
+$("lFolder").onclick=pickFolder;
+$("bOut").onclick=logout;$("lockOut").onclick=logout;
+$("dBtn").onclick=()=>{calM="";drawCal();$("cal").hidden=!$("cal").hidden;};
+$("bTheme").onclick=()=>{$("thPop").hidden=!$("thPop").hidden;};
+$("bAdmin").onclick=async()=>{await loadCfg();$("adm").hidden=false;showAdm("users");};
+$("bDump").onclick=openImp;
+$("fWq").onchange=()=>{S.wq=$("fWq").value;render();logEv("FILTER","Process: "+(S.wq||"All"));};$("fPr").onchange=()=>{S.pr=$("fPr").value;render();};$("fRng").onchange=()=>{S.range=$("fRng").value;lsSet("pdr_rng",S.range);S.open.clear();render();logView(S.view);};
+$("fileIn").onchange=()=>{const f=$("fileIn").files[0];$("fileIn").value="";if(f)readFile(f);};
+$("drop").onclick=()=>$("fileIn").click();
+$("impRead").onclick=()=>{const t=$("pasteBox").value;if(!t.trim())return toast("Paste the sheet, or drop the file.","bad");try{showSummary(parseGrid(readCsv(t,"\t")));}catch(e){toast(e.message,"bad");}};
+$("impSave").onclick=doSave;
+// drag & drop anywhere
+let dc=0;
+window.addEventListener("dragenter",e=>{if(!S.emp||!can("dump")||!e.dataTransfer.types.includes("Files"))return;dc++;$("dropAll").hidden=false;});
+window.addEventListener("dragleave",()=>{if(--dc<=0){dc=0;$("dropAll").hidden=true;}});
+window.addEventListener("dragover",e=>e.preventDefault());
+window.addEventListener("drop",e=>{e.preventDefault();dc=0;$("dropAll").hidden=true;if(!S.emp||!can("dump"))return;const f=e.dataTransfer.files[0];if(f)readFile(f);});
+$("xDup").onclick=()=>csv("Phycon_Duplicate_GD",dupCols.map(c=>({...c,x:c.k==="t"?r=>fmtT(r.time):c.k==="gp"?r=>r.gap+" h":null})),S.A.dups);
+$("xDt").onclick=()=>{const ps=dtData();if(!ps.length)return;const hs=[...new Set(ps.flatMap(p=>p.idx.map(j=>p.rep.headers[j])))];const rows=ps.flatMap(p=>p.rows.map(x=>({x,p})));csv("Phycon_Credited",[{t:"Date",v:o=>nice(o.p.rep.day)},{t:"GD",v:o=>o.x.gd}].concat(hs.map(h=>({t:h,v:o=>{const j=o.p.rep.headers.indexOf(h);return j<0?"":o.p.rep.rows[o.x.ix][j];}}))),rows);};
+// admin controls
+$("uQ").oninput=renderUsers;$("lgQ").oninput=()=>renderLog(false);$("lgRef").onclick=()=>renderLog();
+$("lgCsv").onclick=()=>csv("Phycon_Activity_Log",[{t:"When",v:e=>fmtDT(e.t)},{t:"Name",v:e=>e.name},{t:"Emp ID",v:e=>e.emp},{t:"Action",v:e=>e.act},{t:"Detail",v:e=>e.res}],LOGS);
+$("uAdd").onclick=async()=>{const emp=$("uEmp").value.trim(),name=$("uName").value.trim();if(!emp||!name)return toast("Emp ID and Name are needed.","bad");
+ const role=$("uRole").value;
+ await mutCfg(c=>{const ex=c.users.find(z=>nid(z.emp)===nid(emp));const o=ex||mkUser([emp,name,"","","","",""],role);
+  o.name=name;o.msid=$("uMsid").value.trim()||o.msid;o.mach=$("uMach").value.trim()||o.mach;o.mail=$("uMail").value.trim()||o.mail;o.role=role;o.dump=role!=="employee";o.del=role==="admin";if(!ex){o.view=role!=="employee"||c.newView!==false;c.users.push(o);}});
+ logEv("USER ADDED",name+" · "+ROLE_NAME[role]);["uEmp","uName","uMsid","uMach","uMail"].forEach(i=>$(i).value="");renderUsers();toast("Saved.","ok");};
+$("cLock").onclick=async()=>{await mutCfg(c=>{c.lock=!c.lock;});logEv(CFG.lock?"LOCK ALL":"UNLOCK ALL","");paintCtl();};
+$("cNewView").onclick=async()=>{await mutCfg(c=>{c.newView=c.newView===false;});paintCtl();};
+$("cLockMsg").onchange=async()=>{const v=$("cLockMsg").value.trim();await mutCfg(c=>{c.lockMsg=v;});};
+$("cExpSet").onclick=async()=>{const v=$("cExp").value;if(!v)return;await mutCfg(c=>{c.expiry=v;});logEv("EXPIRY",v);paintCtl();toast("Expiry: "+nice(v),"ok");};
+$("cExpDef").onclick=async()=>{await mutCfg(c=>{c.expiry=HARD_EXPIRY;});paintCtl();};
+$("cMsgSet").onclick=async()=>{const v=$("cMsg").value.trim();await mutCfg(c=>{c.msg=v;});logEv("MESSAGE",v||"(cleared)");applyCfg();toast(v?"Message sent.":"Message cleared.","ok");};
+$("cPwSet").onclick=async()=>{const p=$("cPw").value;if(p.length<4)return toast("Use 4+ characters.","bad");const h=await sha(ADMIN_EMP+"|"+p);await mutCfg(c=>{const u=c.users.find(z=>nid(z.emp)===ADMIN_EMP);if(u)u.pw=h;});$("cPw").value="";logEv("ADMIN PASSWORD","changed");toast("Admin password changed.","ok");};
+$("bkDown").onclick=async()=>{const p=await askPw("Backup password");if(p!==BK_PASS)return toast("Wrong backup password.","bad");
+ const t=await lockText(JSON.stringify(await buildBackup()),BK_PASS);const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([t],{type:"application/octet-stream"}));a.download="Phycon_Backup_"+ymd(new Date())+".pdrbak";a.click();logEv("BACKUP","downloaded");toast("Backup downloaded.","ok");};
+$("bkUp").onclick=()=>$("bkFile").click();
+$("bkFile").onchange=async()=>{const f=$("bkFile").files[0];$("bkFile").value="";if(!f)return;const p=await askPw("Backup password");let o;
+ try{o=JSON.parse(await openText(await f.text(),p));}catch(e){return toast("Wrong password or not a backup file.","bad");}
+ if(!(await ask("Restore backup","Restore <b>"+o.reps.length+"</b> report(s) and the user list from "+fmtDT(o.at)+"?","Yes, restore")))return;
+ for(const r of o.reps)await ST.write(rpath(r),r);CFG={...CFG_DEF(),...o.cfg};await saveCfg();await logEv("RESTORE",o.reps.length+" report(s)");toast("Backup restored.","ok");await loadReports();renderUsers();};
+
+/* ============ START ============ */
+(async()=>{
+ $("lEmp").value=lsGet("pdr_emp","");try{const p=lsGet("pdr_pw","");if(p)$("lPw").value=decodeURIComponent(escape(atob(p)));}catch(e){}
+ showReset(false);await restoreFolder();if(ST.mode==="folder")await loadCfg();applyTheme();paintExpiry();
+})();
+</script>
+</body>
+</html>
