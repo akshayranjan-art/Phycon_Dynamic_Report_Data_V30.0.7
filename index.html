@@ -200,7 +200,7 @@ body.candump .only-dump{display:inline-flex!important}
   </div>
   <div id="lReset" hidden style="display:flex;flex-direction:column;gap:9px">
    <input class="in" id="rEmp" placeholder="Employee ID">
-   <input class="in" id="rMsid" placeholder="MS ID">
+   <input class="in" id="rMsid" placeholder="MS ID (admin: recovery code)">
    <input class="in" id="rPw" type="password" placeholder="New password (4+ characters)">
    <div class="lrow"><a id="rBack">← Back to login</a><span></span></div>
    <button class="b on" id="rGo">Reset password</button>
@@ -307,6 +307,8 @@ body.candump .only-dump{display:inline-flex!important}
   </div>
   <div class="pn"><span class="lbl">Message to everyone</span>
    <div class="ctl"><input class="in" id="cMsg" style="flex:1" placeholder="Banner text (empty = hide)"><button class="b sm" id="cMsgSet">Send</button></div>
+   <span class="lbl">Admin recovery codes · <span id="cRecN"></span></span>
+   <div class="ctl"><span class="dim">10 one-time codes to reset the admin password</span><button class="b sm on" id="cRecGen">Generate &amp; email</button></div>
    <span class="lbl">Admin password</span>
    <div class="ctl"><input class="in" type="password" id="cPw" style="flex:1" placeholder="New admin password"><button class="b sm" id="cPwSet">Change</button></div>
   </div>
@@ -376,17 +378,37 @@ const ST={mode:"none",root:null,name:"",pending:null,
  async remove(p){if(this.mode==="folder"){const[a,b]=this.split(p);const d=await this.dir(a,false);await d.removeEntry(b);return;}
   if(this.mode==="local")await idb("readwrite",s=>s.delete("f:"+p));}
 };
-async function useFolder(h){ST.root=await h.getDirectoryHandle(DATA_DIR,{create:true});ST.mode="folder";ST.name=h.name;ST.pending=null;try{await idb("readwrite",s=>s.put(h,"dir"));}catch(e){}paintFolder();}
+// The folder you connect IS the data folder. Nothing new is created inside it.
+async function hasCfg(d){try{await d.getFileHandle("config.json");return true;}catch(e){return false;}}
+async function findRoot(h){
+ if(await hasCfg(h))return h;                                   // connected straight to the data folder
+ try{const sub=await h.getDirectoryHandle(DATA_DIR);if(await hasCfg(sub))return sub;}catch(e){}   // older layout
+ return null;
+}
+async function useFolder(h,setup){
+ let root=await findRoot(h);
+ if(!root){if(!setup)throw new Error("WRONG");root=h;}
+ ST.root=root;ST.mode="folder";ST.name=root.name;ST.pending=null;
+ const c=await ST.read("config.json");
+ if(!c&&!setup){ST.mode="none";ST.root=null;throw new Error("WRONG");}
+ try{await idb("readwrite",s=>s.put(root,"dir"));}catch(e){}paintFolder();
+}
 async function pickFolder(){
  if(ST.pending){try{if((await ST.pending.requestPermission({mode:"readwrite"}))==="granted"){await useFolder(ST.pending);await loadCfg();return true;}}catch(e){}}
  if(!window.showDirectoryPicker){toast("Use Chrome or Edge to open the shared folder.","bad");return false;}
- try{const h=await window.showDirectoryPicker({id:"phycon-dr",mode:"readwrite"});await useFolder(h);await loadCfg();toast("Shared folder connected: "+h.name,"ok");return true;}
- catch(e){if(e&&e.name!=="AbortError")toast("Could not open folder: "+e.message,"bad");return false;}
+ let h;try{h=await window.showDirectoryPicker({id:"phycon-dr",mode:"readwrite"});}catch(e){if(e&&e.name!=="AbortError")toast("Could not open folder: "+e.message,"bad");return false;}
+ try{await useFolder(h);await loadCfg();toast("Shared folder connected.","ok");return true;}
+ catch(e){
+  if(e.message!=="WRONG"){toast("Could not open folder: "+e.message,"bad");return false;}
+  const p=await askPw("Not the Phycon data folder. Admin: enter the admin key to make THIS folder the data folder");
+  if(p!==BK_PASS){toast("Wrong folder. Ask the admin which folder to connect.","bad");return false;}
+  await useFolder(h,true);await loadCfg();toast("This folder is now the Phycon data folder.","ok");return true;
+ }
 }
-async function restoreFolder(){try{const h=await idb("readonly",s=>s.get("dir"));if(h){if((await h.queryPermission({mode:"readwrite"}))==="granted")await useFolder(h);else{ST.pending=h;ST.name=h.name;}}}catch(e){}paintFolder();}
+async function restoreFolder(){try{const h=await idb("readonly",s=>s.get("dir"));if(h){if((await h.queryPermission({mode:"readwrite"}))==="granted"){try{await useFolder(h);}catch(e){}}else{ST.pending=h;ST.name=h.name;}}}catch(e){}paintFolder();}
 function paintFolder(){const on=ST.mode==="folder";$("lDot").className="dot "+(on?"g":ST.pending?"a":"r");
- $("lFold").textContent=on?"Shared folder: "+ST.name:ST.pending?"Folder needs 1 click: "+ST.name:"Shared folder not connected";
- $("lFolder").textContent=on?"Change shared folder":ST.pending?"Allow folder (1 click)":"Connect shared folder";}
+ $("lFold").textContent=on?"Shared folder connected":ST.pending?"Shared folder needs 1 click — press Login":"Shared folder not connected";
+ $("lFolder").textContent=on?"Change shared folder":"Connect shared folder";$("lFolder").hidden=ST.mode==="folder"||!!ST.pending;}
 
 /* ============ CONFIG / USERS / LOG ============ */
 const SEED=[
@@ -419,7 +441,7 @@ const SEED=[
 ["0001252723","Sandeep Ramakrishnareddy","Automation","","LHTU05CG2122TDH","sandeep.ramakrishnareddy@optum.com","BSAR/UHN Bulk Load"]];
 const ROLE_NAME={admin:"Admin",manager:"Manager",sme:"SME",employee:"Employee"};
 const mkUser=(r,role)=>{role=role||"employee";return{emp:r[0],name:r[1],msid:r[2],opid:r[3]||"",mach:r[4]||"",mail:r[5]||"",proc:r[6]||"",loc:"BLR",role,view:true,dump:role!=="employee",del:role==="admin",pw:role==="admin"&&nid(r[0])===ADMIN_EMP?APW_H:"",pc:""};};
-const CFG_DEF=()=>({theme:"crystal",expiry:HARD_EXPIRY,lock:false,lockMsg:"",msg:"",newView:true,users:SEED.map(r=>mkUser(r,r[7])),adminPw:"",apwFixed:true});
+const CFG_DEF=()=>({theme:"crystal",expiry:HARD_EXPIRY,lock:false,lockMsg:"",msg:"",newView:true,users:SEED.map(r=>mkUser(r,r[7])),adminPw:"",apwFixed:true,rec:[]});
 let CFG=CFG_DEF();
 async function loadCfg(){const c=await ST.read("config.json");if(c){CFG={...CFG_DEF(),...c};let ch=false;if(!Array.isArray(c.users)||!c.users.some(u=>u&&u.emp)){CFG.users=CFG_DEF().users;ch=true;}
   if(!CFG.apwFixed){const a=CFG.users.find(u=>nid(u.emp)===ADMIN_EMP);if(a)a.pw=APW_H;CFG.apwFixed=true;ch=true;}if(ch)await ST.write("config.json",CFG);}else{CFG=CFG_DEF();if(ST.mode!=="none")await ST.write("config.json",CFG);}applyTheme();paintExpiry();return CFG;}
@@ -690,7 +712,7 @@ const lerr=t=>{$("lErr").textContent=t||"";};
 async function ensureStore(adminTry){
  if(ST.mode==="folder")return true;
  if(ST.pending&&await pickFolder())return true;
- if(adminTry){ST.mode="local";return true;}
+ if(adminTry){if(ST.mode==="local")return true;const p=await askPw("No shared folder — admin offline key");if(p===BK_PASS){ST.mode="local";paintFolder();return true;}lerr("Wrong key.");return false;}
  return false;
 }
 async function failLog(u,why){S.emp=u.emp;S.name=u.name;await logEv("LOGIN FAILED",why);S.emp=S.name="";}
@@ -698,7 +720,7 @@ async function doLogin(){
  lerr();const id=$("lEmp").value.trim(),pw=$("lPw").value;
  if(!id)return lerr("Enter your Employee ID.");if(!pw)return lerr("Enter your password.");
  const adminTry=nid(id)===ADMIN_EMP||id.toLowerCase()==="aranja14";
- if(!(await ensureStore(adminTry)))return lerr("Connect the shared folder first (button below).");
+ if(!(await ensureStore(adminTry)))return $("lErr").textContent||lerr("Connect the shared folder first (button below).");
  await loadCfg();
  const u=findU(id);
  if(!u)return lerr("This Employee ID is not in the list. Contact the admin.");
@@ -721,7 +743,7 @@ async function doLogin(){
  }
  if(cur.pc!==PCID){await mutCfg(c=>{const x=c.users.find(z=>z.emp===u.emp);if(x){x.pc=PCID;x.pcAt=Date.now();}});}
  S.emp=u.emp;S.name=u.name;S.role=role;S.u=CFG.users.find(z=>z.emp===u.emp);S.seen=new Set();
- if($("lRem").checked){lsSet("pdr_emp",id);lsSet("pdr_pw",btoa(unescape(encodeURIComponent(pw))));}else{lsSet("pdr_emp","");lsSet("pdr_pw","");}
+ if($("lRem").checked){lsSet("pdr_auto","1");lsSet("pdr_emp",id);lsSet("pdr_pw",btoa(unescape(encodeURIComponent(pw))));}else{lsSet("pdr_auto","0");lsSet("pdr_emp","");lsSet("pdr_pw","");}
  await logEv("LOGIN",ROLE_NAME[role]+(ST.mode==="local"?" · this PC only":""));
  enterApp();
 }
@@ -731,7 +753,13 @@ async function doReset(){
  if(pw.length<4)return lerr("Password needs 4+ characters.");
  if(!(await ensureStore(nid(id)===ADMIN_EMP)))return lerr("Connect the shared folder first.");
  await loadCfg();const u=findU(id);
- if(u&&nid(u.emp)===ADMIN_EMP)return lerr("Admin password cannot be reset from here.");
+ if(u&&nid(u.emp)===ADMIN_EMP){
+  const ch=await sha("REC|"+ms.toUpperCase().replace(/[^A-Z0-9]/g,""));const rec=CFG.rec||[];
+  if(!rec.includes(ch)){S.emp=u.emp;S.name=u.name;await logEv("ADMIN RESET FAILED","bad recovery code");S.emp=S.name="";return lerr("Wrong or used recovery code.");}
+  if(u.pc&&u.pc!==PCID){const m=await askPw("Enter your machine number");if(await sha("MACH|"+String(m||"").trim().toUpperCase())!==MACH_H)return lerr("Admin reset works only on the admin PC.");}
+  const h=await sha(ADMIN_EMP+"|"+pw);await mutCfg(c=>{c.rec=(c.rec||[]).filter(x=>x!==ch);const x=c.users.find(z=>nid(z.emp)===ADMIN_EMP);if(x){x.pw=h;x.pc=PCID;}});
+  S.emp=u.emp;S.name=u.name;await logEv("ADMIN PASSWORD RESET","recovery code used · "+(CFG.rec||[]).length+" left");S.emp=S.name="";
+  toast("Admin password changed. "+(CFG.rec||[]).length+" recovery codes left.","ok");$("lEmp").value=id;$("lPw").value="";showReset(false);return;}
  if(!u||u.msid.toLowerCase()!==ms)return lerr("Employee ID and MS ID do not match.");
  const h=await sha(nid(u.emp)+"|"+pw);await mutCfg(c=>{const x=c.users.find(z=>z.emp===u.emp);if(x)x.pw=h;});
  S.emp=u.emp;S.name=u.name;await logEv("PASSWORD RESET","by user");S.emp=S.name="";
@@ -753,7 +781,7 @@ function applyCfg(){
   if(u){S.u=u;S.role=u.role;document.body.classList.toggle("candump",can("dump"));$("wRole").textContent=ROLE_NAME[S.role]+" · "+S.emp;}
  }
 }
-function logout(){logEv("LOGOUT","");S.emp=S.name=S.role="";S.u=null;$("app").hidden=true;$("login").hidden=false;$("lock").hidden=true;$("adm").hidden=true;$("lPw").value=lsGet("pdr_pw","")?decodeURIComponent(escape(atob(lsGet("pdr_pw","")))):"";}
+function logout(){lsSet("pdr_auto","0");logEv("LOGOUT","");S.emp=S.name=S.role="";S.u=null;$("app").hidden=true;$("login").hidden=false;$("lock").hidden=true;$("adm").hidden=true;$("lPw").value=lsGet("pdr_pw","")?decodeURIComponent(escape(atob(lsGet("pdr_pw","")))):"";}
 function logView(v){const k=v+"|"+S.date+"|"+S.range;if(S.seen.has(k))return;S.seen.add(k);logEv("VIEW",({ov:"Overview",dup:"Duplicates",dt:"Credited Data",rp:"Reports"})[v]+" · "+(S.A?S.A.label:nice(S.date)));}
 setInterval(async()=>{if(!S.emp||ST.mode==="none")return;const b=JSON.stringify(CFG);await loadCfg();if(JSON.stringify(CFG)!==b)applyCfg();},30000);
 
@@ -766,7 +794,7 @@ function showSummary(rep){
  $("impIn").style.display="none";$("impSum").hidden=false;$("impRead").hidden=true;$("impSave").hidden=false;$("impT").textContent="Check and save";$("imp").hidden=false;
 }
 async function readFile(f){try{showSummary(parseGrid(await readAny(f)));}catch(e){toast(e.message,"bad");}}
-function ask(title,html,yes){return new Promise(res=>{$("cfmT").textContent=title;$("cfmM").innerHTML=html;$("cfmYes").textContent=yes||"Yes";$("cfm").hidden=false;$("cfmYes").onclick=()=>{$("cfm").hidden=true;res(true);};$("cfmNo").onclick=()=>{$("cfm").hidden=true;res(false);};});}
+function ask(title,html,yes){return new Promise(res=>{$("cfmT").textContent=title;$("cfmM").innerHTML=html;$("cfmYes").textContent=yes||"Yes";$("cfmNo").textContent="No";$("cfm").hidden=false;$("cfmYes").onclick=()=>{$("cfm").hidden=true;res(true);};$("cfmNo").onclick=()=>{$("cfm").hidden=true;res(false);};});}
 async function doSave(){
  const rep=S.pending;if(!rep)return;
  const old=S.reps.find(r=>r.id===rep.id),ex=old?await ST.read(old._p):await ST.read(rpath(rep));
@@ -808,8 +836,8 @@ async function renderLog(fetch){
  if(!S.sort.l)S.sort.l={k:"t",d:-1};
  $("lgT").innerHTML=tbl([{t:"When",k:"t",v:e=>e.t,h:e=>fmtDT(e.t)},{t:"Name",k:"n",v:e=>e.name},{t:"Emp ID",k:"e",v:e=>e.emp},{t:"Action",k:"a",v:e=>e.act,h:e=>'<span class="tg '+(/FAIL|DELETE/.test(e.act)?"r":/DUMP|REPLACE|RESTORE/.test(e.act)?"a":/VIEW|EXPORT/.test(e.act)?"d":"p")+'">'+esc(e.act)+'</span>'},{t:"Detail",k:"d",v:e=>e.res}],rows,"l",{empty:"No activity yet"});
 }
-function paintCtl(){$("cLock").classList.toggle("on",!!CFG.lock);$("cNewView").classList.toggle("on",CFG.newView!==false);$("cLockMsg").value=CFG.lockMsg||"";$("cMsg").value=CFG.msg||"";$("cExp").value=CFG.expiry;
- $("cInfo").textContent=ST.mode==="folder"?"Data folder: "+ST.name+" / "+DATA_DIR+" · all files are locked (not readable outside the tool)":"No shared folder — data is on this PC only";paintExpiry();}
+function paintCtl(){$("cRecN").textContent=(CFG.rec||[]).length+" left";$("cLock").classList.toggle("on",!!CFG.lock);$("cNewView").classList.toggle("on",CFG.newView!==false);$("cLockMsg").value=CFG.lockMsg||"";$("cMsg").value=CFG.msg||"";$("cExp").value=CFG.expiry;
+ $("cInfo").textContent=ST.mode==="folder"?"Data folder: "+ST.name+" · all files are locked (not readable outside the tool)":"No shared folder — data is on this PC only";paintExpiry();}
 async function paintBk(){const n=await ST.list("Backup");$("bkList").innerHTML=n.length?n.slice().reverse().map(x=>"• "+esc(x.replace(".json",""))).join("<br>"):"No auto backup yet";}
 async function buildBackup(month){const reps=[];for(const n of await ST.list("Reports",true)){if(month&&!n.startsWith(month+"/"))continue;const r=await ST.read("Reports/"+n);if(r)reps.push(r);}
  const logs=[];for(const n of (await ST.list("Log")).slice(-600)){const e=await ST.read("Log/"+n);if(e)logs.push(e);}
@@ -879,6 +907,18 @@ $("cLockMsg").onchange=async()=>{const v=$("cLockMsg").value.trim();await mutCfg
 $("cExpSet").onclick=async()=>{const v=$("cExp").value;if(!v)return;await mutCfg(c=>{c.expiry=v;});logEv("EXPIRY",v);paintCtl();toast("Expiry: "+nice(v),"ok");};
 $("cExpDef").onclick=async()=>{await mutCfg(c=>{c.expiry=HARD_EXPIRY;});paintCtl();};
 $("cMsgSet").onclick=async()=>{const v=$("cMsg").value.trim();await mutCfg(c=>{c.msg=v;});logEv("MESSAGE",v||"(cleared)");applyCfg();toast(v?"Message sent.":"Message cleared.","ok");};
+$("cRecGen").onclick=async()=>{
+ if((CFG.rec||[]).length&&!(await ask("New recovery codes","Old codes stop working. Make 10 new codes?","Yes, generate")))return;
+ const A="ABCDEFGHJKLMNPQRSTUVWXYZ23456789",codes=[];
+ for(let i=0;i<10;i++){const r=crypto.getRandomValues(new Uint8Array(12));let s="";for(let k=0;k<12;k++)s+=A[r[k]%A.length];codes.push(s.slice(0,4)+"-"+s.slice(4,8)+"-"+s.slice(8));}
+ const hs=[];for(const c of codes)hs.push(await sha("REC|"+c.replace(/-/g,"")));
+ await mutCfg(c=>{c.rec=hs;});logEv("RECOVERY CODES","10 new codes made");paintCtl();
+ const body="Phycon_Dynamic_Report v30.0.1 - Admin recovery codes ("+nice(ymd(new Date()))+")\n\nEach code works once. Login page > Forgot password > Emp ID 0001328467 > put a code in the MS ID box > new password.\n\n"+codes.map((c,i)=>(i+1)+". "+c).join("\n")+"\n\nKeep this mail private.";
+ $("cfmT").textContent="Your 10 recovery codes";$("cfmM").innerHTML='<div style="font-family:Consolas,monospace;font-size:13px;line-height:1.7">'+codes.map((c,i)=>(i+1)+". "+c).join("<br>")+'</div><div class="dim" style="margin-top:6px">Shown only now. Press <b>Email to me</b> — Outlook opens with the codes, you press Send.</div>';
+ $("cfmYes").textContent="Email to me";$("cfmNo").textContent="Close";$("cfm").hidden=false;
+ $("cfmYes").onclick=()=>{location.href="mailto:akshay.ranjan@gmail.com?subject="+encodeURIComponent("Phycon Admin recovery codes")+"&body="+encodeURIComponent(body);};
+ $("cfmNo").onclick=()=>{$("cfm").hidden=true;$("cfmNo").textContent="No";};
+};
 $("cPwSet").onclick=async()=>{const p=$("cPw").value;if(p.length<4)return toast("Use 4+ characters.","bad");const h=await sha(ADMIN_EMP+"|"+p);await mutCfg(c=>{const u=c.users.find(z=>nid(z.emp)===ADMIN_EMP);if(u)u.pw=h;});$("cPw").value="";logEv("ADMIN PASSWORD","changed");toast("Admin password changed.","ok");};
 $("bkDown").onclick=async()=>{const p=await askPw("Backup password");if(p!==BK_PASS)return toast("Wrong backup password.","bad");
  const t=await lockText(JSON.stringify(await buildBackup()),BK_PASS);const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([t],{type:"application/octet-stream"}));a.download="Phycon_Backup_"+ymd(new Date())+".pdrbak";a.click();logEv("BACKUP","downloaded");toast("Backup downloaded.","ok");};
@@ -892,6 +932,7 @@ $("bkFile").onchange=async()=>{const f=$("bkFile").files[0];$("bkFile").value=""
 (async()=>{
  $("lEmp").value=lsGet("pdr_emp","");try{const p=lsGet("pdr_pw","");if(p)$("lPw").value=decodeURIComponent(escape(atob(p)));}catch(e){}
  showReset(false);await restoreFolder();if(ST.mode==="folder")await loadCfg();applyTheme();paintExpiry();
+ if(lsGet("pdr_auto","0")==="1"&&ST.mode==="folder"&&$("lEmp").value&&$("lPw").value)doLogin();
 })();
 </script>
 </body>
