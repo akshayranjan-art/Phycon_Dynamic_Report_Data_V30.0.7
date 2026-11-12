@@ -39,6 +39,11 @@
 /* ---------- themes (admin picks, everyone sees) ---------- */
 body{--bg:linear-gradient(135deg,#e8eefc,#f7eaf5 50%,#e6f6f3);--top:rgba(255,255,255,.55);--toptx:#1f2340;--tx:#1f2340;--dim:#69708a;--pn:rgba(255,255,255,.62);--ln:rgba(255,255,255,.95);--ln2:#e3e3f3;--ac:#7c4dff;--acs:#efe9ff;--acg:rgba(124,77,255,.45);--btn:linear-gradient(180deg,rgba(255,255,255,.96),rgba(240,242,255,.78));--th:rgba(246,246,255,.92);--ex:#6b1d00;--hov:rgba(124,77,255,.06)}
 body[data-th="blue"]{--bg:#eef3fa;--top:linear-gradient(90deg,#0d2747,#16406f);--toptx:#fff;--tx:#14243b;--dim:#5f6f86;--pn:#fff;--ln:#dbe4f0;--ln2:#dbe4f0;--ac:#2f7cf6;--acs:#e8f0fe;--acg:rgba(47,124,246,.45);--btn:linear-gradient(180deg,#fff,#eef3fb);--th:#f2f6fc;--ex:#3a0d00;--hov:rgba(47,124,246,.06)}
+body[data-th="sunset"]{--bg:linear-gradient(135deg,#fff3ea,#fde8ef);--top:linear-gradient(90deg,#ff7a45,#f2557a);--toptx:#fff;--tx:#3a1f2b;--dim:#8a6470;--pn:#fff;--ln:#f6dde2;--ln2:#f3d6dc;--ac:#f2557a;--acs:#fde7ee;--acg:rgba(242,85,122,.42);--btn:linear-gradient(180deg,#fff,#fff3f5);--th:#fff5f7;--ex:#3a0d00;--hov:rgba(242,85,122,.06)}
+body[data-th="indigo"]{--bg:#f1f2fb;--top:linear-gradient(90deg,#1e1b4b,#3730a3);--toptx:#fff;--tx:#1e1b4b;--dim:#646a8f;--pn:#fff;--ln:#e0e2f4;--ln2:#e0e2f4;--ac:#4f46e5;--acs:#eceafe;--acg:rgba(79,70,229,.42);--btn:linear-gradient(180deg,#fff,#f1f1fd);--th:#f5f5fd;--ex:#3a0d00;--hov:rgba(79,70,229,.06)}
+body[data-th="forest"]{--bg:linear-gradient(135deg,#eef7ee,#f6f8ea);--top:linear-gradient(90deg,#14532d,#3f7d3a);--toptx:#fff;--tx:#173a24;--dim:#5f7a66;--pn:#fff;--ln:#dceadc;--ln2:#dceadc;--ac:#2f8f46;--acs:#e5f4e8;--acg:rgba(47,143,70,.4);--btn:linear-gradient(180deg,#fff,#f1f8f1);--th:#f4faf4;--ex:#3a0d00;--hov:rgba(47,143,70,.06)}
+body[data-th="royal"]{--bg:linear-gradient(135deg,#f7f1ff,#fff8e8);--top:linear-gradient(90deg,#3b0a57,#6d28d9);--toptx:#ffe9a8;--tx:#2a1440;--dim:#77688a;--pn:#fff;--ln:#ece3f7;--ln2:#e7ddf4;--ac:#b7791f;--acs:#fff3d6;--acg:rgba(183,121,31,.42);--btn:linear-gradient(180deg,#fff,#fbf6ff);--th:#faf6ff;--ex:#3a0d00;--hov:rgba(183,121,31,.07)}
+body[data-th="sunset"] .tt h1,body[data-th="indigo"] .tt h1,body[data-th="forest"] .tt h1,body[data-th="royal"] .tt h1{color:#fff}
 body[data-th="teal"]{--bg:#eef6f5;--top:#fff;--toptx:#123b3a;--tx:#123b3a;--dim:#5d7775;--pn:#fff;--ln:#d6e8e6;--ln2:#d6e8e6;--ac:#0f9488;--acs:#e3f4f2;--acg:rgba(15,148,136,.42);--btn:linear-gradient(180deg,#fff,#eef7f6);--th:#f1f8f7;--ex:#6b1d00;--hov:rgba(15,148,136,.06)}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
@@ -87,7 +92,7 @@ body[data-th="blue"] .dbtn{background:#fff}
 .kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;flex:none}
 .kpi{padding:4px 12px;border-bottom:2px solid var(--ac);display:flex;align-items:baseline;gap:10px}
 .kpi b{font-size:17px;font-weight:800}
-.kpi i{font-style:normal;font-size:10px;color:var(--dim)}
+.kpi i{font-style:normal;font-size:10px;color:var(--dim);white-space:nowrap}.kpi .lbl{white-space:nowrap}
 .kpi.bad{border-bottom-color:#e5384b}.kpi.bad b{color:#e5384b}
 .row2{display:grid;grid-template-columns:1.2fr 1fr;gap:8px;min-height:0;flex:1}
 .card{display:flex;flex-direction:column;min-height:0;overflow:hidden}
@@ -99,6 +104,8 @@ td{padding:4px 9px;border-top:1px solid var(--ln2);white-space:nowrap;max-width:
 tr:hover td{background:var(--hov)}
 .n{text-align:right;font-variant-numeric:tabular-nums}
 tr.dupe td:first-child{box-shadow:inset 3px 0 0 #e5384b}
+tr.aud td{background:#fff8d6!important}tr.aud td:first-child{box-shadow:inset 3px 0 0 #eab308}
+.gd{cursor:pointer}
 tr.x{cursor:pointer}
 tr.det td{background:rgba(255,255,255,.55);white-space:normal;padding:6px 12px 8px 24px}
 td a{color:var(--tx);font-weight:600;cursor:pointer;text-decoration:none}
@@ -184,7 +191,7 @@ body.candump .only-dump{display:inline-flex!important}
 @media (max-width:1100px){.kpis{grid-template-columns:repeat(3,1fr)}.row2,.grid3{grid-template-columns:1fr}body{overflow:auto}#app{height:auto}}
 </style>
 </head>
-<body data-th="crystal">
+<body data-th="teal">
 
 <!-- ============ LOGIN ============ -->
 <div id="login">
@@ -224,7 +231,7 @@ body.candump .only-dump{display:inline-flex!important}
    <div class="cal" id="cal" hidden></div></div>
   <button class="b on only-dump" id="bDump">⬇ Dump Data</button>
   <div style="position:relative" class="only-adm"><button class="b" id="bTheme" title="Change colour for everyone"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 3a9 9 0 1 0 0 18c1.2 0 1.8-.9 1.4-1.9-.5-1.2.3-2.6 1.6-2.6H17a4 4 0 0 0 4-4c0-5-4-9.5-9-9.5z"/><circle cx="7.5" cy="11" r="1.2" fill="currentColor"/><circle cx="10.5" cy="7" r="1.2" fill="currentColor"/><circle cx="15" cy="7.5" r="1.2" fill="currentColor"/></svg>Theme</button>
-   <div class="pop" id="thPop" hidden><div data-th="crystal"><s style="background:#7c4dff"></s>Crystal Glass</div><div data-th="blue"><s style="background:#2f7cf6"></s>Corporate Blue</div><div data-th="teal"><s style="background:#0f9488"></s>Teal Care</div></div></div>
+   <div class="pop" id="thPop" hidden><div data-th="crystal"><s style="background:#7c4dff"></s>Crystal Glass</div><div data-th="blue"><s style="background:#2f7cf6"></s>Corporate Blue</div><div data-th="teal"><s style="background:#0f9488"></s>Teal Care</div><div data-th="sunset"><s style="background:#f2557a"></s>Sunset Coral</div><div data-th="indigo"><s style="background:#4f46e5"></s>Royal Indigo</div><div data-th="forest"><s style="background:#2f8f46"></s>Forest Green</div><div data-th="royal"><s style="background:linear-gradient(90deg,#6d28d9,#b7791f)"></s>Purple Gold</div></div></div>
   <span class="ic adm only-adm" id="bAdmin" title="Admin"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg><span class="bdg" id="aBdg" hidden></span></span>
   <span class="ic" id="bOut" title="Logout"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 4h4v16h-4"/><path d="M10 8l-4 4 4 4"/><path d="M6 12h10"/></svg></span>
  </div>
@@ -234,8 +241,9 @@ body.candump .only-dump{display:inline-flex!important}
   <button class="b" data-v="dup">Duplicates <span id="tDup"></span></button>
   <button class="b" data-v="dt">Credited Data</button>
   <button class="b" data-v="rp">Reports</button>
+  <button class="b" data-v="au">✓ Audit <span id="tAu"></span></button>
   <span style="flex:1"></span>
-  <select class="in" id="fWq" style="max-width:240px"><option value="">All processes</option></select><select class="in" id="fPr" style="max-width:220px"><option value="">All employees</option></select>
+  <span class="ic" id="fReset" title="Reset filters"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg></span><select class="in" id="fWq" style="max-width:240px"><option value="">All processes</option></select><select class="in" id="fPr" style="max-width:220px"><option value="">All employees</option></select>
   <span class="pill" id="pInfo">-</span>
  </div>
  <div class="main">
@@ -243,7 +251,7 @@ body.candump .only-dump{display:inline-flex!important}
    <div class="kpis">
     <div class="pn kpi"><span class="lbl">Credited items</span><b id="k1">0</b><i id="k1s">-</i></div>
     <div class="pn kpi bad"><span class="lbl">Duplicate GD</span><b id="k3">0</b><i id="k3s">-</i></div>
-    <div class="pn kpi bad"><span class="lbl">Extra credits</span><b id="k4">0</b><i>credited more than once</i></div>
+    <div class="pn kpi bad"><span class="lbl">Extra credits</span><b id="k4">0</b><i>credited more than once</i><span style="flex:1"></span><input class="in" id="gdQ" placeholder="GD search e.g. 47804449" style="height:24px;width:190px;align-self:center"></div>
    </div>
    <div class="row2">
     <div class="pn card"><div class="hd"><span class="lbl">Processor summary</span><span class="dim">click a name to filter</span></div><div class="bd" id="oProc"></div></div>
@@ -252,6 +260,7 @@ body.candump .only-dump{display:inline-flex!important}
   </div>
   <div class="view" id="v-dup"><div class="pn card" style="flex:1"><div class="hd"><span class="lbl">Duplicate GD — credited in this range, and credited before (same day or up to 31 days earlier)</span><button class="b sm" id="xDup">⬇ Export</button></div><div class="bd" id="dupT"></div></div></div>
   <div class="view" id="v-dt"><div class="pn card" style="flex:1"><div class="hd"><span class="lbl">Credited rows in this range · fully N/A columns hidden</span><button class="b sm" id="xDt">⬇ Export</button></div><div class="bd" id="dtT"></div></div></div>
+  <div class="view" id="v-au"><div class="pn card" style="flex:1"><div class="hd"><span class="lbl">Audit — duplicate GD only · yellow = audited · red = credited again after audit</span><span style="display:flex;gap:6px" id="auF"><button class="b sm on" data-af="all">All</button><button class="b sm" data-af="pend">Not audited</button><button class="b sm" data-af="re">Re-credited</button><button class="b sm" data-af="ok">Audited</button></span></div><div class="bd" id="auT"></div></div></div>
   <div class="view" id="v-rp"><div class="pn card" style="flex:1"><div class="hd"><span class="lbl">Reports saved</span><span class="dim" id="rpInfo"></span></div><div class="bd" id="rpT"></div></div></div>
  </div>
 </div>
@@ -327,6 +336,10 @@ body.candump .only-dump{display:inline-flex!important}
 <div class="ov" id="cfm" hidden><div class="pn box" style="width:400px"><div class="bd"><span class="lbl" id="cfmT">Please confirm</span><div id="cfmM"></div></div><div class="ft"><button class="b" id="cfmNo">No</button><button class="b on" id="cfmYes">Yes, replace</button></div></div></div>
 <!-- lock -->
 <div class="ov" id="lock" hidden><div class="pn box" style="width:420px"><div class="bd" style="padding:22px;text-align:center"><b id="lockT" style="color:#d42f42;letter-spacing:.2em;text-transform:uppercase">Access locked</b><p class="dim" id="lockM" style="margin-top:6px"></p><div style="margin-top:12px"><button class="b" id="lockOut">Logout</button></div></div></div></div>
+<div class="ov" id="gdv" hidden><div class="pn box wide" style="height:auto;max-height:90vh"><div class="card"><div class="hd"><span class="lbl" id="gdvT">GD</span><span style="display:flex;gap:6px"><button class="b sm on only-dump" id="gdvAud">✓ Mark audited</button><button class="b sm" data-close="gdv">✕ Close</button></span></div></div><div class="bd" id="gdvB"></div></div></div>
+<div class="ov" id="auv" hidden><div class="pn box" style="width:420px"><div class="bd"><span class="lbl" id="auvT">Mark audited</span>
+ <select class="in" id="auR"><option>Error found — rectified</option><option>Valid — rework needed</option><option>Feedback given to processor</option><option>System issue / not an error</option><option>Other</option></select>
+ <input class="in" id="auN" placeholder="Note (optional)"></div><div class="ft"><button class="b" data-close="auv">Cancel</button><button class="b on" id="auOk">Save audit</button></div></div></div>
 <div id="toasts"></div>
 
 <script>
@@ -441,16 +454,17 @@ const SEED=[
 ["0001252723","Sandeep Ramakrishnareddy","Automation","","LHTU05CG2122TDH","sandeep.ramakrishnareddy@optum.com","BSAR/UHN Bulk Load"]];
 const ROLE_NAME={admin:"Admin",manager:"Manager",sme:"SME",employee:"Employee"};
 const mkUser=(r,role)=>{role=role||"employee";return{emp:r[0],name:r[1],msid:r[2],opid:r[3]||"",mach:r[4]||"",mail:r[5]||"",proc:r[6]||"",loc:"BLR",role,view:true,dump:role!=="employee",del:role==="admin",pw:role==="admin"&&nid(r[0])===ADMIN_EMP?APW_H:"",pc:""};};
-const CFG_DEF=()=>({theme:"crystal",expiry:HARD_EXPIRY,lock:false,lockMsg:"",msg:"",newView:true,users:SEED.map(r=>mkUser(r,r[7])),adminPw:"",apwFixed:true,rec:[]});
+const CFG_DEF=()=>({theme:"teal",thV:2,expiry:HARD_EXPIRY,lock:false,lockMsg:"",msg:"",newView:true,users:SEED.map(r=>mkUser(r,r[7])),adminPw:"",apwFixed:true,rec:[]});
 let CFG=CFG_DEF();
 async function loadCfg(){const c=await ST.read("config.json");if(c){CFG={...CFG_DEF(),...c};let ch=false;if(!Array.isArray(c.users)||!c.users.some(u=>u&&u.emp)){CFG.users=CFG_DEF().users;ch=true;}
+  if(CFG.thV!==2){CFG.theme="teal";CFG.thV=2;ch=true;}
   if(!CFG.apwFixed){const a=CFG.users.find(u=>nid(u.emp)===ADMIN_EMP);if(a)a.pw=APW_H;CFG.apwFixed=true;ch=true;}if(ch)await ST.write("config.json",CFG);}else{CFG=CFG_DEF();if(ST.mode!=="none")await ST.write("config.json",CFG);}applyTheme();paintExpiry();return CFG;}
 async function saveCfg(){await ST.write("config.json",CFG);applyTheme();paintExpiry();}
 async function mutCfg(fn){await loadCfg();fn(CFG);await saveCfg();}
 const findU=id=>{const n=nid(id),l=String(id||"").trim().toLowerCase();return CFG.users.find(u=>(n&&nid(u.emp)===n)||(l&&u.msid.toLowerCase()===l&&u.msid.toLowerCase()!=="automation"));};
 const daysLeft=()=>Math.ceil((new Date(CFG.expiry+"T23:59:59")-new Date())/864e5);
 function paintExpiry(){const d=daysLeft();$("lExp").textContent="Valid till "+nice(CFG.expiry)+(d>=0?" · "+d+" days":" · EXPIRED");if($("cExpTxt"))$("cExpTxt").textContent=nice(CFG.expiry)+(d>=0?" · "+d+" days left":" · EXPIRED");}
-function applyTheme(){document.body.dataset.th=CFG.theme||"crystal";}
+function applyTheme(){document.body.dataset.th=CFG.theme||"teal";lsSet("pdr_th",CFG.theme||"teal");}
 async function logEv(act,res){if(ST.mode==="none")return;try{const t=Date.now();await ST.write("Log/"+t+"_"+Math.random().toString(36).slice(2,6)+".json",{t,emp:S.emp||"-",name:S.name||"-",act,res:res||""});}catch(e){}}
 
 /* ============ STATE ============ */
@@ -583,6 +597,7 @@ function derive(rep){
 /* ============ REPORTS ============ */
 const rpath=r=>"Reports/"+r.day.slice(0,7)+"/"+r.id+".json";
 async function loadReports(){
+ await loadAud();
  const names=await ST.list("Reports",true),reps=[],seen=new Set();
  for(const n of names.slice().sort((a,b)=>b.includes("/")-a.includes("/"))){const r=await ST.read("Reports/"+n);if(!r||!r.rows||seen.has(r.id))continue;seen.add(r.id);r._p="Reports/"+n;
   if(!n.includes("/")&&can("dump")){try{await ST.write(rpath(r),(({D,_p,...x})=>x)(r));await ST.remove("Reports/"+n);r._p=rpath(r);}catch(e){}}
@@ -635,6 +650,36 @@ function analyse(){
  return{from,to,label,reps:inRep,rowsR,cred,fx,dups:groups.filter(g=>g.dup),P:[...P.values()],noGd:cred.filter(x=>!x.gd).length};
 }
 
+/* ============ AUDIT + GD DETAILS ============ */
+let AUD={};
+async function loadAud(){AUD=(await ST.read("audit.json"))||{};}
+function audState(g){const a=AUD[g.gd];if(!a)return"pend";return g.cr.some(x=>(x.sp||x.st)>a.upto)?"re":"ok";}
+const AUDLBL={pend:'<span class="tg d">Not audited</span>',ok:'<span class="tg" style="background:#fff3bf;color:#8a6a00;border:1px solid #f1d36b">✓ Audited</span>',re:'<span class="tg r">Re-credited after audit</span>'};
+function gdAll(gd){const out=[];for(const r of S.reps)for(const x of r.D)if(x.gd===gd)out.push(x);return out.sort((a,b)=>(a.st||a.sp)-(b.st||b.sp));}
+function openGd(gd){
+ gd=String(gd||"").toUpperCase().replace(/[^0-9]/g,"");if(!gd)return;gd="GD-"+gd;
+ const all=gdAll(gd);if(!all.length)return toast(gd+" not found in saved data.","bad");
+ const cr=all.filter(x=>x.cr),P=new Map();
+ for(const x of all){let p=P.get(x.proc);if(!p){p={proc:x.proc,emp:x.emp,att:0,cr:0,time:0,first:x.st||x.sp,last:x.sp};P.set(x.proc,p);}p.att++;if(x.cr)p.cr++;p.time+=x.aht;p.last=x.sp||p.last;}
+ const a=AUD[gd],st=a?(cr.some(x=>(x.sp||x.st)>a.upto)?"re":"ok"):(cr.length>1?"pend":"");
+ $("gdvT").innerHTML='<span class="gd" style="font-size:14px">'+gd+'</span> &nbsp;'+(st?AUDLBL[st]:"");
+ let h='<div class="sumg"><span>Credited</span><b style="color:'+(cr.length>1?"#d42f42":"inherit")+'">'+cr.length+'×</b><span>Attempts</span><b>'+all.length+'</b><span>People</span><b>'+P.size+'</b><span>Total time</span><b>'+fmtT(all.reduce((s,x)=>s+x.aht,0))+'</b><span>First / last</span><span>'+fmtDT(all[0].st||all[0].sp)+' → '+fmtDT(all[all.length-1].sp)+'</span>'+(a?'<span>Audit</span><span>'+esc(a.by)+' · '+fmtDT(a.at)+' · covered credits till '+fmtDT(a.upto)+' · <b>'+esc(a.reason)+'</b>'+(a.note?' — '+esc(a.note):"")+'</span>':"")+'</div>';
+ h+='<span class="lbl" style="margin-top:6px">Who worked on it</span>'+tbl([{t:"Processor",k:"p",v:r=>r.proc,h:r=>'<b>'+esc(r.proc)+'</b>'},{t:"Emp ID",k:"e",v:r=>r.emp},{t:"Attempts",k:"a",n:1,v:r=>r.att},{t:"Credited",k:"c",n:1,v:r=>r.cr,h:r=>r.cr>1?'<span class="tg r">'+r.cr+'</span>':r.cr},{t:"Time",k:"t",n:1,v:r=>r.time,h:r=>fmtT(r.time)},{t:"First",k:"f",v:r=>r.first,h:r=>fmtDT(r.first)},{t:"Last",k:"l",v:r=>r.last,h:r=>fmtDT(r.last)}],[...P.values()],"gp");
+ h+='<span class="lbl" style="margin-top:6px">Every attempt</span>'+tbl([{t:"#",k:"i",n:1,v:r=>all.indexOf(r)+1},{t:"Status",k:"s",v:r=>r.cr?1:0,h:r=>r.cr?(cr.indexOf(r)===0?'<span class="tg p">1st credit</span>':'<span class="tg r">Repeat credit #'+(cr.indexOf(r)+1)+'</span>')+(a&&(r.sp||r.st)>a.upto?' <span class="tg r">after audit</span>':""):'<span class="tg d">'+esc(r.status||"Not credited")+'</span>'},{t:"Processor",k:"p",v:r=>r.proc},{t:"Emp ID",k:"e",v:r=>r.emp},{t:"Report day",k:"d",v:r=>r.day,h:r=>nice(r.day)},{t:"Start",k:"st",v:r=>r.st,h:r=>fmtDT(r.st)},{t:"Stop",k:"sp",v:r=>r.sp,h:r=>fmtDT(r.sp)},{t:"AHT",k:"a",n:1,v:r=>r.aht,h:r=>fmtT(r.aht)},{t:"Work queue",k:"w",v:r=>r.wq}],all,"ga");
+ $("gdvB").innerHTML=h;$("gdvAud").hidden=cr.length<2;$("gdvAud").dataset.gd=gd;$("gdv").hidden=false;logEv("GD DETAILS",gd);
+}
+function openAud(gd){if(!can("dump"))return;$("auvT").textContent="Mark audited · "+gd;$("auN").value="";$("auOk").dataset.gd=gd;$("auv").hidden=false;}
+async function saveAud(){const gd=$("auOk").dataset.gd,all=gdAll(gd).filter(x=>x.cr);const upto=Math.max(...all.map(x=>x.sp||x.st));
+ await loadAud();AUD[gd]={at:Date.now(),by:S.name,emp:S.emp,upto,reason:$("auR").value,note:$("auN").value.trim(),n:all.length};await ST.write("audit.json",AUD);
+ await logEv("AUDIT",gd+" · "+$("auR").value);$("auv").hidden=true;toast(gd+" marked audited.","ok");render();if(!$("gdv").hidden)openGd(gd);}
+let AF="all";
+function renderAu(){const A=S.A;if(!A){$("auT").innerHTML='<div class="empty">No data</div>';return;}
+ const rows=A.dups.map(g=>({g,s:audState(g)})).filter(o=>AF==="all"||o.s===AF);
+ $("tAu").textContent=A.dups.filter(g=>audState(g)!=="ok").length?"· "+A.dups.filter(g=>audState(g)!=="ok").length:"";
+ if(!S.sort.au)S.sort.au={k:"s",d:1};
+ $("auT").innerHTML=tbl([{t:"GD",k:"g",v:o=>o.g.gd,h:o=>'<span class="gd" data-gdd="'+o.g.gd+'">'+o.g.gd+'</span>'},{t:"Status",k:"s",v:o=>({re:0,pend:1,ok:2})[o.s],h:o=>AUDLBL[o.s]},{t:"Credited",k:"n",n:1,v:o=>o.g.cr.length,h:o=>'<span class="tg r">'+o.g.cr.length+'×</span>'},{t:"Type",k:"k",v:o=>o.g.kind},{t:"Credited by",k:"p",v:o=>o.g.cr.map(x=>x.proc).join(" → ")},{t:"Last credit",k:"l",v:o=>o.g.cr[o.g.cr.length-1].sp,h:o=>fmtDT(o.g.cr[o.g.cr.length-1].sp)},{t:"Audited till",k:"u",v:o=>AUD[o.g.gd]?AUD[o.g.gd].upto:0,h:o=>AUD[o.g.gd]?fmtDT(AUD[o.g.gd].upto)+' · '+esc(AUD[o.g.gd].by):"-"},{t:"Reason",k:"r",v:o=>AUD[o.g.gd]?AUD[o.g.gd].reason:""},{t:"",k:"x",v:()=>"",h:o=>can("dump")&&o.s!=="ok"?'<button class="b sm" data-aud="'+o.g.gd+'">✓ Audited</button>':""}],rows,"au",{cls:o=>o.s==="ok"?"aud":o.s==="re"?"dupe":"",empty:"Nothing here 👍"});
+}
+
 /* ============ RENDER ============ */
 function tbl(cols,rows,id,opt){
  opt=opt||{};const so=S.sort[id]||{};
@@ -649,7 +694,7 @@ function render(){
  fillFilters();
  if(!S.date){["oProc","oDup","dupT","dtT"].forEach(i=>$(i).innerHTML='<div class="empty">No report yet.'+(can("dump")?" Click <b>Dump Data</b> or drag the Excel file onto this window.":" Ask your SME to dump the data.")+'</div>');["k1","k3","k4"].forEach(i=>$(i).textContent="0");$("pInfo").textContent="-";renderRp();return;}
  const A=S.A=analyse();
- const extra=A.dups.reduce((s,g)=>s+g.extra,0);
+ const extra=A.dups.reduce((s,g)=>s+g.crR.filter(x=>x!==g.cr[0]&&A.fx(x)).length,0);
  $("k1").textContent=A.cred.length;$("k1s").textContent=new Set(A.cred.filter(x=>x.gd).map(x=>x.gd)).size+" unique GD"+(A.noGd?" · "+A.noGd+" without GD":"");
  $("k3").textContent=A.dups.length;$("k3s").textContent=A.dups.filter(g=>g.kind==="Cross-day").length+" cross-day · "+A.dups.filter(g=>g.kind==="Same day").length+" same day";
  $("k4").textContent=extra;
@@ -657,8 +702,8 @@ function render(){
  $("pInfo").textContent=A.label+" · "+A.reps.length+" report(s)";
  if(!S.sort.p)S.sort.p={k:"c",d:-1};
  $("oProc").innerHTML=tbl([{t:"Processor",k:"p",v:r=>r.proc,h:r=>'<a data-pick="'+esc(r.proc)+'">'+esc(r.proc)+'</a>'},{t:"Emp ID",k:"e",v:r=>r.emp},{t:"Credited",k:"c",n:1,v:r=>r.cr},{t:"Unique GD",k:"u",n:1,v:r=>r.gds.size},{t:"Repeat",k:"d",n:1,v:r=>r.dup,h:r=>r.dup?'<span class="tg r">'+r.dup+'</span>':'<span class="dim">0</span>'},{t:"Time",k:"t",n:1,v:r=>r.time,h:r=>fmtT(r.time)},{t:"Avg / credit",k:"a",n:1,v:r=>r.cr?r.time/r.cr:0,h:r=>r.cr?fmtT(r.time/r.cr):"-"}],A.P,"p",{empty:"No rows"});
- $("oDup").innerHTML=tbl([{t:"GD",k:"g",v:r=>r.gd,h:r=>'<span class="gd">'+r.gd+'</span>'},{t:"×",k:"n",n:1,v:r=>r.cr.length,h:r=>'<span class="tg r">'+r.cr.length+'×</span>'},{t:"Type",k:"k",v:r=>r.kind,h:r=>'<span class="tg '+(r.kind==="Cross-day"?"r":"a")+'">'+r.kind+'</span>'},{t:"Why",k:"w",v:r=>r.why}],A.dups,"o",{empty:"No duplicate credited GD in this range 👍"});
- renderDup();renderDt();renderRp();
+ $("oDup").innerHTML=tbl([{t:"GD",k:"g",v:r=>r.gd,h:r=>'<span class="gd" data-gdd="'+r.gd+'">'+r.gd+'</span>'+(AUD[r.gd]&&audState(r)==="ok"?" ✅":"")},{t:"×",k:"n",n:1,v:r=>r.cr.length,h:r=>'<span class="tg r">'+r.cr.length+'×</span>'},{t:"Type",k:"k",v:r=>r.kind,h:r=>'<span class="tg '+(r.kind==="Cross-day"?"r":"a")+'">'+r.kind+'</span>'},{t:"Why",k:"w",v:r=>r.why}],A.dups,"o",{empty:"No duplicate credited GD in this range 👍"});
+ renderDup();renderDt();renderRp();renderAu();
 }
 function fillFilters(){
  const rows=S.reps.flatMap(r=>r.D),wq=[...new Set(rows.map(x=>x.wq).filter(Boolean))].sort(),pr=[...new Set(rows.map(x=>x.proc).filter(Boolean))].sort();
@@ -668,15 +713,15 @@ function fillFilters(){
 function attemptsHtml(g){return'<div class="tl">'+g.all.map(x=>{const k=x.cr?g.cr.indexOf(x):-1;
  const lab=x.cr?(k===0?'<span class="tg p">1st credit</span>':'<span class="tg r">Repeat credit #'+(k+1)+'</span>'):'<span class="tg d">'+esc(x.status||"Not credited")+'</span>';
  return'<div>'+lab+'<b>'+esc(x.proc)+'</b><span class="dim">'+esc(x.emp)+'</span><span>'+nice(x.day)+'</span><span class="dim">'+fmtDT(x.st)+' → '+fmtDT(x.sp)+'</span><span>'+fmtT(x.aht)+'</span><span class="dim">'+esc(x.wq)+'</span></div>';}).join("")+'</div>';}
-const dupCols=[{t:"GD",k:"g",v:r=>r.gd,h:r=>'<span class="gd">'+r.gd+'</span>'},{t:"Credited",k:"n",n:1,v:r=>r.cr.length,h:r=>'<span class="tg r">'+r.cr.length+'×</span>'},{t:"Type",k:"k",v:r=>r.kind,h:r=>'<span class="tg '+(r.kind==="Cross-day"?"r":"a")+'">'+r.kind+'</span>'},{t:"Why duplicate",k:"w",v:r=>r.why},{t:"Credited by",k:"p",v:r=>r.cr.map(x=>x.proc).join(" → ")},{t:"Credit times",k:"d",v:r=>r.cr.map(x=>fmtDT(x.sp)).join(", ")},{t:"Gap",k:"gp",n:1,v:r=>r.gap,h:r=>r.gap>=24?Math.round(r.gap/24)+" d":r.gap+" h"},{t:"Attempts",k:"a",n:1,v:r=>r.all.length},{t:"Total time",k:"t",n:1,v:r=>r.time,h:r=>fmtT(r.time)}];
-function renderDup(){if(!S.sort.d)S.sort.d={k:"n",d:-1};$("dupT").innerHTML=tbl(dupCols,S.A.dups,"d",{cls:()=>"dupe x",attr:r=>'data-gd="'+r.gd+'"',after:r=>S.open.has(r.gd)?'<tr class="det"><td colspan="9">'+attemptsHtml(r)+'</td></tr>':"",empty:"No duplicate credited GD in this range 👍"});}
+const dupCols=[{t:"GD",k:"g",v:r=>r.gd,h:r=>'<span class="gd" data-gdd="'+r.gd+'">'+r.gd+'</span>'+(AUD[r.gd]?(audState(r)==="ok"?" ✅":" ⚠️"):"")},{t:"Credited",k:"n",n:1,v:r=>r.cr.length,h:r=>'<span class="tg r">'+r.cr.length+'×</span>'},{t:"Type",k:"k",v:r=>r.kind,h:r=>'<span class="tg '+(r.kind==="Cross-day"?"r":"a")+'">'+r.kind+'</span>'},{t:"Why duplicate",k:"w",v:r=>r.why},{t:"Credited by",k:"p",v:r=>r.cr.map(x=>x.proc).join(" → ")},{t:"Credit times",k:"d",v:r=>r.cr.map(x=>fmtDT(x.sp)).join(", ")},{t:"Gap",k:"gp",n:1,v:r=>r.gap,h:r=>r.gap>=24?Math.round(r.gap/24)+" d":r.gap+" h"},{t:"Attempts",k:"a",n:1,v:r=>r.all.length},{t:"Total time",k:"t",n:1,v:r=>r.time,h:r=>fmtT(r.time)}];
+function renderDup(){if(!S.sort.d)S.sort.d={k:"n",d:-1};$("dupT").innerHTML=tbl(dupCols,S.A.dups,"d",{cls:r=>audState(r)==="ok"?"aud x":"dupe x",attr:r=>'data-gd="'+r.gd+'"',after:r=>S.open.has(r.gd)?'<tr class="det"><td colspan="9">'+attemptsHtml(r)+'</td></tr>':"",empty:"No duplicate credited GD in this range 👍"});}
 function dtData(){const A=S.A,dupSet=new Set(A.dups.map(g=>g.gd)),out=[];
  for(const rep of A.reps.slice().sort((a,b)=>a.day<b.day?-1:1)){const rows=rep.D.filter(x=>x.cr&&A.fx(x));if(!rows.length)continue;
   const idx=rep.headers.map((h,j)=>isKey(h)||rows.some(x=>!isNA(rep.rows[x.ix][j]))?j:-1).filter(j=>j>=0);out.push({rep,rows,idx,dupSet});}
  return out;}
 function renderDt(){
  const parts=dtData();if(!parts.length){$("dtT").innerHTML='<div class="empty">No credited rows in this range</div>';return;}
- let h="";for(const p of parts){const cols=[{t:"GD (found)",k:"gd",v:x=>x.gd,h:x=>x.gd?'<span class="gd">'+x.gd+'</span>'+(p.dupSet.has(x.gd)?' <span class="tg r">DUP</span>':""):'<span class="dim">-</span>'}].concat(p.idx.map(j=>({t:esc(p.rep.headers[j]),k:"c"+j,v:x=>p.rep.rows[x.ix][j]})));
+ let h="";for(const p of parts){const cols=[{t:"GD (found)",k:"gd",v:x=>x.gd,h:x=>x.gd?'<span class="gd" data-gdd="'+x.gd+'">'+x.gd+'</span>'+(p.dupSet.has(x.gd)?' <span class="tg r">DUP</span>':""):'<span class="dim">-</span>'}].concat(p.idx.map(j=>({t:esc(p.rep.headers[j]),k:"c"+j,v:x=>p.rep.rows[x.ix][j]})));
   h+=(parts.length>1?'<div class="lbl" style="padding:7px 10px;background:var(--th)">'+nice(p.rep.day)+' · '+esc(p.rep.meta.sup)+' · '+p.rows.length+' credited</div>':"")+tbl(cols,p.rows,"t",{cls:x=>p.dupSet.has(x.gd)?"dupe":"",empty:"No credited rows"});}
  $("dtT").innerHTML=h;
 }
@@ -782,7 +827,7 @@ function applyCfg(){
  }
 }
 function logout(){lsSet("pdr_auto","0");logEv("LOGOUT","");S.emp=S.name=S.role="";S.u=null;$("app").hidden=true;$("login").hidden=false;$("lock").hidden=true;$("adm").hidden=true;$("lPw").value=lsGet("pdr_pw","")?decodeURIComponent(escape(atob(lsGet("pdr_pw","")))):"";}
-function logView(v){const k=v+"|"+S.date+"|"+S.range;if(S.seen.has(k))return;S.seen.add(k);logEv("VIEW",({ov:"Overview",dup:"Duplicates",dt:"Credited Data",rp:"Reports"})[v]+" · "+(S.A?S.A.label:nice(S.date)));}
+function logView(v){const k=v+"|"+S.date+"|"+S.range;if(S.seen.has(k))return;S.seen.add(k);logEv("VIEW",({ov:"Overview",dup:"Duplicates",dt:"Credited Data",rp:"Reports",au:"Audit"})[v]+" · "+(S.A?S.A.label:nice(S.date)));}
 setInterval(async()=>{if(!S.emp||ST.mode==="none")return;const b=JSON.stringify(CFG);await loadCfg();if(JSON.stringify(CFG)!==b)applyCfg();},30000);
 
 /* ============ DUMP DATA ============ */
@@ -850,9 +895,11 @@ function askPw(title){return new Promise(res=>{$("pwqT").textContent=title;$("pw
 document.addEventListener("click",async ev=>{
  if(!ev.target.closest("#cal,#dBtn"))$("cal").hidden=true;
  if(!ev.target.closest("#thPop,#bTheme"))$("thPop").hidden=true;
- const t=ev.target.closest("[data-close],[data-st],[data-gd],[data-pick],[data-go],[data-del],[data-day],[data-cm],[data-date],[data-us],[data-upw],[data-upc],[data-urm],[data-a],[data-add],#thPop [data-th],#tabs [data-v]");if(!t)return;
+ const t=ev.target.closest("[data-close],[data-st],[data-aud],[data-af],[data-gd],[data-pick],[data-go],[data-del],[data-day],[data-cm],[data-date],[data-us],[data-upw],[data-upc],[data-urm],[data-a],[data-add],#thPop [data-th],#tabs [data-v]");if(!t)return;
  const d=t.dataset;
  if(d.close){$(d.close).hidden=true;return;}
+ if(d.aud){openAud(d.aud);return;}
+ if(d.af){AF=d.af;[...$("auF").children].forEach(b=>b.classList.toggle("on",b===t));renderAu();return;}
  if(d.st){const so=S.sort[d.st]||{};S.sort[d.st]={k:d.k,d:so.k===d.k?-(so.d||1):-1};if(d.st==="u")renderUsers();else if(d.st==="l")renderLog(false);else render();return;}
  if(d.pick!=null){S.pr=d.pick;render();toast("Employee: "+d.pick);return;}
  if(d.gd&&t.tagName==="TR"){S.open.has(d.gd)?S.open.delete(d.gd):S.open.add(d.gd);renderDup();return;}
@@ -885,6 +932,10 @@ $("fileIn").onchange=()=>{const f=$("fileIn").files[0];$("fileIn").value="";if(f
 $("drop").onclick=()=>$("fileIn").click();
 $("impRead").onclick=()=>{const t=$("pasteBox").value;if(!t.trim())return toast("Paste the sheet, or drop the file.","bad");try{showSummary(parseGrid(readCsv(t,"\t")));}catch(e){toast(e.message,"bad");}};
 $("impSave").onclick=doSave;
+document.addEventListener("dblclick",ev=>{const g=ev.target.closest("[data-gdd],tr[data-gd]");if(g){ev.preventDefault();openGd((g.dataset.gdd||g.dataset.gd));}});
+$("gdQ").onkeydown=e=>{if(e.key==="Enter")openGd($("gdQ").value);};
+$("gdvAud").onclick=()=>openAud($("gdvAud").dataset.gd);$("auOk").onclick=saveAud;
+$("fReset").onclick=()=>{S.wq="";S.pr="";S.open.clear();$("gdQ").value="";render();toast("Filters reset.");};
 // drag & drop anywhere
 let dc=0;
 window.addEventListener("dragenter",e=>{if(!S.emp||!can("dump")||!e.dataTransfer.types.includes("Files"))return;dc++;$("dropAll").hidden=false;});
@@ -930,6 +981,7 @@ $("bkFile").onchange=async()=>{const f=$("bkFile").files[0];$("bkFile").value=""
 
 /* ============ START ============ */
 (async()=>{
+ document.body.dataset.th=lsGet("pdr_th","teal");
  $("lEmp").value=lsGet("pdr_emp","");try{const p=lsGet("pdr_pw","");if(p)$("lPw").value=decodeURIComponent(escape(atob(p)));}catch(e){}
  showReset(false);await restoreFolder();if(ST.mode==="folder")await loadCfg();applyTheme();paintExpiry();
  if(lsGet("pdr_auto","0")==="1"&&ST.mode==="folder"&&$("lEmp").value&&$("lPw").value)doLogin();
