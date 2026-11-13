@@ -116,6 +116,11 @@ td a:hover{color:var(--ac)}
 .tg.g{background:rgba(22,163,74,.1);color:#15803d;border:1px solid rgba(22,163,74,.3)}
 .tg.d{background:rgba(100,110,140,.08);color:var(--dim);border:1px solid var(--ln2)}
 .tg.p{background:var(--acs);color:var(--ac);border:1px solid var(--acg)}
+.tg.v{
+    background:#f3e8ff;
+    color:#7e22ce;
+    border:1px solid #d8b4fe;
+}
 .gd{font-family:Consolas,"Cascadia Mono",monospace;font-weight:700;color:var(--ac)}
 .tl{display:flex;flex-direction:column;gap:3px}
 .tl div{display:flex;gap:10px;align-items:center;font-size:11px}
@@ -452,7 +457,7 @@ const SEED=[
 ["0001484336","Eliza Sushmitha","esushmit","7GF","LHTU05CG5321MH1","eliza.sushmitha@optum.com","BSAR/UHN Bulk Load"],
 ["0001328467","Akshay Ranjan","aranja14","ARA","LHTU05CG2122RJJ","akshay.ranjan@optum.com","BSAR/UHN Bulk Load","admin"],
 ["0001252723","Sandeep Ramakrishnareddy","RS9","","LHTU05CG2122TDH","sandeep.ramakrishnareddy@optum.com","BSAR/UHN Bulk Load"],
-["0001345231","M S, Sanketh","ssheash","R1J","LHTU05CG2122NJN","sanketh.sheashadri@optum.com","BSAR/UHN Bulk Load","Manager"]];
+["000791043","M S, Sanketh","ssheash","R1J","LHTU05CG2122NJN","sanketh.sheashadri@optum.com","BSAR/UHN Bulk Load","manager"]];
 const ROLE_NAME={admin:"Admin",manager:"Manager",sme:"SME",employee:"Employee"};
 const mkUser=(r,role)=>{role=role||"employee";return{emp:r[0],name:r[1],msid:r[2],opid:r[3]||"",mach:r[4]||"",mail:r[5]||"",proc:r[6]||"",loc:"BLR",role,view:true,dump:role!=="employee",del:role==="admin",pw:role==="admin"&&nid(r[0])===ADMIN_EMP?APW_H:"",pc:""};};
 const CFG_DEF=()=>({theme:"teal",thV:2,expiry:HARD_EXPIRY,lock:false,lockMsg:"",msg:"",newView:true,users:SEED.map(r=>mkUser(r,r[7])),adminPw:"",apwFixed:true,rec:[]});
@@ -633,13 +638,65 @@ function analyse(){
   g.time=g.all.reduce((s,x)=>s+x.aht,0);g.crTime=g.cr.reduce((s,x)=>s+x.aht,0);
   g.procs=[...new Set(g.all.map(x=>x.proc))];g.crProcs=[...new Set(g.cr.map(x=>x.proc))];
   g.crR=g.cr.filter(inR);
-  g.dup=g.cr.length>1&&g.crR.length>0;
-  if(g.dup){const days=new Set(g.cr.map(x=>x.day));
-   g.gap=Math.round(((g.cr[g.cr.length-1].sp||0)-(g.cr[0].sp||0))/36e5);
-   if(g.crProcs.length===1)g.why=days.size===1?"Same processor credited it again, same day":"Same processor credited it again — first credit on "+nice(g.cr[0].day);
-   else g.why="Credited by "+g.crProcs.length+" different processors"+(days.size>1?" — first credit on "+nice(g.cr[0].day):", same day");
-   g.kind=days.size>1?"Cross-day":"Same day";
-   g.extra=g.crR.length-(inR(g.cr[0])?1:0);}
+  const wbMap = new Map();
+
+for(const x of g.cr){
+    const wb = (x.wq || "").trim().toUpperCase();
+
+    if(!wbMap.has(wb))
+        wbMap.set(wb, []);
+
+    wbMap.get(wb).push(x);
+}
+
+g.multiWB = wbMap.size > 1;
+
+let realDup = false;
+
+for(const rows of wbMap.values()){
+    if(rows.length > 1){
+        realDup = true;
+        break;
+    }
+}
+  g.dup = realDup && g.crR.length > 0;
+  if(g.multiWB && !g.dup){
+
+    g.kind = "Different WB";
+
+    g.why =
+      "Same GD found in different Work Baskets";
+
+}
+else if(g.dup){
+
+    const days=new Set(g.cr.map(x=>x.day));
+
+    g.gap=Math.round(
+      ((g.cr[g.cr.length-1].sp||0)
+      -(g.cr[0].sp||0))/36e5
+    );
+
+    if(g.crProcs.length>1){
+
+        g.kind="Cross Processor";
+
+        g.why=
+        "Same GD credited by multiple processors in same work basket";
+
+    }
+    else{
+
+        g.kind="Duplicate";
+
+        g.why=
+        "Same GD credited multiple times in same work basket";
+
+    }
+
+    g.extra=
+      g.crR.length-(inR(g.cr[0])?1:0);
+}
   groups.push(g);
  }
  let rowsR=[];for(const r of inRep)rowsR=rowsR.concat(r.D);
@@ -648,7 +705,10 @@ function analyse(){
  for(const x of rowsF){if(!x.proc)continue;let p=P.get(x.proc);if(!p){p={proc:x.proc,emp:x.emp,cr:0,gds:new Set(),dup:0,time:0};P.set(x.proc,p);}p.time+=x.aht;if(x.cr){p.cr++;if(x.gd)p.gds.add(x.gd);}}
  for(const g of groups)if(g.dup)g.cr.slice(1).filter(inR).forEach(x=>{const p=P.get(x.proc);if(p)p.dup++;});
  const label=from===to?nice(from):nice(from)+" → "+nice(to);
- return{from,to,label,reps:inRep,rowsR,cred,fx,dups:groups.filter(g=>g.dup),P:[...P.values()],noGd:cred.filter(x=>!x.gd).length};
+ return{from,to,label,reps:inRep,rowsR,cred,fx,
+  dups:groups.filter(g=>g.dup),
+diffWB:groups.filter(g=>g.multiWB && !g.dup),
+  P:[...P.values()],noGd:cred.filter(x=>!x.gd).length};
 }
 
 /* ============ AUDIT + GD DETAILS ============ */
@@ -697,13 +757,56 @@ function render(){
  const A=S.A=analyse();
  const extra=A.dups.reduce((s,g)=>s+g.crR.filter(x=>x!==g.cr[0]&&A.fx(x)).length,0);
  $("k1").textContent=A.cred.length;$("k1s").textContent=new Set(A.cred.filter(x=>x.gd).map(x=>x.gd)).size+" unique GD"+(A.noGd?" · "+A.noGd+" without GD":"");
- $("k3").textContent=A.dups.length;$("k3s").textContent=A.dups.filter(g=>g.kind==="Cross-day").length+" cross-day · "+A.dups.filter(g=>g.kind==="Same day").length+" same day";
+ $("k3").textContent=A.dups.length;
+ $("k3s").textContent=
+A.dups.filter(g=>g.kind==="Cross Processor").length+
+" cross processor · "+
+A.dups.filter(g=>g.kind==="Duplicate").length+
+" same WB";
  $("k4").textContent=extra;
  $("tDup").textContent=A.dups.length?"· "+A.dups.length:"";$("aBdg").hidden=!A.dups.length;$("aBdg").textContent=A.dups.length;$("bAdmin").title="Admin · "+A.dups.length+" duplicate GD · "+A.label;
  $("pInfo").textContent=A.label+" · "+A.reps.length+" report(s)";
  if(!S.sort.p)S.sort.p={k:"c",d:-1};
  $("oProc").innerHTML=tbl([{t:"Processor",k:"p",v:r=>r.proc,h:r=>'<a data-pick="'+esc(r.proc)+'">'+esc(r.proc)+'</a>'},{t:"Emp ID",k:"e",v:r=>r.emp},{t:"Credited",k:"c",n:1,v:r=>r.cr},{t:"Unique GD",k:"u",n:1,v:r=>r.gds.size},{t:"Repeat",k:"d",n:1,v:r=>r.dup,h:r=>r.dup?'<span class="tg r">'+r.dup+'</span>':'<span class="dim">0</span>'},{t:"Time",k:"t",n:1,v:r=>r.time,h:r=>fmtT(r.time)},{t:"Avg / credit",k:"a",n:1,v:r=>r.cr?r.time/r.cr:0,h:r=>r.cr?fmtT(r.time/r.cr):"-"}],A.P,"p",{empty:"No rows"});
- $("oDup").innerHTML=tbl([{t:"GD",k:"g",v:r=>r.gd,h:r=>'<span class="gd" data-gdd="'+r.gd+'">'+r.gd+'</span>'+(AUD[r.gd]&&audState(r)==="ok"?" ✅":"")},{t:"×",k:"n",n:1,v:r=>r.cr.length,h:r=>'<span class="tg r">'+r.cr.length+'×</span>'},{t:"Type",k:"k",v:r=>r.kind,h:r=>'<span class="tg '+(r.kind==="Cross-day"?"r":"a")+'">'+r.kind+'</span>'},{t:"Why",k:"w",v:r=>r.why}],A.dups,"o",{empty:"No duplicate credited GD in this range 👍"});
+$("oDup").innerHTML=tbl([
+{
+ t:"GD",
+ k:"g",
+ v:r=>r.gd,
+ h:r=>
+ '<span class="gd" data-gdd="'+r.gd+'">'+r.gd+'</span>'+
+ (AUD[r.gd]&&audState(r)==="ok"?" ✅":"")
+},
+{
+ t:"×",
+ k:"n",
+ n:1,
+ v:r=>r.cr.length,
+ h:r=>'<span class="tg r">'+r.cr.length+'×</span>'
+},
+{
+ t:"Type",
+ k:"k",
+ v:r=>r.kind,
+ h:r=>{
+
+   if(r.kind==="Different WB")
+      return '<span class="tg v">Different WB</span>';
+
+   if(r.kind==="Cross Processor")
+      return '<span class="tg r">Cross Processor</span>';
+
+   return '<span class="tg r">Duplicate</span>';
+ }
+},
+{
+ t:"Why",
+ k:"w",
+ v:r=>r.why
+}
+],A.dups,"o",{
+ empty:"No duplicate credited GD in this range 👍"
+});
  renderDup();renderDt();renderRp();renderAu();
 }
 function fillFilters(){
@@ -714,7 +817,23 @@ function fillFilters(){
 function attemptsHtml(g){return'<div class="tl">'+g.all.map(x=>{const k=x.cr?g.cr.indexOf(x):-1;
  const lab=x.cr?(k===0?'<span class="tg p">1st credit</span>':'<span class="tg r">Repeat credit #'+(k+1)+'</span>'):'<span class="tg d">'+esc(x.status||"Not credited")+'</span>';
  return'<div>'+lab+'<b>'+esc(x.proc)+'</b><span class="dim">'+esc(x.emp)+'</span><span>'+nice(x.day)+'</span><span class="dim">'+fmtDT(x.st)+' → '+fmtDT(x.sp)+'</span><span>'+fmtT(x.aht)+'</span><span class="dim">'+esc(x.wq)+'</span></div>';}).join("")+'</div>';}
-const dupCols=[{t:"GD",k:"g",v:r=>r.gd,h:r=>'<span class="gd" data-gdd="'+r.gd+'">'+r.gd+'</span>'+(AUD[r.gd]?(audState(r)==="ok"?" ✅":" ⚠️"):"")},{t:"Credited",k:"n",n:1,v:r=>r.cr.length,h:r=>'<span class="tg r">'+r.cr.length+'×</span>'},{t:"Type",k:"k",v:r=>r.kind,h:r=>'<span class="tg '+(r.kind==="Cross-day"?"r":"a")+'">'+r.kind+'</span>'},{t:"Why duplicate",k:"w",v:r=>r.why},{t:"Credited by",k:"p",v:r=>r.cr.map(x=>x.proc).join(" → ")},{t:"Credit times",k:"d",v:r=>r.cr.map(x=>fmtDT(x.sp)).join(", ")},{t:"Gap",k:"gp",n:1,v:r=>r.gap,h:r=>r.gap>=24?Math.round(r.gap/24)+" d":r.gap+" h"},{t:"Attempts",k:"a",n:1,v:r=>r.all.length},{t:"Total time",k:"t",n:1,v:r=>r.time,h:r=>fmtT(r.time)}];
+const dupCols=[{t:"GD",k:"g",v:r=>r.gd,h:r=>'<span class="gd" data-gdd="'+r.gd+'">'+r.gd+'</span>'+(AUD[r.gd]?(audState(r)==="ok"?" ✅":" ⚠️"):"")},{t:"Credited",k:"n",n:1,v:r=>r.cr.length,h:r=>'<span class="tg r">'+r.cr.length+'×</span>'},
+{
+ t:"Type",
+ k:"k",
+ v:r=>r.kind,
+ h:r=>{
+
+   if(r.kind==="Different WB")
+      return '<span class="tg v">Different WB</span>';
+
+   if(r.kind==="Cross Processor")
+      return '<span class="tg r">Cross Processor</span>';
+
+   return '<span class="tg r">Duplicate</span>';
+ }
+},
+{t:"Why duplicate",k:"w",v:r=>r.why},{t:"Credited by",k:"p",v:r=>r.cr.map(x=>x.proc).join(" → ")},{t:"Credit times",k:"d",v:r=>r.cr.map(x=>fmtDT(x.sp)).join(", ")},{t:"Gap",k:"gp",n:1,v:r=>r.gap,h:r=>r.gap>=24?Math.round(r.gap/24)+" d":r.gap+" h"},{t:"Attempts",k:"a",n:1,v:r=>r.all.length},{t:"Total time",k:"t",n:1,v:r=>r.time,h:r=>fmtT(r.time)}];
 function renderDup(){if(!S.sort.d)S.sort.d={k:"n",d:-1};$("dupT").innerHTML=tbl(dupCols,S.A.dups,"d",{cls:r=>audState(r)==="ok"?"aud x":"dupe x",attr:r=>'data-gd="'+r.gd+'"',after:r=>S.open.has(r.gd)?'<tr class="det"><td colspan="9">'+attemptsHtml(r)+'</td></tr>':"",empty:"No duplicate credited GD in this range 👍"});}
 function dtData(){const A=S.A,dupSet=new Set(A.dups.map(g=>g.gd)),out=[];
  for(const rep of A.reps.slice().sort((a,b)=>a.day<b.day?-1:1)){const rows=rep.D.filter(x=>x.cr&&A.fx(x));if(!rows.length)continue;
