@@ -53,6 +53,10 @@ button,input,select,textarea{font:inherit;color:inherit}
 .b{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:6px;height:28px;padding:0 14px;border-radius:999px;cursor:pointer;white-space:nowrap;background:var(--btn);color:var(--tx);border:1px solid var(--ln2);border-bottom:2px solid var(--ac);font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;box-shadow:0 8px 14px -8px var(--acg),inset 0 1px 0 #fff;transition:.15s}
 .b:hover{transform:translateY(-1px);box-shadow:0 11px 18px -8px var(--acg),inset 0 1px 0 #fff}
 .b.on{background:var(--ac);color:#fff;border-color:transparent;box-shadow:0 9px 16px -6px var(--acg)}
+.b.nd{background:#f3e8ff;color:#7e22ce;border:1px solid #d8b4fe}
+.b.nd.on{background:#7e22ce;color:#fff;border-color:transparent;box-shadow:0 9px 16px -6px rgba(126,34,206,.4)}
+.b.ad{background:rgba(229,56,75,.1);color:#d42f42;border:1px solid rgba(229,56,75,.3)}
+.b.ad.on{background:#d42f42;color:#fff;border-color:transparent;box-shadow:0 9px 16px -6px rgba(229,56,75,.4)}
 .b.sm{height:24px;padding:0 10px;font-size:9.5px}
 .b.red{color:#d42f42;border-bottom-color:#e5384b;box-shadow:0 8px 14px -8px rgba(229,56,75,.45)}
 .b[disabled]{opacity:.45;pointer-events:none}
@@ -244,9 +248,11 @@ body.candump .only-dump{display:inline-flex!important}
  <div class="tabs" id="tabs">
   <button class="b on" data-v="ov">Overview</button>
   <button class="b" data-v="dup">Duplicates <span id="tDup"></span></button>
+  <button class="b ad" data-v="au">✓ Audit <span id="tAu"></span></button>
+  <button class="b nd" data-v="nd">Non Duplicate GD <span id="tNd"></span></button>
+  <button class="b nd" data-v="au2">✓ Audit <span id="tAu2"></span></button>
   <button class="b" data-v="dt">Credited Data</button>
   <button class="b" data-v="rp">Reports</button>
-  <button class="b" data-v="au">✓ Audit <span id="tAu"></span></button>
   <span style="flex:1"></span>
   <span class="ic" id="fReset" title="Reset filters"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg></span><select class="in" id="fWq" style="max-width:240px"><option value="">All processes</option></select><select class="in" id="fPr" style="max-width:220px"><option value="">All employees</option></select>
   <span class="pill" id="pInfo">-</span>
@@ -264,6 +270,8 @@ body.candump .only-dump{display:inline-flex!important}
    </div>
   </div>
   <div class="view" id="v-dup"><div class="pn card" style="flex:1"><div class="hd"><span class="lbl">Duplicate GD — credited in this range, and credited before (same day or up to 31 days earlier)</span><button class="b sm" id="xDup">⬇ Export</button></div><div class="bd" id="dupT"></div></div></div>
+  <div class="view" id="v-au2"><div class="pn card" style="flex:1"><div class="hd"><span class="lbl">Audit — Non Duplicate GD (different Work Baskets) · yellow = audited · red = credited again after audit</span><span style="display:flex;gap:6px" id="auF2"><button class="b sm on" data-af2="all">All</button><button class="b sm" data-af2="pend">Not audited</button><button class="b sm" data-af2="re">Re-credited</button><button class="b sm" data-af2="ok">Audited</button></span></div><div class="bd" id="auT2"></div></div></div>
+  <div class="view" id="v-nd"><div class="pn card" style="flex:1"><div class="hd"><span class="lbl">Non Duplicate GD — same GD credited in different Work Baskets (not counted as duplicate)</span><button class="b sm" id="xNd">⬇ Export</button></div><div class="bd" id="ndT"></div></div></div>
   <div class="view" id="v-dt"><div class="pn card" style="flex:1"><div class="hd"><span class="lbl">Credited rows in this range · fully N/A columns hidden</span><button class="b sm" id="xDt">⬇ Export</button></div><div class="bd" id="dtT"></div></div></div>
   <div class="view" id="v-au"><div class="pn card" style="flex:1"><div class="hd"><span class="lbl">Audit — duplicate GD only · yellow = audited · red = credited again after audit</span><span style="display:flex;gap:6px" id="auF"><button class="b sm on" data-af="all">All</button><button class="b sm" data-af="pend">Not audited</button><button class="b sm" data-af="re">Re-credited</button><button class="b sm" data-af="ok">Audited</button></span></div><div class="bd" id="auT"></div></div></div>
   <div class="view" id="v-rp"><div class="pn card" style="flex:1"><div class="hd"><span class="lbl">Reports saved</span><span class="dim" id="rpInfo"></span></div><div class="bd" id="rpT"></div></div></div>
@@ -298,7 +306,7 @@ body.candump .only-dump{display:inline-flex!important}
  </div>
  <div class="ap on" id="ap-users">
   <div class="tb">
-   <input class="in" id="uEmp" placeholder="Emp ID" style="width:110px"><input class="in" id="uName" placeholder="Name" style="width:150px"><input class="in" id="uMsid" placeholder="MS ID" style="width:90px"><input class="in" id="uMach" placeholder="Machine name" style="width:150px"><input class="in" id="uMail" placeholder="Outlook mail" style="width:200px">
+   <input class="in" id="uEmp" placeholder="Emp ID" style="width:110px"><input class="in" id="uName" placeholder="Name" style="width:150px"><input class="in" id="uMsid" placeholder="MS ID" style="width:90px"><input class="in" id="uOpid" placeholder="OPID" style="width:62px"><input class="in" id="uMach" placeholder="Machine name" style="width:150px"><input class="in" id="uMail" placeholder="Outlook mail" style="width:200px">
    <select class="in" id="uRole"><option value="employee">Employee</option><option value="sme">SME</option><option value="manager">Manager</option><option value="admin">Admin</option></select>
    <button class="b sm on" id="uAdd">+ Add / Update</button>
    <span style="flex:1"></span><input class="in" id="uQ" placeholder="Search user" style="width:140px">
@@ -464,6 +472,7 @@ const CFG_DEF=()=>({theme:"teal",thV:2,expiry:HARD_EXPIRY,lock:false,lockMsg:"",
 let CFG=CFG_DEF();
 async function loadCfg(){const c=await ST.read("config.json");if(c){CFG={...CFG_DEF(),...c};let ch=false;if(!Array.isArray(c.users)||!c.users.some(u=>u&&u.emp)){CFG.users=CFG_DEF().users;ch=true;}
   if(CFG.thV!==2){CFG.theme="teal";CFG.thV=2;ch=true;}
+  if(CFG.seedV!==2){const have=new Set(CFG.users.map(u=>nid(u.emp)));SEED.forEach(r=>{if(!have.has(nid(r[0]))){CFG.users.push(mkUser(r,r[7]));have.add(nid(r[0]));}});CFG.seedV=2;ch=true;}
   if(!CFG.apwFixed){const a=CFG.users.find(u=>nid(u.emp)===ADMIN_EMP);if(a)a.pw=APW_H;CFG.apwFixed=true;ch=true;}if(ch)await ST.write("config.json",CFG);}else{CFG=CFG_DEF();if(ST.mode!=="none")await ST.write("config.json",CFG);}applyTheme();paintExpiry();return CFG;}
 async function saveCfg(){await ST.write("config.json",CFG);applyTheme();paintExpiry();}
 async function mutCfg(fn){await loadCfg();fn(CFG);await saveCfg();}
@@ -733,13 +742,17 @@ function openAud(gd){if(!can("dump"))return;$("auvT").textContent="Mark audited 
 async function saveAud(){const gd=$("auOk").dataset.gd,all=gdAll(gd).filter(x=>x.cr);const upto=Math.max(...all.map(x=>x.sp||x.st));
  await loadAud();AUD[gd]={at:Date.now(),by:S.name,emp:S.emp,upto,reason:$("auR").value,note:$("auN").value.trim(),n:all.length};await ST.write("audit.json",AUD);
  await logEv("AUDIT",gd+" · "+$("auR").value);$("auv").hidden=true;toast(gd+" marked audited.","ok");render();if(!$("gdv").hidden)openGd(gd);}
-let AF="all";
-function renderAu(){const A=S.A;if(!A){$("auT").innerHTML='<div class="empty">No data</div>';return;}
- const rows=A.dups.map(g=>({g,s:audState(g)})).filter(o=>AF==="all"||o.s===AF);
- $("tAu").textContent=A.dups.filter(g=>audState(g)!=="ok").length?"· "+A.dups.filter(g=>audState(g)!=="ok").length:"";
- if(!S.sort.au)S.sort.au={k:"s",d:1};
- $("auT").innerHTML=tbl([{t:"GD",k:"g",v:o=>o.g.gd,h:o=>'<span class="gd" data-gdd="'+o.g.gd+'">'+o.g.gd+'</span>'},{t:"Status",k:"s",v:o=>({re:0,pend:1,ok:2})[o.s],h:o=>AUDLBL[o.s]},{t:"Credited",k:"n",n:1,v:o=>o.g.cr.length,h:o=>'<span class="tg r">'+o.g.cr.length+'×</span>'},{t:"Type",k:"k",v:o=>o.g.kind},{t:"Credited by",k:"p",v:o=>o.g.cr.map(x=>x.proc).join(" → ")},{t:"Last credit",k:"l",v:o=>o.g.cr[o.g.cr.length-1].sp,h:o=>fmtDT(o.g.cr[o.g.cr.length-1].sp)},{t:"Audited till",k:"u",v:o=>AUD[o.g.gd]?AUD[o.g.gd].upto:0,h:o=>AUD[o.g.gd]?fmtDT(AUD[o.g.gd].upto)+' · '+esc(AUD[o.g.gd].by):"-"},{t:"Reason",k:"r",v:o=>AUD[o.g.gd]?AUD[o.g.gd].reason:""},{t:"",k:"x",v:()=>"",h:o=>can("dump")&&o.s!=="ok"?'<button class="b sm" data-aud="'+o.g.gd+'">✓ Audited</button>':""}],rows,"au",{cls:o=>o.s==="ok"?"aud":o.s==="re"?"dupe":"",empty:"Nothing here 👍"});
+let AF="all",AF2="all";
+function auTable(list,tid,cntId,sortId,flt,wbCol){const A=S.A;if(!A){$(tid).innerHTML='<div class="empty">No data</div>';return;}
+ const rows=list.map(g=>({g,s:audState(g)})).filter(o=>flt==="all"||o.s===flt);
+ const pend=list.filter(g=>audState(g)!=="ok").length;$(cntId).textContent=pend?"· "+pend:"";
+ if(!S.sort[sortId])S.sort[sortId]={k:"s",d:1};
+ const cols=[{t:"GD",k:"g",v:o=>o.g.gd,h:o=>'<span class="gd" data-gdd="'+o.g.gd+'">'+o.g.gd+'</span>'},{t:"Status",k:"s",v:o=>({re:0,pend:1,ok:2})[o.s],h:o=>AUDLBL[o.s]},{t:"Credited",k:"n",n:1,v:o=>o.g.cr.length,h:o=>'<span class="tg '+(wbCol?"v":"r")+'">'+o.g.cr.length+'×</span>'},{t:"Type",k:"k",v:o=>o.g.kind}];
+ if(wbCol)cols.push({t:"Work Baskets",k:"wb",v:o=>[...new Set(o.g.cr.map(x=>x.wq))].join(" | ")});
+ cols.push({t:"Credited by",k:"p",v:o=>o.g.cr.map(x=>x.proc).join(" → ")},{t:"Last credit",k:"l",v:o=>o.g.cr[o.g.cr.length-1].sp,h:o=>fmtDT(o.g.cr[o.g.cr.length-1].sp)},{t:"Audited till",k:"u",v:o=>AUD[o.g.gd]?AUD[o.g.gd].upto:0,h:o=>AUD[o.g.gd]?fmtDT(AUD[o.g.gd].upto)+' · '+esc(AUD[o.g.gd].by):"-"},{t:"Reason",k:"r",v:o=>AUD[o.g.gd]?AUD[o.g.gd].reason:""},{t:"",k:"x",v:()=>"",h:o=>can("dump")&&o.s!=="ok"?'<button class="b sm" data-aud="'+o.g.gd+'">✓ Audited</button>':""});
+ $(tid).innerHTML=tbl(cols,rows,sortId,{cls:o=>o.s==="ok"?"aud":o.s==="re"?"dupe":"",empty:"Nothing here 👍"});
 }
+function renderAu(){const A=S.A;auTable(A?A.dups:[],"auT","tAu","au",AF,false);auTable(A?A.diffWB:[],"auT2","tAu2","au2",AF2,true);}
 
 /* ============ RENDER ============ */
 function tbl(cols,rows,id,opt){
@@ -753,7 +766,7 @@ function tbl(cols,rows,id,opt){
 function render(){
  $("dBtn").textContent=(S.date?nice(S.date):"No data yet")+" ▾";$("fRng").value=S.range;
  fillFilters();
- if(!S.date){["oProc","oDup","dupT","dtT"].forEach(i=>$(i).innerHTML='<div class="empty">No report yet.'+(can("dump")?" Click <b>Dump Data</b> or drag the Excel file onto this window.":" Ask your SME to dump the data.")+'</div>');["k1","k3","k4"].forEach(i=>$(i).textContent="0");$("pInfo").textContent="-";renderRp();return;}
+ if(!S.date){["oProc","oDup","dupT","ndT","dtT"].forEach(i=>$(i).innerHTML='<div class="empty">No report yet.'+(can("dump")?" Click <b>Dump Data</b> or drag the Excel file onto this window.":" Ask your SME to dump the data.")+'</div>');["k1","k3","k4"].forEach(i=>$(i).textContent="0");$("pInfo").textContent="-";renderRp();return;}
  const A=S.A=analyse();
  const extra=A.dups.reduce((s,g)=>s+g.crR.filter(x=>x!==g.cr[0]&&A.fx(x)).length,0);
  $("k1").textContent=A.cred.length;$("k1s").textContent=new Set(A.cred.filter(x=>x.gd).map(x=>x.gd)).size+" unique GD"+(A.noGd?" · "+A.noGd+" without GD":"");
@@ -764,7 +777,7 @@ A.dups.filter(g=>g.kind==="Cross Processor").length+
 A.dups.filter(g=>g.kind==="Duplicate").length+
 " same WB";
  $("k4").textContent=extra;
- $("tDup").textContent=A.dups.length?"· "+A.dups.length:"";$("aBdg").hidden=!A.dups.length;$("aBdg").textContent=A.dups.length;$("bAdmin").title="Admin · "+A.dups.length+" duplicate GD · "+A.label;
+ $("tDup").textContent=A.dups.length?"· "+A.dups.length:"";$("tNd").textContent=A.diffWB.length?"· "+A.diffWB.length:"";$("aBdg").hidden=!A.dups.length;$("aBdg").textContent=A.dups.length;$("bAdmin").title="Admin · "+A.dups.length+" duplicate GD · "+A.label;
  $("pInfo").textContent=A.label+" · "+A.reps.length+" report(s)";
  if(!S.sort.p)S.sort.p={k:"c",d:-1};
  $("oProc").innerHTML=tbl([{t:"Processor",k:"p",v:r=>r.proc,h:r=>'<a data-pick="'+esc(r.proc)+'">'+esc(r.proc)+'</a>'},{t:"Emp ID",k:"e",v:r=>r.emp},{t:"Credited",k:"c",n:1,v:r=>r.cr},{t:"Unique GD",k:"u",n:1,v:r=>r.gds.size},{t:"Repeat",k:"d",n:1,v:r=>r.dup,h:r=>r.dup?'<span class="tg r">'+r.dup+'</span>':'<span class="dim">0</span>'},{t:"Time",k:"t",n:1,v:r=>r.time,h:r=>fmtT(r.time)},{t:"Avg / credit",k:"a",n:1,v:r=>r.cr?r.time/r.cr:0,h:r=>r.cr?fmtT(r.time/r.cr):"-"}],A.P,"p",{empty:"No rows"});
@@ -807,7 +820,7 @@ $("oDup").innerHTML=tbl([
 ],A.dups,"o",{
  empty:"No duplicate credited GD in this range 👍"
 });
- renderDup();renderDt();renderRp();renderAu();
+ renderDup();renderND();renderDt();renderRp();renderAu();
 }
 function fillFilters(){
  const rows=S.reps.flatMap(r=>r.D),wq=[...new Set(rows.map(x=>x.wq).filter(Boolean))].sort(),pr=[...new Set(rows.map(x=>x.proc).filter(Boolean))].sort();
@@ -835,6 +848,17 @@ const dupCols=[{t:"GD",k:"g",v:r=>r.gd,h:r=>'<span class="gd" data-gdd="'+r.gd+'
 },
 {t:"Why duplicate",k:"w",v:r=>r.why},{t:"Credited by",k:"p",v:r=>r.cr.map(x=>x.proc).join(" → ")},{t:"Credit times",k:"d",v:r=>r.cr.map(x=>fmtDT(x.sp)).join(", ")},{t:"Gap",k:"gp",n:1,v:r=>r.gap,h:r=>r.gap>=24?Math.round(r.gap/24)+" d":r.gap+" h"},{t:"Attempts",k:"a",n:1,v:r=>r.all.length},{t:"Total time",k:"t",n:1,v:r=>r.time,h:r=>fmtT(r.time)}];
 function renderDup(){if(!S.sort.d)S.sort.d={k:"n",d:-1};$("dupT").innerHTML=tbl(dupCols,S.A.dups,"d",{cls:r=>audState(r)==="ok"?"aud x":"dupe x",attr:r=>'data-gd="'+r.gd+'"',after:r=>S.open.has(r.gd)?'<tr class="det"><td colspan="9">'+attemptsHtml(r)+'</td></tr>':"",empty:"No duplicate credited GD in this range 👍"});}
+
+const ndCols=[
+{t:"GD",k:"g",v:r=>r.gd,h:r=>'<span class="gd" data-gdd="'+r.gd+'">'+r.gd+'</span>'},
+{t:"Credited",k:"n",n:1,v:r=>r.cr.length,h:r=>'<span class="tg v">'+r.cr.length+'×</span>'},
+{t:"Type",k:"k",v:r=>r.kind,h:r=>'<span class="tg v">Different WB</span>'},
+{t:"Work Baskets",k:"wb",v:r=>[...new Set(r.cr.map(x=>x.wq))].join(" | ")},
+{t:"Credited by",k:"p",v:r=>r.cr.map(x=>x.proc).join(" → ")},
+{t:"Credit times",k:"d",v:r=>r.cr.map(x=>fmtDT(x.sp)).join(", ")},
+{t:"Attempts",k:"a",n:1,v:r=>r.all.length},
+{t:"Total time",k:"t",n:1,v:r=>r.time,h:r=>fmtT(r.time)}];
+function renderND(){if(!S.sort.nd)S.sort.nd={k:"n",d:-1};$("ndT").innerHTML=tbl(ndCols,S.A.diffWB,"nd",{cls:r=>"x",attr:r=>'data-gd="'+r.gd+'"',after:r=>S.open.has(r.gd)?'<tr class="det"><td colspan="8">'+attemptsHtml(r)+'</td></tr>':"",empty:"No Different WB GD in this range"});}
 function dtData(){const A=S.A,dupSet=new Set(A.dups.map(g=>g.gd)),out=[];
  for(const rep of A.reps.slice().sort((a,b)=>a.day<b.day?-1:1)){const rows=rep.D.filter(x=>x.cr&&A.fx(x));if(!rows.length)continue;
   const idx=rep.headers.map((h,j)=>isKey(h)||rows.some(x=>!isNA(rep.rows[x.ix][j]))?j:-1).filter(j=>j>=0);out.push({rep,rows,idx,dupSet});}
@@ -947,7 +971,7 @@ function applyCfg(){
  }
 }
 function logout(){lsSet("pdr_auto","0");logEv("LOGOUT","");S.emp=S.name=S.role="";S.u=null;$("app").hidden=true;$("login").hidden=false;$("lock").hidden=true;$("adm").hidden=true;$("lPw").value=lsGet("pdr_pw","")?decodeURIComponent(escape(atob(lsGet("pdr_pw","")))):"";}
-function logView(v){const k=v+"|"+S.date+"|"+S.range;if(S.seen.has(k))return;S.seen.add(k);logEv("VIEW",({ov:"Overview",dup:"Duplicates",dt:"Credited Data",rp:"Reports",au:"Audit"})[v]+" · "+(S.A?S.A.label:nice(S.date)));}
+function logView(v){const k=v+"|"+S.date+"|"+S.range;if(S.seen.has(k))return;S.seen.add(k);logEv("VIEW",({ov:"Overview",dup:"Duplicates",nd:"Non Duplicate GD",au2:"Audit (Non Duplicate)",dt:"Credited Data",rp:"Reports",au:"Audit"})[v]+" · "+(S.A?S.A.label:nice(S.date)));}
 setInterval(async()=>{if(!S.emp||ST.mode==="none")return;const b=JSON.stringify(CFG);await loadCfg();if(JSON.stringify(CFG)!==b)applyCfg();},30000);
 
 /* ============ DUMP DATA ============ */
@@ -1015,14 +1039,15 @@ function askPw(title){return new Promise(res=>{$("pwqT").textContent=title;$("pw
 document.addEventListener("click",async ev=>{
  if(!ev.target.closest("#cal,#dBtn"))$("cal").hidden=true;
  if(!ev.target.closest("#thPop,#bTheme"))$("thPop").hidden=true;
- const t=ev.target.closest("[data-close],[data-st],[data-aud],[data-af],[data-gd],[data-pick],[data-go],[data-del],[data-day],[data-cm],[data-date],[data-us],[data-upw],[data-upc],[data-urm],[data-a],[data-add],#thPop [data-th],#tabs [data-v]");if(!t)return;
+ const t=ev.target.closest("[data-close],[data-st],[data-aud],[data-af],[data-af2],[data-gd],[data-pick],[data-go],[data-del],[data-day],[data-cm],[data-date],[data-us],[data-upw],[data-upc],[data-urm],[data-a],[data-add],#thPop [data-th],#tabs [data-v]");if(!t)return;
  const d=t.dataset;
  if(d.close){$(d.close).hidden=true;return;}
  if(d.aud){openAud(d.aud);return;}
+ if(d.af2){AF2=d.af2;[...$("auF2").children].forEach(b=>b.classList.toggle("on",b===t));renderAu();return;}
  if(d.af){AF=d.af;[...$("auF").children].forEach(b=>b.classList.toggle("on",b===t));renderAu();return;}
  if(d.st){const so=S.sort[d.st]||{};S.sort[d.st]={k:d.k,d:so.k===d.k?-(so.d||1):-1};if(d.st==="u")renderUsers();else if(d.st==="l")renderLog(false);else render();return;}
  if(d.pick!=null){S.pr=d.pick;render();toast("Employee: "+d.pick);return;}
- if(d.gd&&t.tagName==="TR"){S.open.has(d.gd)?S.open.delete(d.gd):S.open.add(d.gd);renderDup();return;}
+ if(d.gd&&t.tagName==="TR"){S.open.has(d.gd)?S.open.delete(d.gd):S.open.add(d.gd);renderDup();renderND();return;}
  if(d.go){showView(d.go);return;}
  if(d.cm){const[y,m]=calM.split("-").map(Number),x=new Date(y,m-1+ +d.cm,1);calM=x.getFullYear()+"-"+pad(x.getMonth()+1);drawCal();return;}
  if(d.day||d.date){S.date=d.day||d.date;$("cal").hidden=true;S.open.clear();render();logView(S.view);return;}
@@ -1062,6 +1087,7 @@ window.addEventListener("dragenter",e=>{if(!S.emp||!can("dump")||!e.dataTransfer
 window.addEventListener("dragleave",()=>{if(--dc<=0){dc=0;$("dropAll").hidden=true;}});
 window.addEventListener("dragover",e=>e.preventDefault());
 window.addEventListener("drop",e=>{e.preventDefault();dc=0;$("dropAll").hidden=true;if(!S.emp||!can("dump"))return;const f=e.dataTransfer.files[0];if(f)readFile(f);});
+$("xNd").onclick=()=>csv("Phycon_NonDuplicate_GD",ndCols.map(c=>({...c,x:c.k==="t"?r=>fmtT(r.time):null})),S.A.diffWB);
 $("xDup").onclick=()=>csv("Phycon_Duplicate_GD",dupCols.map(c=>({...c,x:c.k==="t"?r=>fmtT(r.time):c.k==="gp"?r=>r.gap+" h":null})),S.A.dups);
 $("xDt").onclick=()=>{const ps=dtData();if(!ps.length)return;const hs=[...new Set(ps.flatMap(p=>p.idx.map(j=>p.rep.headers[j])))];const rows=ps.flatMap(p=>p.rows.map(x=>({x,p})));csv("Phycon_Credited",[{t:"Date",v:o=>nice(o.p.rep.day)},{t:"GD",v:o=>o.x.gd}].concat(hs.map(h=>({t:h,v:o=>{const j=o.p.rep.headers.indexOf(h);return j<0?"":o.p.rep.rows[o.x.ix][j];}}))),rows);};
 // admin controls
@@ -1070,8 +1096,8 @@ $("lgCsv").onclick=()=>csv("Phycon_Activity_Log",[{t:"When",v:e=>fmtDT(e.t)},{t:
 $("uAdd").onclick=async()=>{const emp=$("uEmp").value.trim(),name=$("uName").value.trim();if(!emp||!name)return toast("Emp ID and Name are needed.","bad");
  const role=$("uRole").value;
  await mutCfg(c=>{const ex=c.users.find(z=>nid(z.emp)===nid(emp));const o=ex||mkUser([emp,name,"","","","",""],role);
-  o.name=name;o.msid=$("uMsid").value.trim()||o.msid;o.mach=$("uMach").value.trim()||o.mach;o.mail=$("uMail").value.trim()||o.mail;o.role=role;o.dump=role!=="employee";o.del=role==="admin";if(!ex){o.view=role!=="employee"||c.newView!==false;c.users.push(o);}});
- logEv("USER ADDED",name+" · "+ROLE_NAME[role]);["uEmp","uName","uMsid","uMach","uMail"].forEach(i=>$(i).value="");renderUsers();toast("Saved.","ok");};
+  o.name=name;o.msid=$("uMsid").value.trim()||o.msid;o.opid=$("uOpid").value.trim()||o.opid;o.mach=$("uMach").value.trim()||o.mach;o.mail=$("uMail").value.trim()||o.mail;o.role=role;o.dump=role!=="employee";o.del=role==="admin";if(!ex){o.view=role!=="employee"||c.newView!==false;c.users.push(o);}});
+ logEv("USER ADDED",name+" · "+ROLE_NAME[role]);["uEmp","uName","uMsid","uOpid","uMach","uMail"].forEach(i=>$(i).value="");renderUsers();toast("Saved.","ok");};
 $("cLock").onclick=async()=>{await mutCfg(c=>{c.lock=!c.lock;});logEv(CFG.lock?"LOCK ALL":"UNLOCK ALL","");paintCtl();};
 $("cNewView").onclick=async()=>{await mutCfg(c=>{c.newView=c.newView===false;});paintCtl();};
 $("cLockMsg").onchange=async()=>{const v=$("cLockMsg").value.trim();await mutCfg(c=>{c.lockMsg=v;});};
